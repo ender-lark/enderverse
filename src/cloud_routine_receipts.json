@@ -2,53 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-os-weekly-review",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:39.029228Z",
-      "summary": "Life OS weekly review manual read-only proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_briefing.py",
-          "--routine",
-          "life_weekly",
-          "--out",
-          "src\\life_os_weekly_review_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "work-os-weekly-review",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:44.790210Z",
-      "summary": "work-os-weekly-review started"
-    },
-    {
-      "routine_id": "work-os-weekly-review",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:48.731930Z",
-      "summary": "Work OS weekly review manual read-only proof succeeded; scheduled proof still required",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src\\life_work_os_briefing.py",
-          "--routine",
-          "work_weekly",
-          "--out",
-          "src\\work_os_weekly_review_last_run.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
       "routine_id": "life-work-os-heartbeat-watch",
       "status": "started",
       "run_source": "manual",
@@ -6394,7 +6347,28 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-25T23:32:26.210998Z",
       "summary": "Research Queue not_checked; drop path missing; cache not refreshed; existing cache pending=11 done=0 ACT_NOW=none skipped=0"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T00:46:49.269504Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T00:47:15.192776Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T00:47:33.360101Z",
+      "summary": "dry-run selected 0; queued none; top_prospects cache verified 21 total 19 queued 2 unqueued RYF/XOP QUIET; Research Queue write/readback not_checked no rows created; dark lanes broker positions and daily synthesis latest failed/stale"
     }
   ],
-  "updated_at": "2026-06-25T23:32:26.210998Z"
+  "updated_at": "2026-06-26T00:47:33.360101Z"
 }
