@@ -2,55 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T13:44:07.296385Z",
-      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
-      "details": {
-        "boundary_artifact": "src\\uw_endpoint_results.json",
-        "boundary_artifact_committed": true,
-        "no_fresh_boundary_data": false,
-        "feed_built_from_committed_proof": true,
-        "dashboard_refresh_status": "success",
-        "redaction_valid": true,
-        "redaction_problems": [],
-        "proof_generated_at": "2026-06-18T13:42:23.486320+00:00",
-        "proof_count": 13,
-        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-18 09:42 ET.",
-        "proof_newest_checked_at": "2026-06-18T13:42:23.486320+00:00",
-        "proof_interpretation_counts": {
-          "supports": 0,
-          "contradicts": 0,
-          "inconclusive": 10,
-          "missing": 3
-        },
-        "proof_blockers": [
-          "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked"
-        ],
-        "boundary_commit": {
-          "valid": true,
-          "committed": true,
-          "commit": "016b4d4",
-          "reason": "committed",
-          "selected_paths": [
-            "src/uw_endpoint_results.json"
-          ]
-        },
-        "dashboard_refresh_returncode": 0,
-        "feed_uw_proof_newest_checked_at": "2026-06-18T13:42:23.486320+00:00",
-        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-18 09:42 ET."
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T13:48:00.271381Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6622,7 +6573,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:46:32.156693Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T14:49:14.451171Z",
+      "summary": "fundstrat daytime watch success: Chrome checked Macro/Crypto FlashInsights; Gmail 0; rows landed 0; stale duplicate visible cards suppressed; validation passed; alert quiet candidates 0 duplicates 5 suppressed 130; dark/stale no Jun26 FS evidence and Crypto latest Jun22; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T14:34:35.430254Z"
+  "updated_at": "2026-06-26T14:49:14.451171Z"
 }
