@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-18T16:51:18.905536Z",
-      "summary": "web checked 4 pages Macro/Crypto FlashInsights latest-research listing and US Policy detail; Gmail 0; rows landed 0; suppressed stale FlashInsights duplicate First-to-Market and confirmatory US Policy; validation passed; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0 quote lanes not_checked; dark/stale Crypto FlashInsights Jun8 and Social Watch; blockers no same-day FlashInsights, EWRE/ASTS/RKLB/MU quote lanes not_checked"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T17:46:57.126106Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-18T17:49:46.157358Z",
       "summary": "web checked 3 pages Macro/Crypto FlashInsights plus Latest Research listing; Gmail 0; rows landed 0; suppressed/discovery unchanged Macro Jun17, stale Crypto Jun8, US Policy 12:10 duplicate/listing-discovery; validation passed; dashboard skipped no rows; alert quiet 0 candidates 5 duplicates 55 suppressed; trigger guard fired 0, EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers no fresh full-content Fundstrat item"
     },
@@ -6580,7 +6566,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T19:51:30.722046Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights plus Latest Research listing and 2 detail pages; Gmail checked 0 because Chrome full content available; rows landed 0; suppressed duplicate 12:12 QQQ, non-distinct 12:11 rotation/MAGS, stale Jun22 Crypto, already-captured US Policy, broad First-to-Market private-credit/listing-only context; validation passed; dashboard skipped no new rows; alert quiet candidates=0 duplicates=6 suppressed=131; dark/stale Crypto Flash latest Jun22 and Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "work-os-weekly-review",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T20:02:34.834761Z",
+      "summary": "work-os-weekly-review started"
+    },
+    {
+      "routine_id": "work-os-weekly-review",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T20:02:44.652842Z",
+      "summary": "Work OS weekly review succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_weekly",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_weekly_review_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-26T19:51:30.722046Z"
+  "updated_at": "2026-06-26T20:02:44.652842Z"
 }
