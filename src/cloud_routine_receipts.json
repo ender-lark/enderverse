@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T02:52:50.349705Z",
-      "summary": "checked web 12 surfaces plus 3 detail pages; videos checked 1 detail/2 listing-discovery, transcript vault 0 new writes; Gmail 0; landed 3 compact rows; suppressed/discovery-only Macro Minute 6:56 already captured/pre-window and video-only surfaces without transcripts; validation passed; dashboard refresh ok; dark/stale lanes: Social Watch dark, no visible new transcript/caption controls; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T05:45:54.076667Z",
-      "summary": "off-hours worker started"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
@@ -6451,7 +6437,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T11:45:47.693171Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T11:50:38.176297Z",
+      "summary": "Chrome checked Macro/Crypto FlashInsights, all/latest category listings, and 5 detail pages; Gmail checked 0 because Chrome full content available; rows landed 0; duplicate/stale/detail already-cached rows suppressed; validation passed; dashboard refresh skipped no new rows; Notion not used; dark/stale lanes no Jun26 premarket FS evidence and Crypto Flash latest Jun22"
     }
   ],
-  "updated_at": "2026-06-26T11:33:04.012295Z"
+  "updated_at": "2026-06-26T11:50:38.176297Z"
 }
