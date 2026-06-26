@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:27:37.462150Z",
-      "summary": "snapshot 2026-06-18; 11 accounts; 275 raw positions; diff EXIT 1 ADD 2 TRIM 3 VALUE_CHANGE 145; 4 stated-balance warnings; dashboard refresh ok"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T12:36:52.538340Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6515,7 +6501,56 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T13:35:45.284883Z",
       "summary": "daily synthesis success: repo cache refreshed/validated from 2026-06-26T12:53:07Z cockpit feed; Notion page 38bc5031-4bb6-8179-bf27-e1bff940cb4a written/readback verified; HOOD sell-fast review leads; broker proof recovered; Social Watch/PortWatch stale Macro/Crypto Flash and unqueried row-level Notion lanes dark/not_checked; verify_standard passed 1869/6"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:41:32.339986Z",
+      "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T13:43:36.117834Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=failed",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": false,
+        "dashboard_refresh_status": "failed",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-06-26T13:41:32.359348+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-26 09:41 ET.",
+        "proof_newest_checked_at": "2026-06-26T13:41:32.359348+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "5058dd5",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 120,
+        "error": "RuntimeError: dashboard refresh failed with return code 120"
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-26T13:35:45.284883Z"
+  "updated_at": "2026-06-26T13:43:36.117834Z"
 }
