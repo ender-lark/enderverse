@@ -35,6 +35,14 @@ NON_TRADABLE_DESCRIPTION_TERMS = (
     "RESTRICTED WTS",
 )
 
+# SnapTrade request resilience (2026-06-26 hardening — the hosted API/MCP times out under
+# concurrency and can echo a cached read; see docs/codex_tasks/snaptrade_serial_access_hardening_2026_06_26.md).
+REQUEST_MAX_ATTEMPTS = 3
+REQUEST_BACKOFF_BASE = 1.0  # seconds; delay before retry N = base * 2**N
+REQUEST_TIMEOUT = 30
+PULL_PACE_SECONDS = 0.2  # gap between sequential per-account requests; never parallelize
+_RETRYABLE_HTTP = frozenset({429, 500, 502, 503, 504})
+
 
 class SnapTradeError(RuntimeError):
     """Raised when SnapTrade returns an unusable response."""
@@ -389,18 +397,23 @@ def build_combined_from_snaptrade(payload: dict[str, Any],
 
 
 class SnapTradeClient:
-    def __init__(self, client_id: str | None = None, consumer_key: str | None = None) -> None:
+    def __init__(self, client_id: str | None = None, consumer_key: str | None = None,
+                 *, max_attempts: int = REQUEST_MAX_ATTEMPTS,
+                 backoff_base: float = REQUEST_BACKOFF_BASE,
+                 timeout: float = REQUEST_TIMEOUT) -> None:
         self.client_id = client_id or user_env(CLIENT_ID_ENV)
         self.consumer_key = consumer_key or user_env(CONSUMER_KEY_ENV)
         if not self.client_id or not self.consumer_key:
             raise SnapTradeError("Missing SNAPTRADE_CLIENT_ID or SNAPTRADE_CONSUMER_KEY")
+        self.max_attempts = max(1, int(max_attempts))
+        self.backoff_base = max(0.0, float(backoff_base))
+        self.timeout = timeout
 
-    def request(self,
-                method: str,
-                subpath: str,
-                *,
-                query: list[tuple[str, str]] | None = None,
-                body: Any | None = None) -> Any:
+    def _build_signed_request(self, method: str, subpath: str,
+                              query: list[tuple[str, str]] | None,
+                              data: bytes | None, body: Any | None) -> urllib.request.Request:
+        # Re-sign on EVERY attempt: the signature embeds a fresh `timestamp`, so a retry must not
+        # reuse a stale signature (SnapTrade rejects an out-of-window timestamp).
         params = list(query or [])
         params.extend([
             ("clientId", self.client_id),
@@ -409,29 +422,54 @@ class SnapTradeClient:
         query_string = urllib.parse.urlencode(params)
         resource_path = f"{subpath}?{query_string}"
         signature = compute_request_signature(resource_path, self.consumer_key, body)
-        data = None
         headers = {
             "Signature": signature,
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        if body is not None:
-            data = json.dumps(body, separators=(",", ":")).encode("utf-8")
-        req = urllib.request.Request(
+        return urllib.request.Request(
             f"{SNAPTRADE_API_BASE}{resource_path}",
             data=data,
             headers=headers,
             method=method.upper(),
         )
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                raw = resp.read().decode("utf-8")
-        except urllib.error.HTTPError as exc:
-            detail = exc.read().decode("utf-8", errors="replace")
-            raise SnapTradeError(f"SnapTrade HTTP {exc.code}: {detail}") from exc
-        if not raw:
-            return None
-        return json.loads(raw)
+
+    def _sleep_backoff(self, attempt: int) -> None:
+        time.sleep(self.backoff_base * (2 ** attempt))
+
+    def request(self,
+                method: str,
+                subpath: str,
+                *,
+                query: list[tuple[str, str]] | None = None,
+                body: Any | None = None) -> Any:
+        # Sequential + retry-ALONE. SnapTrade is called one request at a time (never batched in
+        # parallel — the hosted endpoint times out under concurrency). Retry only TRANSIENT
+        # failures (network timeout / 429 / 5xx) with exponential backoff; auth/other-4xx fail fast.
+        data = json.dumps(body, separators=(",", ":")).encode("utf-8") if body is not None else None
+        for attempt in range(self.max_attempts):
+            req = self._build_signed_request(method, subpath, query, data, body)
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    raw = resp.read().decode("utf-8")
+                return json.loads(raw) if raw else None
+            except urllib.error.HTTPError as exc:
+                # HTTPError is a subclass of URLError, so it must be handled first.
+                if exc.code in _RETRYABLE_HTTP and attempt < self.max_attempts - 1:
+                    self._sleep_backoff(attempt)
+                    continue
+                detail = exc.read().decode("utf-8", errors="replace")
+                raise SnapTradeError(f"SnapTrade HTTP {exc.code}: {detail}") from exc
+            except (urllib.error.URLError, TimeoutError) as exc:
+                if attempt < self.max_attempts - 1:
+                    self._sleep_backoff(attempt)
+                    continue
+                reason = getattr(exc, "reason", exc)
+                raise SnapTradeError(
+                    f"SnapTrade request failed after {self.max_attempts} attempts: "
+                    f"{type(exc).__name__}: {reason}"
+                ) from exc
+        raise SnapTradeError("SnapTrade request exhausted retries unexpectedly")  # defensive
 
     def register_user(self, user_id: str) -> dict[str, Any]:
         return self.request("POST", "/snapTrade/registerUser", body={"userId": user_id})
@@ -512,9 +550,77 @@ def resolve_profile_secret(profile: dict[str, Any]) -> str:
     raise SnapTradeError(f"Missing user secret for profile {profile.get('profile')!r}")
 
 
+def _account_fingerprint(row: dict[str, Any]) -> str:
+    """Stable hash of one account's holdings — used to detect an echoed (duplicated) read."""
+    payload = {
+        "positions": row.get("positions"),
+        "option_positions": row.get("option_positions"),
+        "balances": row.get("balances"),
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, default=str).encode("utf-8")
+    ).hexdigest()
+
+
+def _is_empty_holdings(row: dict[str, Any]) -> bool:
+    return not (row.get("positions") or row.get("option_positions") or row.get("balances"))
+
+
+def find_echoed_accounts(out: dict[str, Any]) -> list[list[str]]:
+    """Groups of DISTINCT account ids that returned byte-identical NON-EMPTY holdings — the
+    signature of a cached/echoed SnapTrade read (two accounts came back identical to the penny
+    on 2026-06-25). Genuinely-empty accounts are ignored (they legitimately match). Pure; no IO."""
+    by_fp: dict[str, list[str]] = {}
+    for profile in out.get("profiles") or []:
+        for row in profile.get("accounts") or []:
+            if _is_empty_holdings(row):
+                continue
+            acct_id = str((row.get("account") or {}).get("id") or "").strip()
+            if not acct_id:
+                continue
+            by_fp.setdefault(_account_fingerprint(row), []).append(acct_id)
+    return [sorted(set(ids)) for ids in by_fp.values() if len(set(ids)) > 1]
+
+
+def _corroborate_no_echoes(client: SnapTradeClient, out: dict[str, Any],
+                           creds_by_account: dict[str, tuple[str, str]],
+                           pace_seconds: float) -> dict[str, Any]:
+    """If two distinct accounts echoed identical holdings, re-pull each ALONE (fresh signed
+    requests) and replace its holdings, then re-check. Anything still identical is left flagged
+    (loud) so a stale echo never lands silently in the book."""
+    suspects = find_echoed_accounts(out)
+    result: dict[str, Any] = {"checked": True, "suspects": suspects, "repulled": [], "unresolved": []}
+    if not suspects:
+        return result
+    rows_by_id: dict[str, dict[str, Any]] = {}
+    for profile in out.get("profiles") or []:
+        for row in profile.get("accounts") or []:
+            rid = str((row.get("account") or {}).get("id") or "").strip()
+            if rid:
+                rows_by_id[rid] = row
+    for acct_id in {a for group in suspects for a in group}:
+        creds = creds_by_account.get(acct_id)
+        row = rows_by_id.get(acct_id)
+        if not creds or row is None:
+            continue
+        user_id, user_secret = creds
+        if pace_seconds:
+            time.sleep(pace_seconds)
+        row["positions"] = client.account_positions(acct_id, user_id, user_secret)
+        row["option_positions"] = client.option_positions(acct_id, user_id, user_secret)
+        row["balances"] = client.account_balances(acct_id, user_id, user_secret)
+        result["repulled"].append(acct_id)
+    result["repulled"].sort()
+    result["unresolved"] = find_echoed_accounts(out)  # still-identical pairs after the re-pull
+    return result
+
+
 def pull_profiles(client: SnapTradeClient,
-                  profiles: list[dict[str, Any]]) -> dict[str, Any]:
-    out = {"profiles": []}
+                  profiles: list[dict[str, Any]],
+                  *,
+                  pace_seconds: float = PULL_PACE_SECONDS) -> dict[str, Any]:
+    out: dict[str, Any] = {"profiles": []}
+    creds_by_account: dict[str, tuple[str, str]] = {}
     for profile in profiles:
         user_id = str(profile.get("user_id") or "").strip()
         if not user_id:
@@ -528,6 +634,10 @@ def pull_profiles(client: SnapTradeClient,
             account_id = str(account.get("id") or "").strip()
             if not account_id:
                 continue
+            # Pace per-account reads (one-at-a-time); never parallelize SnapTrade calls.
+            if pace_seconds:
+                time.sleep(pace_seconds)
+            creds_by_account[account_id] = (user_id, user_secret)
             account_rows.append({
                 "account": account,
                 "owner": owner_for_account(profile, account),
@@ -542,6 +652,7 @@ def pull_profiles(client: SnapTradeClient,
             "user_id": user_id,
             "accounts": account_rows,
         })
+    out["echo_corroboration"] = _corroborate_no_echoes(client, out, creds_by_account, pace_seconds)
     return out
 
 
