@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T15:35:00Z",
+  "generated_at": "2026-06-26T21:55:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -96,16 +96,24 @@
       "ticker": "RTX",
       "notes": "Raytheon Co.: $1.108B not-to-exceed modification exercising options for AIM-9X production Lot 26 missiles, training missiles, spares, containers, and support equipment for Navy, Army, Air Force, and FMS customers; $744.2M FMS plus FY24-FY26 U.S. procurement/O&M funds obligated at award. Agency/program: Department of War / Navy / AIM-9X production Lot 26 / Naval Air Systems Command. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check RTX tape/relative defense ETF reaction, whether fiscal/FMS obligations accelerate revenue visibility, and whether follow-on missile demand confirms a higher-conviction defense allocation thesis.. Risks: option exercise on previously awarded contract; not competed; multi-year fulfillment through 2029; missile-program backlog support may already be priced into defense primes.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "UAMY - federal funding catalyst review: United States Antimony Corp. ($29.98M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs through Sept. 21, 2030 and supports Army, Marine Corps, Navy, Air Force, and Space Force users.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "UAMY",
+      "notes": "United States Antimony Corp.: $29.98M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs through Sept. 21, 2030 and supports Army, Marine Corps, Navy, Air Force, and Space Force users.. Agency/program: Department of War / Defense Logistics Agency / DLA Strategic Materials / antimony metal ingots. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check company disclosure/backlog treatment, shipment cadence, gross-margin economics, DLA follow-on orders, and whether market reaction confirms materiality without chasing.. Risks: sole-source order; delivery-order ceiling vs realized revenue; small-cap execution risk; long delivery window; price and margin not disclosed.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 8,
-    "pending": 8,
+    "input_rows": 9,
+    "pending": 9,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 12,
+    "stored_pending": 13,
     "stored_done": 0
   }
 }

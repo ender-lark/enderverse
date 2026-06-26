@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-26T15:35:00Z",
+  "generated_at": "2026-06-26T21:55:00Z",
   "as_of": "2026-06-26",
   "scan_status": "has_data",
   "rows": [
@@ -144,6 +144,35 @@
         "https://www.war.gov/News/Contracts/Contract/Article/4527010/contracts-for-june-25-2026/"
       ],
       "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-26",
+      "priority": "high",
+      "agency": "Department of War / Defense Logistics Agency",
+      "program": "DLA Strategic Materials / antimony metal ingots",
+      "recipient": "United States Antimony Corp.",
+      "title": "United States Antimony Corp.",
+      "award_text": "$29.98M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs through Sept. 21, 2030 and supports Army, Marine Corps, Navy, Air Force, and Space Force users.",
+      "award_value_usd": 29980000,
+      "tickers": [
+        "UAMY"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Direct public-company critical-minerals award; potentially material to UAMY and relevant to the defense-critical antimony supply-chain watch, but it is a research queue item rather than an action signal.",
+      "risks": [
+        "sole-source order",
+        "delivery-order ceiling vs realized revenue",
+        "small-cap execution risk",
+        "long delivery window",
+        "price and margin not disclosed"
+      ],
+      "next_trigger": "Check company disclosure/backlog treatment, shipment cadence, gross-margin economics, DLA follow-on orders, and whether market reaction confirms materiality without chasing.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
+        "https://usantimony.com/investors/"
+      ],
+      "source_quality": "primary plus company ticker mapping"
     },
     {
       "date": "2026-06-15",
@@ -612,6 +641,60 @@
       "source_quality": "primary plus company ticker/read-through check"
     },
     {
+      "date": "2026-06-25",
+      "priority": "medium",
+      "agency": "Department of Commerce / CHIPS Research & Development Office",
+      "program": "CHIPS R&D silicon-carbide semiconductor award",
+      "recipient": "I-Pulse",
+      "title": "I-Pulse",
+      "award_text": "$250M definitive CHIPS R&D award to develop next-generation silicon-carbide semiconductors for harsh-environment high-temperature, high-current, high-voltage switching; Commerce received a minority, non-controlling equity stake.",
+      "award_value_usd": 250000000,
+      "tickers": [],
+      "directness": "private_read_through",
+      "actionability": "watch",
+      "investing_angle": "Private direct recipient; still useful watch context for U.S. SiC, pulsed-power drilling, geothermal, fusion, advanced manufacturing, and critical-minerals productivity, but no clean public-company beneficiary or immediate capital decision.",
+      "risks": [
+        "private company recipient",
+        "R&D execution risk",
+        "commercialization timing uncertain",
+        "no public-company direct revenue linkage",
+        "government equity stake may complicate financing"
+      ],
+      "next_trigger": "Named public manufacturing partner, follow-on production award, disclosed SiC supply-chain/customer economics, or public-company revenue linkage.",
+      "source_urls": [
+        "https://www.nist.gov/news-events/news/2026/06/department-commerce-announces-definitive-agreement-i-pulse-250-million"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-26",
+      "priority": "medium",
+      "agency": "Department of War / Army",
+      "program": "Joint Biological Tactical Detection System full-rate production",
+      "recipient": "Chemring Sensors and Electronic Systems Inc.",
+      "title": "Chemring Sensors and Electronic Systems Inc.",
+      "award_text": "$48.81M firm-fixed-price Army contract for Joint Biological Tactical Detection System full-rate production, manufacturing, testing, logistics support, and technical data.",
+      "award_value_usd": 48810000,
+      "tickers": [
+        "CHG.L"
+      ],
+      "directness": "direct_public",
+      "actionability": "watch",
+      "investing_angle": "Direct award to Chemring's U.S. sensors unit and useful defense-biological-detection context, but foreign listing and limited current Investing OS linkage keep it watch-only.",
+      "risks": [
+        "one offer received",
+        "foreign-listed parent",
+        "limited current portfolio linkage",
+        "program execution risk"
+      ],
+      "next_trigger": "Recheck only if Chemring discloses material backlog/margin impact, U.S. biological detection funding accelerates, or a cleaner U.S.-listed read-through emerges.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
+        "https://www.chemring.com/"
+      ],
+      "source_quality": "primary plus company mapping"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -789,13 +872,69 @@
         "https://www.war.gov/News/Contracts/Contract/Article/4525817/contracts-for-june-24-2026/"
       ],
       "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-26",
+      "priority": "low",
+      "agency": "Department of War / Navy",
+      "program": "MK 20 Mod 1 Electro-Optical Sensor Systems and spares",
+      "recipient": "L3 Technologies, Inc.",
+      "title": "L3 Technologies, Inc.",
+      "award_text": "$44.17M firm-fixed-price Navy modification for additional MK 20 Mod 1 electro-optical sensor systems and spares for Arleigh Burke-class ships and allied navies.",
+      "award_value_usd": 44170000,
+      "tickers": [
+        "LHX"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Real L3Harris naval sensor backlog support, but too small to change LHX/ITA posture without broader ship-sensor or allied-procurement confirmation.",
+      "risks": [
+        "modification to existing contract",
+        "small relative to L3Harris scale",
+        "mixed U.S. and FMS funding",
+        "multi-year delivery"
+      ],
+      "next_trigger": "Watch for larger follow-on naval sensor orders, margin/backlog disclosure, or same-session LHX/defense ETF confirmation.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
+        "https://investors.l3harris.com/overview/default.aspx"
+      ],
+      "source_quality": "primary plus company ticker mapping"
+    },
+    {
+      "date": "2026-06-26",
+      "priority": "low",
+      "agency": "Department of War / Navy",
+      "program": "F-35 Block Four / Integrated Submarine Imaging System / F-35 retrofit kits",
+      "recipient": "Lockheed Martin Corp.",
+      "title": "Lockheed Martin Corp.",
+      "award_text": "$149.3M combined June 26 Navy modifications across F-35 Block Four partner weapons integration, submarine imaging-system production, and F-35 retrofit/material modification kits.",
+      "award_value_usd": 149300000,
+      "tickers": [
+        "LMT"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Adds real LMT defense backlog context but is fragmented and small relative to LMT; it should not outrank the existing larger LMT THAAD/PrSM research rows.",
+      "risks": [
+        "modifications to existing awards",
+        "partial obligation",
+        "fragmented program exposure",
+        "large-prime revenue base dilutes materiality",
+        "long-cycle execution"
+      ],
+      "next_trigger": "Keep as context unless larger funded follow-on orders, margin/backlog commentary, or defense-prime tape confirms incremental thesis value.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/"
+      ],
+      "source_quality": "primary"
     }
   ],
   "summary": {
-    "stored": 29,
-    "high": 5,
-    "direct_public": 9,
-    "research_candidates": 8,
+    "stored": 34,
+    "high": 6,
+    "direct_public": 11,
+    "research_candidates": 9,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }

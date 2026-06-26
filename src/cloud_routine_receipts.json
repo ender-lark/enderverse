@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:34:30.648215Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:36:23.053693Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "success",
       "run_source": "scheduled",
@@ -6621,7 +6600,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T20:53:00.035037Z",
       "summary": "positions sync succeeded: snapshot 2026-06-26; 11 accounts; 277 raw positions; diff VALUE_CHANGE 91 no share changes; dashboard ok; Notion verified"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T21:37:38.700289Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T21:41:25.542821Z",
+      "summary": "federal funding post-close success: checked War.gov Today/releases/contracts Jun26 plus prior-24h CHIPS/NIST, service/DARPA/DIU/OSC, DOE/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows 5 payload / cache 34, direct public cache 11; new direct public UAMY research plus CHG.L/LHX/LMT watch context; Research Queue +1 UAMY, Signal Log stored 108; Notion Research Queue write/readback verified 1/1; dark/no material same-day non-defense awards, USAspending/SAM not needed; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T20:53:00.035037Z"
+  "updated_at": "2026-06-26T21:41:25.542821Z"
 }
