@@ -2,34 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T06:32:10.600964Z",
-      "summary": "Life/Work OS safe hygiene succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_hygiene.py",
-          "--apply",
-          "--max-mutations",
-          "10",
-          "--out",
-          "src/life_work_os_hygiene_receipt.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T08:47:16.361114Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "success",
       "run_source": "scheduled",
@@ -6468,7 +6440,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:11:50.530254Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T12:15:33.946449Z",
+      "summary": "pre-market source intake success: rows landed 0; Fundstrat Chrome/Gmail full-body checked latest Jun25 already cached; source-call cache unchanged; position cache unchanged no new broker input; UW premarket dark-pool MSFT/MAGS/HOOD empty narrow check; Catalyst/Event Risk validated unchanged; dark/stale Crypto Flash latest Jun22 and Social Watch not_checked"
     }
   ],
-  "updated_at": "2026-06-26T12:03:09.014710Z"
+  "updated_at": "2026-06-26T12:15:33.946449Z"
 }
