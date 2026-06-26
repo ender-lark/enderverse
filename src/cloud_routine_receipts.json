@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T16:36:35.399165Z",
-      "summary": "oil/rates event-risk refreshed; ingested 2 FS inbox entries through [06/18/2026 12:25 ET]; logged 2 Source Call rows; no timing-gate contradiction; query endpoint dark/not_checked"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T16:47:06.793323Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6580,7 +6566,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T18:53:50.214348Z",
       "summary": "Chrome checked Macro FlashInsights latest Jun26 12:12 QQQ duplicate and 12:11 MAGS non-distinct suppressed, Crypto FlashInsights latest Jun22 MSTR/ETH stale duplicate, and Latest Research listing latest US Policy already captured / First to Market private-credit context suppressed; Gmail checked 0 because Chrome full content available; rows landed 0; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=6 suppressed=131; dark/stale Crypto Flash latest Jun22; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T19:47:48.162996Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T19:51:30.722046Z",
+      "summary": "Chrome checked Macro/Crypto FlashInsights plus Latest Research listing and 2 detail pages; Gmail checked 0 because Chrome full content available; rows landed 0; suppressed duplicate 12:12 QQQ, non-distinct 12:11 rotation/MAGS, stale Jun22 Crypto, already-captured US Policy, broad First-to-Market private-credit/listing-only context; validation passed; dashboard skipped no new rows; alert quiet candidates=0 duplicates=6 suppressed=131; dark/stale Crypto Flash latest Jun22 and Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T18:53:50.214348Z"
+  "updated_at": "2026-06-26T19:51:30.722046Z"
 }
