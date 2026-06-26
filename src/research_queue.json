@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T21:50:00Z",
+  "generated_at": "2026-06-26T15:35:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -88,16 +88,24 @@
       "ticker": "RTX",
       "notes": "Raytheon: $398.7M cost-plus-fixed-fee and cost-reimbursement undefinitized contract action for AMRAAM system requirements/preliminary design review activities; $104.1M FMS funds obligated; awarded June 23. Agency/program: Department of War / Air Force / Advanced Medium Range Air-to-Air Missile D4/C9 preliminary design and proof-of-manufacturing. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Follow-on production award, booked backlog commentary, margin detail, allied demand acceleration, and tape/flow confirmation.. Risks: undefinitized contract action; design-review scope rather than full-rate production; FMS customer timing; cost-plus economics may limit upside; program execution risk.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "RTX - federal funding catalyst review: Raytheon Co. ($1.108B not-to-exceed modification exercising options for AIM-9X production Lot 26 missiles, training missiles, spares, containers, and support equipment for Navy, Army, Air Force, and FMS customers; $744.2M FMS plus FY24-FY26 U.S. procurement/O&M funds obligated at award)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "RTX",
+      "notes": "Raytheon Co.: $1.108B not-to-exceed modification exercising options for AIM-9X production Lot 26 missiles, training missiles, spares, containers, and support equipment for Navy, Army, Air Force, and FMS customers; $744.2M FMS plus FY24-FY26 U.S. procurement/O&M funds obligated at award. Agency/program: Department of War / Navy / AIM-9X production Lot 26 / Naval Air Systems Command. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check RTX tape/relative defense ETF reaction, whether fiscal/FMS obligations accelerate revenue visibility, and whether follow-on missile demand confirms a higher-conviction defense allocation thesis.. Risks: option exercise on previously awarded contract; not competed; multi-year fulfillment through 2029; missile-program backlog support may already be priced into defense primes.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 7,
-    "pending": 7,
+    "input_rows": 8,
+    "pending": 8,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 11,
+    "stored_pending": 12,
     "stored_done": 0
   }
 }

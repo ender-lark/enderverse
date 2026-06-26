@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T13:54:17.143458Z",
-      "summary": "checked web 2 pages Macro/Crypto FlashInsights; Gmail searched 9/read 5 full bodies; landed 1 compact CL oil-risk row; suppressed promo duplicate/stale/incomplete/discovery-only items; validation passed; dashboard refreshed; Fundstrat alerts sent 3; dark Social Watch, stale Crypto FlashInsights Jun8; blockers none"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:01:13.334896Z",
-      "summary": "uw opportunity cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6587,7 +6573,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T14:49:14.451171Z",
       "summary": "fundstrat daytime watch success: Chrome checked Macro/Crypto FlashInsights; Gmail 0; rows landed 0; stale duplicate visible cards suppressed; validation passed; alert quiet candidates 0 duplicates 5 suppressed 130; dark/stale no Jun26 FS evidence and Crypto latest Jun22; blockers none"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T15:21:11.518067Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T15:28:23.717695Z",
+      "summary": "federal funding midday watch success: checked War.gov Today/releases/contracts Jun25-Jun26 plus service/DARPA/DIU/OSC, CHIPS/NIST, DOE/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT/FAA, EXIM/DFC; cache verified rows 29 direct_public 9; new rows RTX high research and GD watch; Signal Log 103 repo rows; Research Queue pending 12 with RTX Notion RQ write/readback verified 1/1; Notion Signal Log not written; dark War.gov Jun26 contracts pre-5pm and no same-day non-defense public award found; suppressed Agent Network no new dollars"
     }
   ],
-  "updated_at": "2026-06-26T14:49:14.451171Z"
+  "updated_at": "2026-06-26T15:28:23.717695Z"
 }
