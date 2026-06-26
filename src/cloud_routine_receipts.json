@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:09:57.027618Z",
-      "summary": "scored 16 tickers; autofire 0; watchlist FORM,KEYS,LITE,VIAV; skipped 12; cache landed src/parabolic_setups.json; blockers none; transient BWXT retry recovered"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:33:23.136172Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6587,7 +6573,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T15:50:00.102810Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed was available; rows landed 0; suppressed cached/stale visible FlashInsights: Macro Jun25 MSFT/MAGS and Crypto Jun22 MSTR/STRC; validation passed; dashboard refresh skipped no new rows; alert quiet candidates 0 duplicates 5 suppressed 130; dark/stale lanes no Jun26 daytime FS evidence and Crypto Flash latest Jun22"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T16:31:13.159426Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T16:36:29.312047Z",
+      "summary": "FS inbox catch-up midday ingested 2 entries through [06/26/2026 11:55 ET]; Source Call Log rows 2 fetch-verified; marker advanced; flags insurer/private-credit stress watch and SCOTUS/Fed firing-risk watch; duplicate SPX/BTC snippets not re-logged; no trade, broker, repo gate, or card mutation"
     }
   ],
-  "updated_at": "2026-06-26T15:50:00.102810Z"
+  "updated_at": "2026-06-26T16:36:29.312047Z"
 }
