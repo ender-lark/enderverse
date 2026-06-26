@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "life-work-os-heartbeat-watch",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:31:53.383348Z",
-      "summary": "life-work-os-heartbeat-watch started"
-    },
-    {
-      "routine_id": "life-work-os-heartbeat-watch",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-17T19:31:54.777559Z",
@@ -6368,7 +6361,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T00:47:33.360101Z",
       "summary": "dry-run selected 0; queued none; top_prospects cache verified 21 total 19 queued 2 unqueued RYF/XOP QUIET; Research Queue write/readback not_checked no rows created; dark lanes broker positions and daily synthesis latest failed/stale"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T00:52:03.031573Z",
+      "summary": "FS inbox catch-up evening ingested 3 entries through [06/25/2026 20:40 ET]; Source Call Log rows 7 fetch-verified; flags MSFT structural weakness vs open add posture, QQQ 732-734/MAGS 5-7d caution, SPX 8000 breadth support, Lee semi-memory buyable conflict; no trades/broker/gate/card mutation"
     }
   ],
-  "updated_at": "2026-06-26T00:47:33.360101Z"
+  "updated_at": "2026-06-26T00:52:03.031573Z"
 }
