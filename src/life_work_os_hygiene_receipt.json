@@ -1,36 +1,18 @@
 {
   "valid": true,
-  "generated_at": "2026-06-25T02:32:49.479311-04:00",
+  "generated_at": "2026-06-26T02:33:44.045079-04:00",
   "apply_requested": true,
   "max_mutations": 10,
-  "planned_count": 1,
-  "operations": [
-    {
-      "op": "cancel_past_event_task",
-      "page_id": "36dc5031-4bb6-81aa-bf37-e1322b2a19f4",
-      "title": "Mom sleep appointment (Dr. Iskandar) \u2014 ask about Inspire device",
-      "reason": "Due date is more than 14 days past and title matches one-time past-event heuristic.",
-      "target_status": "Cancelled",
-      "properties": null
-    }
-  ],
+  "planned_count": 0,
+  "operations": [],
   "changelog": {
-    "mode": "page_append",
-    "page_id": "351c5031-4bb6-813a-876b-f2a4835f65fb",
-    "url": "https://app.notion.com/p/System-Changelog-351c50314bb6813a876bf2a4835f65fb",
-    "verified": true
+    "skipped": true
   },
   "apply_result": {
-    "applied": true,
+    "applied": false,
     "dry_run": false,
-    "count": 1,
-    "results": [
-      {
-        "op": "cancel_past_event_task",
-        "page_id": "36dc5031-4bb6-81aa-bf37-e1322b2a19f4",
-        "updated": true
-      }
-    ]
+    "count": 0,
+    "results": []
   },
   "guardrails": [
     "idempotent",

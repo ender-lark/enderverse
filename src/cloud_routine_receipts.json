@@ -2,32 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T01:16:30.803851Z",
-      "summary": "life-work-os-heartbeat-watch started"
-    },
-    {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T01:16:32.513522Z",
-      "summary": "Life/Work OS heartbeat watch succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_heartbeat.py",
-          "--push",
-          "--out",
-          "src/life_work_os_heartbeat.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "success",
       "run_source": "scheduled",
@@ -6455,7 +6429,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T05:48:18.293047Z",
       "summary": "dedupe/verification pass; SQL blocked by Notion plan; fallback mirror H7/M3/L1 pending; selected UUUU/AVGO/defense rows already had verified Findings; new writes 0; live fetch verified UUUU VAC, AVGO, LMT THAAD/PrSM, BA, TXT; remaining exact live backlog dark; dark lanes price/flow/account/options/margin/order cadence"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T06:33:43.921793Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T06:33:48.993176Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src\\life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src\\life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-26T05:48:18.293047Z"
+  "updated_at": "2026-06-26T06:33:48.993176Z"
 }
