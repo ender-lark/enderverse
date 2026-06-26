@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T20:52:40.032226Z",
-      "summary": "positions sync succeeded: snapshot 2026-06-18; 11 accounts; 275 raw positions; diff NEW 2 EXIT 2 ADD 1 TRIM 1 VALUE_CHANGE 84; dashboard ok; Notion verified"
-    },
-    {
-      "routine_id": "investing-os-federal-funding-post-close-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T21:37:29.724720Z",
-      "summary": "federal funding post-close sweep started"
-    },
-    {
       "routine_id": "investing-os-federal-funding-post-close-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6614,7 +6600,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T23:10:35.966642Z",
       "summary": "Chrome checked Macro FlashInsights latest Jun26 17:12 ET, Crypto FlashInsights stale Jun22, Latest Research plus Intraday/First Word/DTS/Live Tech/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS video surfaces; opened 3 Jun26 detail pages; videos checked latest listing/detail surfaces, no new transcript vault entries; Gmail checked 0 because Chrome full content available; rows landed 2 QQQ tech-relative sell and SPY private-credit/insurer risk; suppressed duplicate/stale/recap/discovery-only surfaces including Roadmap recap, US Policy duplicate, DTS/Macro Minute already cached, stale Crypto Flash; source merge, transcript-index validate, email validate, 26 pytest, dashboard refresh/check passed; Notion not used; dark/stale Social Watch not_checked and Crypto Flash stale; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T23:32:05.947391Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T23:32:45.911136Z",
+      "summary": "Research Queue not_checked: drop path missing; cache not refreshed; existing cache pending 13 done 0 ACT_NOW 0 skipped 0"
     }
   ],
-  "updated_at": "2026-06-26T23:10:35.966642Z"
+  "updated_at": "2026-06-26T23:32:45.911136Z"
 }
