@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:35:07.828037Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ]
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T14:47:34.619107Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6587,7 +6566,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T16:36:29.312047Z",
       "summary": "FS inbox catch-up midday ingested 2 entries through [06/26/2026 11:55 ET]; Source Call Log rows 2 fetch-verified; marker advanced; flags insurer/private-credit stress watch and SCOTUS/Fed firing-risk watch; duplicate SPX/BTC snippets not re-logged; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T16:47:50.729961Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T16:56:41.091183Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing, and 2 detail pages; Gmail checked 0 because Chrome full content available; rows landed 2 QQQ/TLT; suppressed Macro 12:11 context, Crypto Jun22 stale/duplicate cards, First to Market private-credit broad context, discovery-only listing/menu cards; validation passed; dashboard refresh passed; alert sent 1 QQQ, duplicates 5, suppressed 131; dark/stale lanes Social Watch not_checked and Crypto Flash latest Jun22; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T16:36:29.312047Z"
+  "updated_at": "2026-06-26T16:56:41.091183Z"
 }

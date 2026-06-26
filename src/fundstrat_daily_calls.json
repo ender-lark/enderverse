@@ -2501,5 +2501,43 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "L. Thomas Block",
+    "ticker": "TLT",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Block says DC news should quiet until July 11 recess, but next-week SCOTUS Fed-governor ruling could revive Fed-independence/rate risk if the Court lets Trump fire Cook and puts Powell next.",
+    "date": "2026-06-26",
+    "subject": "US Policy 11:32 ET: SCOTUS Fed-governor risk watch",
+    "source_message_id": "fundstrat-web-article-detail-2026-06-26-1132-et-tlt-fed-independence-risk",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "QQQ",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Newton says QQQ likely bottomed intraday and can push higher next week, but big bullish QQQ bets should wait for Mag-7 stabilization; support 685.64/702.82, resistance 724-726 then 734.40.",
+    "date": "2026-06-26",
+    "subject": "FlashInsights 12:12 ET: QQQ intraday bottom with Mag-7 risk",
+    "source_message_id": "fundstrat-web-flashinsights-2026-06-26-1212-et-qqq-mag7-risk",
+    "source": "Fundstrat Chrome FlashInsights feed",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
