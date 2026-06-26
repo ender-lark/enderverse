@@ -47,8 +47,9 @@ intake and daytime alert tests also passed.
   they count as full-body checked. Listing cards, search results, notifications,
   and snippets are discovery only.
 - Stock-list and crypto-list tables are slower baseline/diff sources, not
-  daily-call rows. Capture them only through a future baseline lane or a
-  specific user request.
+  daily-call rows. They are covered by the Fundstrat Deep Crawl lane:
+  `src/fundstrat_deep_crawl_targets.json` and
+  `src/codex_routines/fundstrat_deep_crawl.md`.
 - Do not store raw Fundstrat article bodies, long excerpts, screenshots, or
   copied page text in tracked repo files.
 - Store only compact source-backed rows that preserve date, author/lane,
@@ -233,7 +234,8 @@ Suppress or audit-only:
   compact user-supplied notes
 - broad backdrop with no action, timing, sizing, hedge, risk, or research
   implication
-- monthly list/table content that belongs in the Bible/prospect lane
+- monthly/deep-crawl list-table content that belongs in the Bible/prospect or
+  baseline/diff lane
 - snippet-only notifications or email search results
 
 ## Operating Notes
@@ -250,3 +252,15 @@ Suppress or audit-only:
   intake.
 - If only a push notification exists and no member-page content is read, report
   Fundstrat as discovered/not checked rather than checked clear.
+
+## Deep Crawl Split
+
+The fast lane stays focused on action-changing Fundstrat notes. The slower deep
+crawl checks the broader website inventory shown in the Stock Lists navigation:
+Latest Stock Lists, Upticks, Sector Allocation / Current Outlook, Prior
+Outlooks, Performance, Sector, Tools, Fundstrat Large-Cap Top Ideas, Fundstrat
+SMID-Cap Top Ideas, and crypto strategy tables.
+
+That lane captures only compact baseline/diff metadata and checked/no-change
+status. Unchanged tables must not become daily-call rows, action prompts, or
+Pushover alerts. Missing table access remains `not_checked`.

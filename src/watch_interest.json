@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-26",
+  "source": "operator_interest_list",
+  "items": [
+    {
+      "ticker": "CISO",
+      "name": "CISO Global Inc.",
+      "aliases": [
+        "Cerberus",
+        "Cerberus Cyber Sentinel",
+        "Cerberus Cyber Sentinel Corp",
+        "Cerberus Cyber Sentinel Corporation"
+      ],
+      "status": "interest",
+      "priority": "research",
+      "first_added": "2026-06-26",
+      "source": "operator request 2026-06-26",
+      "interest_reason": "Operator asked to add Cerberus stock to the watch / interest list. Public Cerberus Cyber Sentinel maps to CISO Global (CISO).",
+      "ambiguity": "Confirm whether the intended company is Cerberus Cyber Sentinel / CISO Global (CISO) or Cerebras Systems (CBRS) before promotion or any trade analysis.",
+      "alternate_candidates": [
+        {
+          "ticker": "CBRS",
+          "name": "Cerebras Systems Inc.",
+          "reason": "Possible phonetic / AI-stock ambiguity with 'Cerberus'."
+        }
+      ],
+      "next_step": "Verify intended ticker, liquidity, market cap, listing status, and valuation relevance before moving beyond interest/research."
+    }
+  ]
+}

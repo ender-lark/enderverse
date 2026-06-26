@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-26",
+  "source": "Fundstrat Direct website source catalog plus operator screenshot",
+  "rule": "Deep crawl is a baseline/diff and discovery lane. It does not store raw member-page text, screenshots, credentials, cookies, local storage, browser profile data, or raw transcripts.",
+  "targets": [
+    {
+      "id": "macro_flashinsights",
+      "family": "FlashInsights",
+      "priority": 1,
+      "cadence": "every_run",
+      "url": "https://fundstratdirect.com/members/flashinsights/",
+      "navigation_path": ["FlashInsights"],
+      "capture_rule": "Capture compact rows only from complete visible feed cards or detail pages.",
+      "checked_behavior": "complete_feed_card_or_detail_text_visible",
+      "daily_call_eligible": true
+    },
+    {
+      "id": "crypto_flashinsights",
+      "family": "FlashInsights",
+      "priority": 1,
+      "cadence": "every_run",
+      "url": "https://fundstratdirect.com/members/crypto-flash-insights/",
+      "navigation_path": ["FlashInsights", "Crypto"],
+      "capture_rule": "Capture compact crypto sleeve rows only from complete visible feed cards or detail pages.",
+      "checked_behavior": "complete_feed_card_or_detail_text_visible",
+      "daily_call_eligible": true
+    },
+    {
+      "id": "latest_research_core",
+      "family": "Research",
+      "priority": 2,
+      "cadence": "every_run",
+      "url": "https://fundstratdirect.com/members/latest-research/",
+      "navigation_path": ["Research", "Latest Research"],
+      "capture_rule": "Use listings as discovery only. Open detail pages for First Word, Intraday Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy/Fed Watch, and crypto research.",
+      "checked_behavior": "article_detail_text_visible",
+      "daily_call_eligible": true
+    },
+    {
+      "id": "latest_videos_and_webinars",
+      "family": "Webinars & More",
+      "priority": 3,
+      "cadence": "every_run",
+      "url": "https://fundstratdirect.com/members/latest-videos/",
+      "navigation_path": ["Webinars & More", "Latest Videos"],
+      "capture_rule": "Video titles/listings are discovery only. Checked review requires visible transcript, captions, companion article text, or supplied compact notes.",
+      "checked_behavior": "transcript_caption_or_companion_text_visible",
+      "daily_call_eligible": true
+    },
+    {
+      "id": "stock_lists_latest",
+      "family": "Stock Lists",
+      "priority": 4,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/",
+      "navigation_path": ["Stock Lists", "Latest Stock Lists"],
+      "capture_rule": "Baseline/diff only. Capture list title, table headings, tickers, sectors, support/resistance, dates added, and adds/removes as compact metadata.",
+      "checked_behavior": "table_or_detail_page_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "upticks_stock_list",
+      "family": "Stock Lists",
+      "priority": 4,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/",
+      "navigation_path": ["Stock Lists", "Upticks", "Stock List"],
+      "capture_rule": "Baseline/diff only. Capture changed tickers, technical levels, dates, commentary links, and performance deltas.",
+      "checked_behavior": "stock_list_table_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "sector_allocation_current_outlook",
+      "family": "Stock Lists",
+      "priority": 4,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook",
+      "navigation_path": ["Stock Lists", "Sector Allocation", "Current Outlook"],
+      "capture_rule": "Baseline/diff only. Capture sector ETF weights, FSI weight, S&P weight, delta, analyst stance badges, individual ETFs, date notes, and changes versus prior snapshot.",
+      "checked_behavior": "sector_allocation_table_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "sector_allocation_prior_and_performance",
+      "family": "Stock Lists",
+      "priority": 5,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook",
+      "navigation_path": ["Stock Lists", "Sector Allocation", "Prior Outlooks", "Performance", "Sector", "Tools"],
+      "capture_rule": "Discovery/baseline only. Capture only meaningful changes, dates, or performance deltas that affect sleeve review.",
+      "checked_behavior": "table_or_page_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "large_cap_top_ideas",
+      "family": "Stock Lists",
+      "priority": 4,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/",
+      "navigation_path": ["Stock Lists", "Fundstrat Large-Cap Top Ideas", "Stock List", "Commentary"],
+      "capture_rule": "Baseline/diff only. Capture adds/removes, top-idea tickers, sector/industry, support/resistance, date added, and commentary summaries without raw text.",
+      "checked_behavior": "stock_list_or_commentary_detail_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "smid_cap_top_ideas",
+      "family": "Stock Lists",
+      "priority": 4,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/stock-lists/",
+      "navigation_path": ["Stock Lists", "Fundstrat SMID-Cap Top Ideas", "Stock List", "Commentary"],
+      "capture_rule": "Baseline/diff only. Capture adds/removes, SMID top-idea tickers, sector/industry, support/resistance, date added, and commentary summaries without raw text.",
+      "checked_behavior": "stock_list_or_commentary_detail_visible",
+      "daily_call_eligible": false
+    },
+    {
+      "id": "crypto_core_strategy",
+      "family": "Crypto",
+      "priority": 5,
+      "cadence": "deep_crawl",
+      "url": "https://fundstratdirect.com/members/crypto/",
+      "navigation_path": ["Crypto", "Core Strategy", "Crypto Picks", "Performance", "Historical Changes"],
+      "capture_rule": "Baseline/diff only. Capture asset weights, rebalance prices, current prices, rebalance dates, and changes relevant to the crypto sleeve.",
+      "checked_behavior": "strategy_or_picks_table_visible",
+      "daily_call_eligible": false
+    }
+  ]
+}

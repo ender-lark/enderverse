@@ -84,6 +84,42 @@
       "no_input_behavior": "Do not overwrite Fundstrat caches; report Fundstrat as not checked. Low-value Fundstrat fluff can remain audit/discovery context, but must not become a daily-call row, action prompt, or push alert."
     },
     {
+      "id": "fundstrat_deep_crawl",
+      "title": "Fundstrat Deep Crawl",
+      "status": "active_safe_intake",
+      "cadence": "every_couple_days_after_close",
+      "doc": "src/codex_routines/fundstrat_deep_crawl.md",
+      "separation_group": "source_intake",
+      "input_boundaries": [
+        "Authenticated Fundstrat website pages read through the user's logged-in Chrome session",
+        "Machine-readable target manifest at src/fundstrat_deep_crawl_targets.json",
+        "Stock-list and sector-allocation tables reduced to compact baseline/diff metadata only",
+        "Existing Fundstrat compact intake helpers for action-changing detail-page rows",
+        "No raw member-page text, screenshots, credentials, cookies, local storage, browser profile data, or raw transcripts"
+      ],
+      "owns": [
+        "src/fundstrat_deep_crawl_summary.json",
+        "src/fundstrat_list_baselines.json"
+      ],
+      "commands": [
+        {
+          "id": "validate_targets",
+          "command": "python src/fundstrat_deep_crawl.py --validate"
+        },
+        {
+          "id": "summarize_targets",
+          "command": "python src/fundstrat_deep_crawl.py --summary"
+        },
+        {
+          "id": "validate_fundstrat_cache_after_compact_rows",
+          "command": "python src/fundstrat_email_intake.py --validate src",
+          "fallback_for": "when the crawl lands compact Fundstrat rows through the existing intake helpers"
+        }
+      ],
+      "verification": "python src/fundstrat_deep_crawl.py --validate && python -m pytest src/test_fundstrat_deep_crawl.py src/test_fundstrat_web_intake.py -q",
+      "no_input_behavior": "Do not overwrite Fundstrat list baselines; report the deep crawl as not checked and name the Chrome/login/CAPTCHA/permission/table blocker."
+    },
+    {
       "id": "catalyst_intake",
       "title": "Catalyst Intake",
       "status": "active",
@@ -542,6 +578,13 @@
           "required": false,
           "source": "top_prospects_feeder and Fundstrat intake",
           "missing_behavior": "Prospects are not checked; missing file is not no prospects."
+        },
+        {
+          "key": "watch_interest",
+          "paths": ["src/watch_interest.json", "src/watch_interest_index.json"],
+          "required": false,
+          "source": "operator_interest_list and watch_interest.py cross-surface index",
+          "missing_behavior": "Watch/interest list is not checked; missing file is not no operator interest names."
         },
         {
           "key": "source_calls",

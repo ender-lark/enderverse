@@ -156,6 +156,11 @@
       "canonical_surface": "Radar lane",
       "summary_surface": "Opportunity Context summary, capped top rows"
     },
+    "watch_interest": {
+      "primary_status": "summary-rendered",
+      "canonical_surface": "Emitted by the full-build feed as the cross-surface watch/interest index; not yet a standalone JSX panel",
+      "summary_surface": "Opportunity Context Interest rows, capped top rows, with source-count and ambiguity/next-step notes"
+    },
     "lean_in": {
       "primary_status": "canonical-rendered",
       "canonical_surface": "Lean In lane and action-promotion source",

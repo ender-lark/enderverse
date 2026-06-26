@@ -1691,6 +1691,26 @@ def _opportunity_context(feed: dict) -> str:
             )
         columns.append(("Target drift", rows))
 
+    interest_rows = [
+        row for row in ((feed.get("watch_interest") or {}).get("rows") or [])
+        if isinstance(row, dict) and row.get("manual_interest")
+    ][:3]
+    if interest_rows:
+        rows = []
+        for row in interest_rows:
+            ticker = _e(row.get("ticker") or "")
+            status = _e(row.get("status") or "interest")
+            sources = int(row.get("source_count") or 0)
+            ambiguity = _e(row.get("ambiguity") or row.get("next_step") or "")
+            sub = f"{sources} linked source{'s' if sources != 1 else ''}"
+            if ambiguity:
+                sub += f" | {ambiguity}"
+            rows.append(
+                f'<div class="context-row"><span class="context-ticker">{ticker}</span>{status}'
+                f'<span class="context-sub">{sub}</span></div>'
+            )
+        columns.append(("Interest", rows))
+
     prospect_rows = (
         ((feed.get("prospects") or {}).get("hot") or [])
         + ((feed.get("prospects") or {}).get("movers_best") or [])

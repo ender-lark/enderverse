@@ -23,10 +23,10 @@ files.
 | Crypto Research | Digital Asset Strategy, Funding Fridays, Liquid Ventures, Special Reports | Crypto sleeve context | Detail page required. Promote only if it changes crypto sleeve posture, a held asset, or a priority crypto-equity proxy. |
 | Tom Lee Macro Minute and other videos | Macro Minute, Latest Videos, media pages | Private transcript vault, Notion action notes, plus compact derived rows | Codex should navigate Fundstrat Latest Videos/detail pages in the user's logged-in Chrome session and capture any visible transcript/caption track exposed by the page/player. Video-only cards remain discovery-only. Checked review requires visible transcript/captions, companion article, or supplied compact notes. Full transcript text goes only to the private source vault; public repo caches keep metadata, hashes, synthesis status, and compact derived rows. Derived action notes go to Notion after live fetch-back verification. |
 | Webinars and appearances | Latest Webinars, market updates, in-the-news | Mostly noise | Discovery/audit only unless there is a concrete, transcript-backed call tied to current holdings or high-priority research. |
-| Top Ideas stock lists | Large-Cap, SMID-Cap | Baseline/watchlist, not daily-call | Tables include ticker, sector/industry, price, performance, support, resistance, and date added. Use later for adds/removes/support-resistance changes, not routine daily-call alerts. |
-| Upticks | Stock list, commentary, performance, historical | Baseline/watchlist | Same table-style baseline. Capture only meaningful list changes or technical levels that overlap portfolio/research priorities. |
-| Sector Allocation | Current Outlook, prior outlooks, sector/tools/performance | Allocation baseline | Useful for sector over/under-weight comparison and ETF sleeve review. Do not promote unchanged tables to daily actions. |
-| Crypto Core Strategy / Crypto Picks | Strategy, performance, historical changes, tools | Crypto allocation baseline | Tables include asset, weight, rebalance price/current price, and rebalance date. Use for crypto sleeve baseline/diffing, not daily-call rows. |
+| Top Ideas stock lists | Large-Cap, SMID-Cap | Deep-crawl baseline/watchlist, not daily-call | Covered by `src/fundstrat_deep_crawl_targets.json` and `src/codex_routines/fundstrat_deep_crawl.md`. Tables include ticker, sector/industry, price, performance, support, resistance, and date added. Capture adds/removes/support-resistance changes and portfolio/watchlist overlaps, not routine daily-call alerts. |
+| Upticks | Stock list, commentary, performance, historical | Deep-crawl baseline/watchlist | Covered by the deep-crawl lane. Capture only meaningful list changes or technical levels that overlap portfolio/research/watch-interest priorities. |
+| Sector Allocation | Current Outlook, prior outlooks, sector/tools/performance | Deep-crawl allocation baseline | Covered by the deep-crawl lane. Useful for sector over/under-weight comparison and ETF sleeve review. Do not promote unchanged tables to daily actions. |
+| Crypto Core Strategy / Crypto Picks | Strategy, performance, historical changes, tools | Deep-crawl crypto allocation baseline | Covered by the deep-crawl lane. Tables include asset, weight, rebalance price/current price, and rebalance date. Use for crypto sleeve baseline/diffing, not daily-call rows. |
 | Market Heatmap / Watchlist | Tools pages | Context, usually redundant | Existing market-data and portfolio lanes are canonical. Use only as manual context unless a future tool proves a specific edge. |
 | Community / Academy / books / account pages | Community and account settings | Not an investing signal | Do not capture except for operator setup notes. |
 | iOS/app push notifications | Fundstrat app notifications | Trigger only | Pushes can tell us a new item exists. They are not checked source content and must lead to website/Gmail detail review. |
@@ -49,9 +49,11 @@ files.
    review packs, `fundstrat_transcript_synthesis.py` for action-oriented Notion
    notes, and the existing compact fields only for cockpit/source-call
    derivation.
-4. Stock-list and crypto-list tables are not part of tomorrow's fast lane. They
-   should become a slower baseline/diff lane only if they produce adds/removes,
-   weight changes, support/resistance changes, or direct portfolio overlap.
+4. Stock-list and crypto-list tables are handled by the slower deep-crawl lane:
+   `src/fundstrat_deep_crawl_targets.json` plus
+   `src/codex_routines/fundstrat_deep_crawl.md`. They should produce compact
+   baseline/diff updates only when they show adds/removes, weight changes,
+   support/resistance changes, or direct portfolio/watch-interest overlap.
 
 ## Noise Filters
 
@@ -88,5 +90,7 @@ Suppress by default:
   `src/fundstrat_transcript_synthesis.py`; notes are compact, raw-free, and
   intended for verified Notion writeback before they become action review
   context.
-- Deferred until evidence of usefulness: structured list-table baseline diffing
-  for Top Ideas, Upticks, Sector Allocation, and Crypto Core Strategy.
+- Implemented now: a deep-crawl target manifest and routine contract for
+  structured list-table baseline/diff review of Top Ideas, Upticks, Sector
+  Allocation, and Crypto Core Strategy. The first scheduled runs must still
+  prove actual checked rows; missing/blocked sections stay `not_checked`.

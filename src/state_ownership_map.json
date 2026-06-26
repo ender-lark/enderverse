@@ -92,6 +92,30 @@
       "action_surface": "Top-5/Bottom-5 cards can inform analyst-call context; separate Consider List rows can feed low-pressure prospects through top_prospects.json."
     },
     {
+      "id": "fundstrat_deep_crawl",
+      "source_of_truth": "authenticated_fundstrat_chrome_deep_crawl",
+      "repo_artifact": "src/fundstrat_deep_crawl_targets.json; src/fundstrat_deep_crawl_summary.json; src/fundstrat_list_baselines.json",
+      "producer": "fundstrat_deep_crawl scheduled routine checks the target manifest through logged-in Chrome and writes compact baseline/diff summaries only",
+      "feed_path": "Deep-crawl outputs can refresh Fundstrat baseline/list context; action-changing rows must still pass through existing Fundstrat compact intake helpers",
+      "dashboard_surface": "Fundstrat gaps/news context and watch/interest overlap notes after a checked crawl",
+      "mirror_policy": "GitHub stores target ids, compact baselines/diffs, checked/no-change statuses, and short summaries only; raw member-page text, screenshots, credentials, cookies, local storage, browser profile data, raw tables, and raw transcripts are not committed.",
+      "freshness_contract": "Runs every couple days after close or on demand. Stock-list/sector tables are checked only when Chrome can see the relevant table/detail page.",
+      "not_checked_behavior": "Chrome login/CAPTCHA/permission/table blockers leave the affected section not_checked; unchanged visible tables are checked/no-change, not daily-call rows.",
+      "action_surface": "Adds/removes, weight changes, support/resistance changes, sector stance deltas, or portfolio/watch-interest overlaps can create review context but not direct trades."
+    },
+    {
+      "id": "watch_interest",
+      "source_of_truth": "github_operator_interest_list",
+      "repo_artifact": "src/watch_interest.json; src/watch_interest_index.json",
+      "producer": "manual operator/Codex updates plus watch_interest.py cross-surface index",
+      "feed_path": "full_build_runner.DEFAULT_FILES.watch_interest -> feed.watch_interest",
+      "dashboard_surface": "Opportunity Context Interest column, cross-linked to theses, positions, top prospects, research queue, parabolic setups, and latest feed lanes",
+      "mirror_policy": "GitHub is canonical for manual interest rows; generated index can be rebuilt from repo convention files.",
+      "freshness_contract": "Update when the operator names a new stock or when a symbol ambiguity needs to be resolved.",
+      "not_checked_behavior": "Missing watch_interest is an optional not_checked lane; no file is not evidence that the operator has no interest names.",
+      "action_surface": "Interest rows are watch/research only until a separate evidence lane upgrades them."
+    },
+    {
       "id": "fs_ingest_inventory",
       "source_of_truth": "fundstrat_ingest_routines",
       "repo_artifact": "src/fs_ingest_inventory.json",

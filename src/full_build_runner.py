@@ -60,6 +60,7 @@ import execution_plan as ep
 import today_decide
 import options_surface as opt_surface
 from tunables import load_conviction_weights, load_goal_tunables
+from watch_interest import build_watch_interest_index
 
 
 class FullBuildError(RuntimeError):
@@ -93,6 +94,7 @@ DEFAULT_FILES = {
     "parabolic": ("parabolic_setups.json",),
     "fed_day_reallocation_packet": ("fed_day_reallocation_packet.json",),
     "options_chain": ("options_chain_cache.json", "options_chain_bundle.json"),
+    "watch_interest": ("watch_interest.json", "watch_interest_index.json"),
 }
 
 SOURCE_GAP_LABELS = {
@@ -1062,6 +1064,7 @@ def build_full_feed_from_files(
     log_call_dates = _load_optional(src, "log_call_dates")
     parabolic_cache = _load_optional(src, "parabolic")
     fed_day_packet = _load_optional(src, "fed_day_reallocation_packet")
+    watch_interest_input = _load_optional(src, "watch_interest")
     target_drift = target_weight_drift_summary(positions_cache)
     social_watch = build_social_watch(
         social_watch_cache,
@@ -1120,6 +1123,16 @@ def build_full_feed_from_files(
     feed["research_actions"] = annotate_actions(feed.get("research_actions") or [], account_positions)
     feed["asymmetric_opportunities"] = build_asymmetric_opportunities(feed)
     feed["social_watch"] = social_watch
+    feed["watch_interest"] = build_watch_interest_index(
+        manual=watch_interest_input,
+        theses=theses,
+        top_prospects=top_prospects,
+        research=research,
+        account_positions=account_positions,
+        parabolic=parabolic_cache,
+        feed=feed,
+        generated_at=feed.get("generated_at") or now,
+    )
     portfolio_views = build_portfolio_views(account_positions, fundstrat_bible=fs_bible)
     if portfolio_views:
         feed["portfolio_views"] = portfolio_views

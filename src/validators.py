@@ -582,6 +582,20 @@ def _validate_social_watch_row(r: Any) -> list[str]:
     return out
 
 
+def _validate_watch_interest_row(r: Any) -> list[str]:
+    if not isinstance(r, dict):
+        return ["must be a dict"]
+    out: list[str] = []
+    tk = r.get("ticker")
+    if not isinstance(tk, str) or tk.strip() == "":
+        out.append("ticker must be a non-empty string")
+    if "sources" in r and not isinstance(r.get("sources"), list):
+        out.append("sources must be a list")
+    if str(r.get("status") or "").lower() in {"buy", "sell", "trade"}:
+        out.append("status must stay watch/research/interest, not direct trade")
+    return out
+
+
 def _validate_event_risk_row(r: Any) -> list[str]:
     if not isinstance(r, dict):
         return ["must be a dict"]
@@ -747,6 +761,18 @@ def validate_cockpit_feed(feed: Any) -> list[str]:
             else:
                 for i, r in enumerate(rows):
                     problems.extend(f"social_watch.rows[{i}] {e}" for e in _validate_social_watch_row(r))
+
+    watch_interest = feed.get("watch_interest", _MISSING)
+    if watch_interest is not _MISSING:
+        if not isinstance(watch_interest, dict):
+            problems.append(f"watch_interest must be a dict, got {type(watch_interest).__name__}")
+        else:
+            rows = watch_interest.get("rows", [])
+            if not isinstance(rows, list):
+                problems.append(f"watch_interest.rows must be a list, got {type(rows).__name__}")
+            else:
+                for i, r in enumerate(rows):
+                    problems.extend(f"watch_interest.rows[{i}] {e}" for e in _validate_watch_interest_row(r))
 
     event_risk = feed.get("event_risk", _MISSING)
     if event_risk is not _MISSING:

@@ -1,0 +1,3066 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-26T00:00:00Z",
+  "source": "watch_interest_index",
+  "status": "has_data",
+  "manual_interest_count": 1,
+  "count": 142,
+  "rows": [
+    {
+      "ticker": "CISO",
+      "name": "CISO Global Inc.",
+      "aliases": [
+        "Cerberus",
+        "Cerberus Cyber Sentinel",
+        "Cerberus Cyber Sentinel Corp",
+        "Cerberus Cyber Sentinel Corporation"
+      ],
+      "status": "interest",
+      "priority": "research",
+      "interest_reason": "Operator asked to add Cerberus stock to the watch / interest list. Public Cerberus Cyber Sentinel maps to CISO Global (CISO).",
+      "ambiguity": "Confirm whether the intended company is Cerberus Cyber Sentinel / CISO Global (CISO) or Cerebras Systems (CBRS) before promotion or any trade analysis.",
+      "alternate_candidates": [
+        {
+          "ticker": "CBRS",
+          "name": "Cerebras Systems Inc.",
+          "reason": "Possible phonetic / AI-stock ambiguity with 'Cerberus'."
+        }
+      ],
+      "next_step": "Verify intended ticker, liquidity, market cap, listing status, and valuation relevance before moving beyond interest/research.",
+      "manual_interest": true,
+      "held_market_value": 0.0,
+      "sources": [
+        "manual_interest"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "Operator asked to add Cerberus stock to the watch / interest list. Public Cerberus Cyber Sentinel maps to CISO Global (CISO)."
+      ]
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 91688.0,
+      "sources": [
+        "account_positions",
+        "feed.radar",
+        "feed.research_actions",
+        "research_queue",
+        "top_prospects"
+      ],
+      "source_count": 5,
+      "source_details": [
+        "long / BUILDING / BUILDING / FS Top 5 - 2026-05-28",
+        "high / Queued / GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
+        "held $91,688",
+        "Research dossier -- review",
+        "buy"
+      ]
+    },
+    {
+      "ticker": "UUUU",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 32327.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "research_queue",
+        "theses",
+        "top_prospects"
+      ],
+      "source_count": 5,
+      "source_details": [
+        "MONITOR / T3 / Speed",
+        "avoid / BUILDING / QUIET / FS Bottom 5 SMID - 2026-05-28",
+        "high / Working / UUUU - federal funding catalyst review: Energy Fuels ($725M conditional loan commitment for U.S. rare-earth separation and metallization capacity)",
+        "high / Queued / UUUU - review VAC acquisition dilution, financing, and rare-earth platform fit",
+        "held $32,327",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "BMNR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 55308.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "research_queue",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "MONITOR / T1 / Generational",
+        "high / Queued / BMNR - verify June preferred financing impact on mNAV and ETH-per-share flywheel",
+        "held $55,308",
+        "bearish"
+      ]
+    },
+    {
+      "ticker": "GRNY",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 126492.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T2 / BuyAndHold",
+        "held $126,492",
+        "GRNY: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "HOOD",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 2018.0,
+      "sources": [
+        "account_positions",
+        "feed.actions",
+        "feed.prospects",
+        "top_prospects"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 - 2026-05-28",
+        "held $2,018",
+        "Sell-fast review",
+        "HOOD: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "IVES",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 64270.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T3 / Speed",
+        "held $64,270",
+        "IVES: Promising, conviction building, tape not yet confirmed \u2014 hold, watch for the turn.",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "LEU",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 90136.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "parabolic_setups",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "MONITOR / T1 / Generational",
+        "held $90,136",
+        "SKIP / 4.25",
+        "bearish"
+      ]
+    },
+    {
+      "ticker": "MP",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 16127.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "parabolic_setups",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "MONITOR / T3 / Speed",
+        "held $16,127",
+        "SKIP / 5.75",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 32845.0,
+      "sources": [
+        "account_positions",
+        "feed.actions",
+        "feed.lean_in",
+        "feed.radar"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "held $32,845",
+        "Lean-in \u2014 looks good",
+        "MSFT: Promising and the tape's with it (LEADING) \u2014 a place to start.",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "MU",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 78881.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T3 / Speed",
+        "held $78,881",
+        "MU: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "NVDA",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 241899.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T2 / Speed",
+        "held $241,899",
+        "NVDA: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
+        "bearish"
+      ]
+    },
+    {
+      "ticker": "PWR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 8625.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "parabolic_setups",
+        "top_prospects"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 - 2026-05-28",
+        "held $8,625",
+        "SKIP / 1.75",
+        "PWR: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned)."
+      ]
+    },
+    {
+      "ticker": "SMH",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 97012.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T2 / BuyAndHold",
+        "held $97,012",
+        "SMH: the case is cooling (LEADING) \u2014 watch / reassess, don't add (you own it).",
+        "bearish"
+      ]
+    },
+    {
+      "ticker": "VOLT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 81947.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T3 / Speed",
+        "held $81,947",
+        "VOLT: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (you own it).",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "XLF",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 92723.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "feed.lean_in",
+        "theses"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "ACTIVE / T3 / BuyAndHold",
+        "held $92,723",
+        "XLF: Promising, conviction up but the sleeve's still lagging \u2014 research deeper / hold, watch for the rotation to turn.",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 9587.0,
+      "sources": [
+        "account_positions",
+        "feed.radar",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 - 2026-05-28",
+        "held $9,587",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "FIX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 8072.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 SMID - 2026-05-28",
+        "held $8,072",
+        "FIX: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned)."
+      ]
+    },
+    {
+      "ticker": "GS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12781.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 - 2026-05-28",
+        "held $12,781",
+        "GS: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned)."
+      ]
+    },
+    {
+      "ticker": "HYPE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1123.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "feed.radar"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "held $1,123",
+        "HYPE: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned).",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "IESC",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 8432.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 SMID - 2026-05-28",
+        "held $8,432",
+        "IESC: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned)."
+      ]
+    },
+    {
+      "ticker": "MAGS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 366.0,
+      "sources": [
+        "account_positions",
+        "feed.bullish_flow",
+        "theses"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "ACTIVE / T2 / BuyAndHold",
+        "held $366",
+        "bullish"
+      ]
+    },
+    {
+      "ticker": "MSTR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1365.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "feed.radar"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "held $1,365",
+        "MSTR: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned).",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "SOFI",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 865.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 SMID - 2026-05-28",
+        "held $865",
+        "SOFI: Promising and endorsed, but still lagging \u2014 favorable entry only once the rotation turns (not owned)."
+      ]
+    },
+    {
+      "ticker": "STRL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 9707.0,
+      "sources": [
+        "account_positions",
+        "feed.lean_in",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 SMID - 2026-05-28",
+        "held $9,707",
+        "STRL: the case is cooling (TURNING DOWN) \u2014 watch / reassess, don't add (not owned)."
+      ]
+    },
+    {
+      "ticker": "ANET",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 7776.0,
+      "sources": [
+        "account_positions",
+        "top_prospects"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 - 2026-05-28",
+        "held $7,776"
+      ]
+    },
+    {
+      "ticker": "AVGO",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 44995.0,
+      "sources": [
+        "account_positions",
+        "research_queue"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "low / Queued / AVGO - write the AI-networking and custom-ASIC thesis line when evidence is available; timing catalyst passed",
+        "held $44,995"
+      ]
+    },
+    {
+      "ticker": "BWXT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 21719.0,
+      "sources": [
+        "account_positions",
+        "parabolic_setups"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $21,719",
+        "SKIP / 4.25"
+      ]
+    },
+    {
+      "ticker": "CRS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 3595.0,
+      "sources": [
+        "account_positions",
+        "top_prospects"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 SMID - 2026-05-28",
+        "held $3,595"
+      ]
+    },
+    {
+      "ticker": "FN",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 7307.0,
+      "sources": [
+        "account_positions",
+        "top_prospects"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "long / BUILDING / QUIET / FS Top 5 SMID - 2026-05-28",
+        "held $7,307"
+      ]
+    },
+    {
+      "ticker": "GRNJ",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 156513.0,
+      "sources": [
+        "account_positions",
+        "theses"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "ACTIVE / T2 / BuyAndHold",
+        "held $156,513"
+      ]
+    },
+    {
+      "ticker": "LITE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4310.0,
+      "sources": [
+        "account_positions",
+        "parabolic_setups"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $4,310",
+        "WATCHLIST / 6.0"
+      ]
+    },
+    {
+      "ticker": "VRT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12878.0,
+      "sources": [
+        "account_positions",
+        "parabolic_setups"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $12,878",
+        "SKIP / 3.25"
+      ]
+    },
+    {
+      "ticker": "XLI",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12920.0,
+      "sources": [
+        "account_positions",
+        "feed.radar"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $12,920",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "XLU",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 22642.0,
+      "sources": [
+        "account_positions",
+        "feed.radar"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $22,642",
+        "add"
+      ]
+    },
+    {
+      "ticker": "AAVE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 110.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $110"
+      ]
+    },
+    {
+      "ticker": "ACON",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 5.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $5"
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 20210.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $20,210"
+      ]
+    },
+    {
+      "ticker": "ARRRF",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1520.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,520"
+      ]
+    },
+    {
+      "ticker": "ASML",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 8659.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $8,659"
+      ]
+    },
+    {
+      "ticker": "ASTS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4463.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $4,463"
+      ]
+    },
+    {
+      "ticker": "BE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 20715.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $20,715"
+      ]
+    },
+    {
+      "ticker": "CCJ",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 20065.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $20,065"
+      ]
+    },
+    {
+      "ticker": "CGC",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 15.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $15"
+      ]
+    },
+    {
+      "ticker": "CIBR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4183.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $4,183"
+      ]
+    },
+    {
+      "ticker": "COIN",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1425.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,425"
+      ]
+    },
+    {
+      "ticker": "COST",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 5669.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $5,669"
+      ]
+    },
+    {
+      "ticker": "CRWD",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4751.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $4,751"
+      ]
+    },
+    {
+      "ticker": "DRIV",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 11512.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $11,512"
+      ]
+    },
+    {
+      "ticker": "ETHA",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 2348.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $2,348"
+      ]
+    },
+    {
+      "ticker": "FBGKX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1014.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,014"
+      ]
+    },
+    {
+      "ticker": "FCASH",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 109.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $109"
+      ]
+    },
+    {
+      "ticker": "FDRXX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 685.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $685"
+      ]
+    },
+    {
+      "ticker": "GDX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 29692.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $29,692"
+      ]
+    },
+    {
+      "ticker": "GEV",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 2170.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $2,170"
+      ]
+    },
+    {
+      "ticker": "IBIT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4693.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $4,693"
+      ]
+    },
+    {
+      "ticker": "IHF",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 25468.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $25,468"
+      ]
+    },
+    {
+      "ticker": "ITA",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 23952.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $23,952"
+      ]
+    },
+    {
+      "ticker": "JPM",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 6048.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $6,048"
+      ]
+    },
+    {
+      "ticker": "LIT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1522.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,522"
+      ]
+    },
+    {
+      "ticker": "LUNR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1870.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,870"
+      ]
+    },
+    {
+      "ticker": "LYSDY",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1928.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,928"
+      ]
+    },
+    {
+      "ticker": "MRVL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 5724.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $5,724"
+      ]
+    },
+    {
+      "ticker": "MSOS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 31.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $31"
+      ]
+    },
+    {
+      "ticker": "NBIS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 23353.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $23,353"
+      ]
+    },
+    {
+      "ticker": "NUE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 747.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $747"
+      ]
+    },
+    {
+      "ticker": "NXT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 2264.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $2,264"
+      ]
+    },
+    {
+      "ticker": "ORBS",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 105.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $105"
+      ]
+    },
+    {
+      "ticker": "ORCL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12807.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $12,807"
+      ]
+    },
+    {
+      "ticker": "PANW",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 5862.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $5,862"
+      ]
+    },
+    {
+      "ticker": "PBW",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12198.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $12,198"
+      ]
+    },
+    {
+      "ticker": "PLTR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 2682.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $2,682"
+      ]
+    },
+    {
+      "ticker": "POET",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 3413.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $3,413"
+      ]
+    },
+    {
+      "ticker": "RDDT",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 17382.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $17,382"
+      ]
+    },
+    {
+      "ticker": "RPG",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 12054.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $12,054"
+      ]
+    },
+    {
+      "ticker": "SIL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 9900.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $9,900"
+      ]
+    },
+    {
+      "ticker": "SNSR",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 4914.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $4,914"
+      ]
+    },
+    {
+      "ticker": "SOXX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 5427.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $5,427"
+      ]
+    },
+    {
+      "ticker": "SPAXX",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 447.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $447"
+      ]
+    },
+    {
+      "ticker": "TEM",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 274.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $274"
+      ]
+    },
+    {
+      "ticker": "TLOFF",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 727.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $727"
+      ]
+    },
+    {
+      "ticker": "TRUMP",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 22.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $22"
+      ]
+    },
+    {
+      "ticker": "TSLA",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 226.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $226"
+      ]
+    },
+    {
+      "ticker": "TSM",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 13052.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $13,052"
+      ]
+    },
+    {
+      "ticker": "UMAC",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1881.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,881"
+      ]
+    },
+    {
+      "ticker": "UURAF",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1341.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,341"
+      ]
+    },
+    {
+      "ticker": "WPM",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 1703.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $1,703"
+      ]
+    },
+    {
+      "ticker": "XLRE",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 13086.0,
+      "sources": [
+        "account_positions"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "held $13,086"
+      ]
+    },
+    {
+      "ticker": "KTOS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "parabolic_setups",
+        "top_prospects"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 SMID - 2026-05-28",
+        "SKIP / 4.0",
+        "Avoid-new-exposure watch",
+        "KTOS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "RYF",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "feed.radar",
+        "top_prospects"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "avoid / QUIET / BUILDING / Daily Technical Strategy",
+        "Avoid-new-exposure watch",
+        "avoid",
+        "RYF: SELL-PRESSURE QUIET / urgency BUILDING (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "XOP",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "feed.radar",
+        "top_prospects"
+      ],
+      "source_count": 4,
+      "source_details": [
+        "avoid / QUIET / BUILDING / FlashInsights / Daily Technical Strategy",
+        "Avoid-new-exposure watch",
+        "avoid",
+        "XOP: SELL-PRESSURE QUIET / urgency BUILDING (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "COHR",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.research_actions",
+        "parabolic_setups",
+        "research_queue"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "med / Working / COHR - federal funding catalyst review: Coherent (Up to $50M letter of intent to expand Coherent's Sherman, Texas indium phosphide wafer facility)",
+        "SKIP / 3.25",
+        "Research dossier -- review"
+      ]
+    },
+    {
+      "ticker": "DE",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 - 2026-05-28",
+        "Avoid-new-exposure watch",
+        "DE: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "ELF",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 SMID - 2026-05-28",
+        "Avoid-new-exposure watch",
+        "ELF: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "PKG",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 - 2026-05-28",
+        "Avoid-new-exposure watch",
+        "PKG: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "SATS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.actions",
+        "feed.prospects",
+        "top_prospects"
+      ],
+      "source_count": 3,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 - 2026-05-28",
+        "Avoid-new-exposure watch",
+        "SATS: SELL-PRESSURE BUILDING / urgency QUIET (1 independent avoid signal)."
+      ]
+    },
+    {
+      "ticker": "BA",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.research_actions",
+        "research_queue"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "high / Working / BA - federal funding catalyst review: Boeing ($2.003B fixed-price-incentive contract to design, build, launch-support, and test two MUOS satellites; $204.1M obligated at award)",
+        "Research dossier -- review"
+      ]
+    },
+    {
+      "ticker": "ETH",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "account_positions",
+        "feed.radar"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $0",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "IGV",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.bullish_flow",
+        "theses"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "ACTIVE / T3 / BuyAndHold",
+        "bearish"
+      ]
+    },
+    {
+      "ticker": "LMT",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.research_actions",
+        "research_queue"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "high / Working / LMT - federal funding catalyst review: Lockheed Martin ($8.402B modification to increase the ceiling and extend ordering for PrSM Increment One production capacity, EOC assets, follow-on production, development, and obsolescence management; total contract face value now $13.34B)",
+        "high / Working / LMT - federal funding catalyst review: Lockheed Martin Missiles and Fire Control ($35.327B sole-source fixed-price-incentive undefinitized contract for THAAD interceptor production; $842.9M obligated at award; performance March 2026-June 2032)",
+        "Research dossier -- review"
+      ]
+    },
+    {
+      "ticker": "RTX",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.research_actions",
+        "research_queue"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "med / Working / RTX - federal funding catalyst review: Raytheon ($398.7M cost-plus-fixed-fee and cost-reimbursement undefinitized contract action for AMRAAM system requirements/preliminary design review activities; $104.1M FMS funds obligated; awarded June 23)",
+        "high / Working / RTX - federal funding catalyst review: Raytheon Co. ($1.108B not-to-exceed modification exercising options for AIM-9X production Lot 26 missiles, training missiles, spares, containers, and support equipment for Navy, Army, Air Force, and FMS customers; $744.2M FMS plus FY24-FY26 U.S. procurement/O&M funds obligated at award)",
+        "Research dossier -- review"
+      ]
+    },
+    {
+      "ticker": "SOL",
+      "name": "",
+      "aliases": [],
+      "status": "held",
+      "priority": "held",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "account_positions",
+        "feed.radar"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "held $0",
+        "watch"
+      ]
+    },
+    {
+      "ticker": "TXT",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.research_actions",
+        "research_queue"
+      ],
+      "source_count": 2,
+      "source_details": [
+        "med / Working / TXT - federal funding catalyst review: TRU Simulation + Training ($396M firm-fixed-price IDIQ for Army family of maintenance trainers, including analysis, design, development, production, installation, integration, cybersecurity, and instruction)",
+        "Research dossier -- review"
+      ]
+    },
+    {
+      "ticker": "AEHR",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "SKIP / 4.0"
+      ]
+    },
+    {
+      "ticker": "AVAV",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "SKIP / 4.25"
+      ]
+    },
+    {
+      "ticker": "BTC",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "CAMT",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "SKIP / 4.0"
+      ]
+    },
+    {
+      "ticker": "CL",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "CLS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "SKIP / 4.25"
+      ]
+    },
+    {
+      "ticker": "CPER",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "DAL",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "EWRE",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "EWY",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "avoid"
+      ]
+    },
+    {
+      "ticker": "FORM",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "WATCHLIST / 6.5"
+      ]
+    },
+    {
+      "ticker": "GOLD",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "add"
+      ]
+    },
+    {
+      "ticker": "JETS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "KEYS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "WATCHLIST / 7.25"
+      ]
+    },
+    {
+      "ticker": "KIE",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "ONTO",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "SKIP / 4.75"
+      ]
+    },
+    {
+      "ticker": "QQQ",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "RGI",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "RSP",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "RSPH",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "RSPT",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "avoid"
+      ]
+    },
+    {
+      "ticker": "RYE",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "avoid"
+      ]
+    },
+    {
+      "ticker": "SLV",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "SOX",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "SPCX",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "SPX",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "SPY",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "STRC",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "TLT",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "TNX",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "TPL",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "top_prospects"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "avoid / BUILDING / QUIET / FS Bottom 5 - 2026-05-28"
+      ]
+    },
+    {
+      "ticker": "UBS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "UUP",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "VIAV",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "parabolic_setups"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "WATCHLIST / 8.5"
+      ]
+    },
+    {
+      "ticker": "VIRTUAL",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "WGMI",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "XBI",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "XHB",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "watch"
+      ]
+    },
+    {
+      "ticker": "XHS",
+      "name": "",
+      "aliases": [],
+      "status": "tracked",
+      "priority": "context",
+      "interest_reason": "",
+      "ambiguity": "",
+      "alternate_candidates": [],
+      "next_step": "",
+      "manual_interest": false,
+      "held_market_value": 0.0,
+      "sources": [
+        "feed.radar"
+      ],
+      "source_count": 1,
+      "source_details": [
+        "add"
+      ]
+    }
+  ]
+}

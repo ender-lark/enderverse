@@ -33,7 +33,8 @@
     "On 2026-06-25, investing-os-automation-health-watchdog was upgraded in place to the Investing OS Automation Guardian. It still runs twice daily from C:\\Users\\suraj\\Documents\\Codex\\2026-06-24\\automation-runtime-main, now gates on clean/current main before repair, runs automation_health_watchdog.py with --fetch --apply --send-alert, triages repairable ignored local-state blockers without printing secrets, names src/cloud_routine_commit.py as the only routine write-back helper, and keeps failed or overdue scheduled proof visible until a natural scheduled run proves green.",
     "On 2026-06-25, go-live/readiness probes were made explicitly read-only for options shadow logging: live_readiness.readiness_report passes options_shadow_log_path=null into the full-build feed loader, and go-live checklist smoke tests assert src/options_shadow_log.jsonl is unchanged. Actual full cockpit builds still persist the options shadow log by default for dial tuning.",
     "On 2026-06-25, the automation-runtime SnapTrade local profile was rebuilt as ignored local state from the documented profile shape plus the last validated account-owner map; no secrets were written or committed. A stage-only SnapTrade pull validated 1 profile, 11 accounts, and a 2026-06-25 snapshot before promotion.",
-    "Also on 2026-06-25, options_shadow_log appends were made idempotent by dated near-miss identity and cloud_routine_commit.py was allowed to persist src/options_shadow_log.jsonl, so repeated full-build passes in one dashboard refresh do not multiply duplicate shadow rows or leave the runtime dirty."
+    "Also on 2026-06-25, options_shadow_log appends were made idempotent by dated near-miss identity and cloud_routine_commit.py was allowed to persist src/options_shadow_log.jsonl, so repeated full-build passes in one dashboard refresh do not multiply duplicate shadow rows or leave the runtime dirty.",
+    "On 2026-06-26, Fundstrat Deep Crawl was added as a support routine for slower Stock Lists, Sector Allocation, Top Ideas, Upticks, and crypto strategy baseline/diff review. It is separate from the fast Fundstrat Daytime Watch and must keep blocked or unchanged sections not_checked/no-change rather than turning list tables into daily-call alerts."
   ],
   "receipt_command_template": "python src/cloud_routine_receipts.py --routine-id <automation-id> --status <started|success|failed> --run-source scheduled --summary \"<short run result>\"",
   "runner_command_template": "python src/cloud_routine_runner.py --run-source scheduled --routine-id <automation-id> --success-summary \"<success>\" --failure-summary \"<failure>\" -- <repo command>",
@@ -222,6 +223,19 @@
       "role": "fundstrat_after_hours_catchup",
       "schedule": "market weekdays 7:00 PM ET",
       "expected_since": "2026-06-07T00:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-fundstrat-deep-crawl",
+      "automation_name": "Investing OS Fundstrat Deep Crawl",
+      "status": "ACTIVE",
+      "role": "fundstrat_deep_crawl",
+      "schedule": "Monday/Wednesday/Friday 8:40 PM ET",
+      "expected_since": "2026-06-26T00:00:00-04:00",
+      "proof_scope": "support",
+      "prompt": "src/codex_routines/fundstrat_deep_crawl.md",
+      "writes_to": "src/fundstrat_deep_crawl_summary.json, src/fundstrat_list_baselines.json, src/cloud_routine_receipts.json",
+      "model": "gpt-5.5",
+      "reasoning_effort": "max"
     },
     {
       "automation_id": "investing-os-off-hours-worker",

@@ -28,6 +28,7 @@ REQUIRED_COMMAND_FIELDS = {"id", "command"}
 REQUIRED_CONVENTION_INPUT_FIELDS = {"key", "paths", "required", "source", "missing_behavior"}
 EXPECTED_ROUTINES = {
     "fundstrat_intake",
+    "fundstrat_deep_crawl",
     "catalyst_intake",
     "broker_position_intake",
     "uw_cache_refresh",
@@ -282,6 +283,7 @@ def _self_test() -> bool:
         "schema_version": 1,
         "routines": [
             routine,
+            {**routine, "id": "fundstrat_deep_crawl", "doc": "src/codex_routines/fundstrat_deep_crawl.md", "owns": ["src/fundstrat_deep_crawl_summary.json"]},
             {**routine, "id": "catalyst_intake", "doc": "src/codex_routines/catalyst_intake.md", "owns": ["src/catalysts.json"]},
             {**routine, "id": "broker_position_intake", "doc": "src/codex_routines/broker_position_intake.md", "owns": ["src/positions.json"]},
             {**routine, "id": "uw_cache_refresh", "doc": "src/codex_routines/uw_cache_refresh.md", "separation_group": "market_data_refresh", "owns": ["src/uw_opportunity_signals.json"]},
