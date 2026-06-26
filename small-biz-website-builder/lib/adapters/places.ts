@@ -77,11 +77,12 @@ function priceLevelToInt(s: string): number | undefined {
 
 // --- Mock fixtures: a few website-less, well-reviewed businesses for demoing free ---
 function mockTextSearch(params: TextSearchParams): { candidates: PlaceCandidate[]; capped: boolean } {
+  // San Antonio, TX seed market (Stone Oak / Alamo Heights area) — see lib/seedMarkets.ts
   const seed: PlaceCandidate[] = [
-    { placeId:"mock_medspa_1", name:"Lumière Med Spa", rawTypes:["spa","beauty_salon"], rating:4.8, reviewCount:180, priceLevel:3, phone:"(555) 010-2840", address:"12 Oak Ave, Oakhaven", lat:params.lat, lng:params.lng /* no websiteUri => prospect */ },
-    { placeId:"mock_dent_1", name:"Bright Smile Family Dental", rawTypes:["dentist"], rating:4.7, reviewCount:96, priceLevel:2, phone:"(555) 010-1199", address:"40 Main St, Oakhaven", lat:params.lat, lng:params.lng, websiteUri:"https://facebook.com/brightsmile" /* social_only */ },
-    { placeId:"mock_hvac_1", name:"Summit Heating & Air", rawTypes:["hvac_contractor"], rating:4.9, reviewCount:142, priceLevel:2, phone:"(555) 010-7720", address:"8 Industrial Rd, Oakhaven", lat:params.lat, lng:params.lng /* no website */ },
-    { placeId:"mock_real_1", name:"Established Roofing Co", rawTypes:["roofing_contractor"], rating:4.5, reviewCount:64, priceLevel:2, phone:"(555) 010-3300", address:"5 Center St, Oakhaven", lat:params.lat, lng:params.lng, websiteUri:"https://establishedroofing.com" /* real => filtered out */ },
+    { placeId:"mock_medspa_1", name:"Lumière Med Spa", rawTypes:["spa","beauty_salon"], rating:4.8, reviewCount:180, priceLevel:3, phone:"(210) 555-2840", address:"1604 Stone Oak Pkwy, San Antonio, TX 78258", lat:params.lat, lng:params.lng /* no websiteUri => prospect */ },
+    { placeId:"mock_dent_1", name:"Alamo Heights Family Dental", rawTypes:["dentist"], rating:4.7, reviewCount:96, priceLevel:2, phone:"(210) 555-1199", address:"5100 Broadway St, San Antonio, TX 78209", lat:params.lat, lng:params.lng, websiteUri:"https://facebook.com/ahfamilydental" /* social_only */ },
+    { placeId:"mock_hvac_1", name:"Summit Heating & Air", rawTypes:["hvac_contractor"], rating:4.9, reviewCount:142, priceLevel:2, phone:"(210) 555-7720", address:"18250 Blanco Rd, San Antonio, TX 78258", lat:params.lat, lng:params.lng /* no website */ },
+    { placeId:"mock_real_1", name:"Established Roofing Co", rawTypes:["roofing_contractor"], rating:4.5, reviewCount:64, priceLevel:2, phone:"(210) 555-3300", address:"123 Loop 410, San Antonio, TX 78216", lat:params.lat, lng:params.lng, websiteUri:"https://establishedroofing.com" /* real => filtered out */ },
   ];
   const q = params.textQuery.toLowerCase();
   const candidates = seed.filter((c) => c.rawTypes.some((t) => q.includes(t.split("_")[0])) || true);

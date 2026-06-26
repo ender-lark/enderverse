@@ -21,8 +21,8 @@ This file records the decisions that shape the build, the defaults I chose (a cl
 
 ## Open questions for the owner (none block the plan; sensible defaults are in place)
 
-1. **Real API budget** — Confirm OK to provision a Google Cloud billing account for Places API (has a free monthly credit; see Research 05 for cost estimate per zip scan). Until then, mock mode covers all dev.
-2. **Geographic focus** — Any specific metros/states to target first? Affects which zips to pre-seed and demo.
+1. **Real API budget** — Confirm OK to provision a Google Cloud billing account for Places API. **Free-tier note (owner-confirmed direction):** the fields we need (rating, review count, `websiteUri`) bill at the **Enterprise** SKU = **1,000 free requests/month** (the 5,000 figure is the *Pro* tier, which lacks reviews). That's still ample to start — one request returns up to 20 businesses, so ~1,000 Enterprise requests ≈ **30–80 full ZIP scans/month free**, then ~$1/ZIP. Start on the free tier; add billing only when scans exceed it. (Re-verify against Google's live pricing page; revised Mar 2025.) Mock mode covers all dev regardless.
+2. **Geographic focus — DECIDED: San Antonio, TX first.** Seed San Antonio ZIPs (see `lib/seedMarkets.ts`), prioritizing affluent north-side areas (Alamo Heights 78209, Stone Oak 78258, Dominion/78257) for A-tier targets (med spa, dental/ortho, cosmetic, dermatology) where willingness-to-pay is highest. Expand to other metros after validation.
 3. **Branding** — Keep the name "Small Biz Website Builder" or rename? (Pick a public-facing brand before deploy.)
 4. **Delivery** — When a business says yes, who registers the domain / handles billing? (Affects the "deliver" phase beyond v1 scope.)
 5. **Auth level** — Single shared password fine, or per-user logins for the 1–2 operators?
