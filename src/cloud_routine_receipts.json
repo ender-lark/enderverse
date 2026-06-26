@@ -2,50 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T19:50:03.749365Z",
-      "summary": "trigger check fired 3 trigger(s): HELD, HELD, HELD",
-      "details": {
-        "fired": [
-          {
-            "id": "held-review-sunday-rebalance-packet",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Full-book rebalance (Council synthesis) (https://app.notion.com/p/37ec50314bb6810e861dcd6f631f61c4)",
-            "status": "fired",
-            "fire_reason": "held decision still held one day after review_by 2026-06-14"
-          },
-          {
-            "id": "held-review-sunday-geo-risk-register-v0",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Geo Risk Register v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a3a6aedaa13e35664d)",
-            "status": "fired",
-            "fire_reason": "held decision still held one day after review_by 2026-06-14"
-          },
-          {
-            "id": "held-review-sunday-policy-money-map-v0",
-            "ticker": "HELD",
-            "condition_type": "date_event",
-            "source": "Held decision packet: Policy Money Map v0 (Power & Policy) (https://app.notion.com/p/37ec50314bb681a99a3ef660dcb00959)",
-            "status": "fired",
-            "fire_reason": "held decision still held one day after review_by 2026-06-14"
-          }
-        ],
-        "not_checked_count": 4,
-        "summary_line": "Trigger check: fired=3; not_checked=4; armed=5; expired=0."
-      }
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-17T19:50:26.527906Z",
-      "summary": "checked web 2 pages Macro/Crypto FlashInsights; Gmail 0; landed 1 compact Macro FOMC-rates recheck row; suppressed/discovery-only duplicate UBS/XBI plus stale crypto Jun8; validation passed; dashboard refreshed; Fundstrat alert quiet 0 candidates/7 duplicates/46 suppressed; trigger guard sent 3 HELD prompts, 4 quote checks not_checked; dark Social Watch, stale crypto; blockers none"
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "started",
       "run_source": "scheduled",
@@ -6341,7 +6297,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-26T02:18:24.670082Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:47:22.865990Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T02:54:54.930496Z",
+      "summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none"
     }
   ],
-  "updated_at": "2026-06-26T02:18:24.670082Z"
+  "updated_at": "2026-06-26T02:54:54.930496Z"
 }

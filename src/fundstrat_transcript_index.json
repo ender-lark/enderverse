@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T23:07:21.812709+00:00",
+  "generated_at": "2026-06-26T02:54:38.117835+00:00",
   "policy": "Full Fundstrat transcripts are stored only in the private source vault.",
   "items": [
     {
@@ -286,6 +286,44 @@
       "short_synthesis": "Tom Lee raised the 2026 S&P 500 year-end target to 8,000 from 7,700, tying the higher target to higher 2027 EPS despite a lower target P/E and flagging the June 25 macro/top-ideas webinar as the follow-up review point.",
       "extract_count": 2,
       "compact_row_count": 1
+    },
+    {
+      "transcript_id": "fundstrat-2026-06-25-newton-raising-my-2026-spx-target-to-8-000-from-7-300-joining-tom-lee",
+      "title": "Raising My 2026 SPX Target to 8,000 from 7,300, Joining Tom Lee",
+      "analyst": "Mark L. Newton, CMT",
+      "source_url": "https://fundstratdirect.com/technical-strategy/daily-technical-strategy/2026/06/25/raising-my-2026-spx-target-to-8000-from-7300-joining-tom-lee/",
+      "source_date": "2026-06-25",
+      "published_at": "Thu, June 25, 2026 | 8:18PM ET",
+      "captured_at": "2026-06-26T02:54:38.029075+00:00",
+      "capture_method": "chrome_visible_transcript",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat Daily Technical Strategy detail page showed full article text and Vimeo embed 1204693397; Vimeo player exposed Transcript/CC controls plus English auto-generated VTT captions. Captured 164 de-duplicated caption lines from the Chrome-visible player track. Compact article-detail rows were already routed through web intake, so no duplicate compact rows were attached here.",
+      "transcript_chars": 4829,
+      "transcript_sha256": "62094fe25889089a16a80c194c1ffbef299a76fd6157164238e83d944285c4e8",
+      "voice_lane": "mark_newton_technical",
+      "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-25-newton-raising-my-2026-spx-target-to-8-000-from-7-300-joining-tom-lee",
+      "short_synthesis": "Mark Newton raised his 2026 SPX target to 8,000 from 7,300, framed the week's weakness as buyable consolidation, and emphasized breadth improvement outside mega-cap Tech while keeping Tech weakness on watch.",
+      "extract_count": 3,
+      "compact_row_count": 0
+    },
+    {
+      "transcript_id": "fundstrat-2026-06-25-tom-lee-video-macro-minute-may-core-pce-shows-war-inflation-probably-pea",
+      "title": "Video: Macro Minute: May Core PCE shows 'war inflation' probably peaked, hence, rates low. Semi and Memory dip is still buyable",
+      "analyst": "Tom Lee, CFA",
+      "source_url": "https://fundstratdirect.com/macro-strategy/macro-minute/2026/06/25/video-macro-minute-may-core-pce-shows-war-inflation-probably-peaked-hence/",
+      "source_date": "2026-06-25",
+      "published_at": "Thu, June 25, 2026 | 7:58PM ET",
+      "captured_at": "2026-06-26T02:52:44.045361+00:00",
+      "capture_method": "chrome_visible_transcript",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat Macro Minute detail page showed companion article text and Vimeo embed 1204691039; Vimeo player exposed Transcript/CC controls plus English auto-generated VTT captions. Captured 150 de-duplicated caption lines from the Chrome-visible player track.",
+      "transcript_chars": 4085,
+      "transcript_sha256": "0f0295fcce155088f33e56074d9d662e82ab9de8ada07b1acedc46e59943dd24",
+      "voice_lane": "tom_lee_macro",
+      "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-25-tom-lee-video-macro-minute-may-core-pce-shows-war-inflation-probably-pea",
+      "short_synthesis": "Tom Lee frames May Core PCE as close to the Fed target once financial-services inflation is stripped out, argues war inflation likely peaked as yields fall, and reiterates that the semi/memory dip remains buyable.",
+      "extract_count": 2,
+      "compact_row_count": 2
     }
   ]
 }
