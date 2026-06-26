@@ -3,33 +3,6 @@
   "receipts": [
     {
       "routine_id": "life-work-os-safe-hygiene",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:32:02.283859Z",
-      "summary": "Life/Work OS safe hygiene manual planning proof failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src\\life_work_os_hygiene.py",
-          "--max-mutations",
-          "10",
-          "--out",
-          "src\\life_work_os_hygiene_receipt.json",
-          "--format",
-          "text"
-        ]
-      }
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-17T19:33:17.125648Z",
-      "summary": "life-work-os-safe-hygiene started"
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-17T19:33:20.136661Z",
@@ -6371,7 +6344,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T01:17:33.751185Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-26T01:26:07.069335Z",
+      "summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty"
     }
   ],
-  "updated_at": "2026-06-26T01:17:08.523623Z"
+  "updated_at": "2026-06-26T01:26:07.069335Z"
 }

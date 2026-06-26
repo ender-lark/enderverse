@@ -170,6 +170,46 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-25",
+    "title": "Kalshi Hormuz curve keeps July oil/rates normalization unproven",
+    "severity": "high",
+    "horizon": "Jul15-Dec1 Hormuz normalization window",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "volatility",
+      "energy",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "USO",
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "Energy",
+      "Financials",
+      "High-duration growth",
+      "AI add timing",
+      "Nuclear and critical minerals",
+      "Portfolio new-buy timing"
+    ],
+    "source": "Kalshi public API/orderbooks checked 2026-06-26T01:23Z; Polymarket Gamma search checked 2026-06-26T01:21Z",
+    "summary": "Kalshi KXHORMUZNORM orderbooks price PortWatch >60 7DMA transit normalization near 24.5% by Jul15, 41.5% by Aug1, 57.5% by Sep1, 69.5% by Oct1, and 78.5% by Dec1. Decision impact: near-term Strait normalization is still not cleared, so keep oil/rates event-risk gating active before new AI/growth buys; Polymarket search returned noisy unrelated markets and was not usable confirmation.",
+    "trigger": "Clear only if direct IMF PortWatch 7DMA rises above 60 and WTI/TNX plus shipping/insurance reports confirm durable normalization; re-escalate if Kalshi near-term odds roll over, WTI/TNX jump, or shipping friction returns.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",
