@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T02:47:39.366842Z",
-      "summary": "fundstrat late evening web/transcript sweep started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T02:55:34.997396Z",
-      "summary": "checked Chrome web 12 surfaces/pages incl Macro/Crypto FlashInsights, article/video listings, Jun18 DTS detail+Vimeo transcript; videos checked 1; vault entries written 1; Gmail checked 0; landed 5 compact rows JETS DAL XHB QQQ SMH; suppressed old/stale/discovery-only listings incl Crypto Flash stale Jun8, crypto research Jun17, Macro Minute Jun17, webinars/replays; validations public-index+email-intake passed; dashboard refreshed; dark lanes Social Watch; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "started",
       "run_source": "scheduled",
@@ -6679,7 +6665,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-27T02:58:11.709716Z",
       "summary": "Chrome checked Macro Flash latest 5:12 pre-cutoff, Crypto Flash stale Jun22, Intraday/First Word/DTS/LTSA/US Policy/Fed/Crypto Research/Macro Minute/Latest Videos/DTS videos; fresh details checked Sean Farrell Crypto Comments 7:55 and Newton DTS 7:50; transcript vault entries written/pushed 2 (367658a,a8b92b3), Gmail checked 0; compact rows present/landed 2, suppressed stale/discovery-only/low-value surfaces; transcript index and email-intake validation passed; dashboard refreshed; dark/stale Social Watch not_checked and no fresh post-7 Macro/Crypto Flash"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T05:45:39.269050Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T05:48:46.780774Z",
+      "summary": "processed RTX AIM-9X and UAMY antimony; Notion SQL blocked so exact live counts dark; fallback mirror H9/M3/L1 pending Q4/W9; verified writes 2/2; remaining backlog prior-handled or blocked by price/flow/account/options/margin/order evidence"
     }
   ],
-  "updated_at": "2026-06-27T02:58:11.709716Z"
+  "updated_at": "2026-06-27T05:48:46.780774Z"
 }
