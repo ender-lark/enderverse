@@ -2,37 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-os-daily-briefing",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T11:33:00.161316Z",
-      "summary": "life-os-daily-briefing started"
-    },
-    {
-      "routine_id": "life-os-daily-briefing",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T11:33:11.341641Z",
-      "summary": "Life OS daily briefing succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_briefing.py",
-          "--routine",
-          "life_daily",
-          "--write-log",
-          "--push",
-          "--out",
-          "src/life_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6696,7 +6665,35 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T13:17:32.608249Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T13:17:34.456182Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T11:34:19.848703Z"
+  "updated_at": "2026-06-27T13:17:34.456182Z"
 }
