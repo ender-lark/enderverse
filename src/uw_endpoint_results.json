@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-06-26T14:32:12.987490+00:00",
+  "generated_at": "2026-06-27T01:20:10.601345+00:00",
   "source": "uw_endpoint_result_capture",
   "runbook_line": "UW action runbook: 4 check set(s), 20 scoped ticker(s); endpoint results not claimed.",
-  "planned_checks": 12,
+  "planned_checks": 24,
   "rows": [
     {
       "mode": "pre_market_crash_triage",
       "endpoint": "SECTOR_TIDE",
       "ticker": "",
       "status": "missing",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "unsupported path parameter(s): sector",
       "source": "uw_endpoint_result_capture"
     },
@@ -18,17 +18,17 @@
       "endpoint": "MARKET_TIDE",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
-      "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
-      "row_count": 13
+      "row_count": 81
     },
     {
       "mode": "pre_market_crash_triage",
       "endpoint": "TOP_NET_IMPACT",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 20
@@ -38,7 +38,7 @@
       "endpoint": "TOTAL_OPTIONS_VOLUME",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 1
@@ -48,7 +48,7 @@
       "endpoint": "MARKET_MOVERS",
       "ticker": "",
       "status": "failed",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
       "source": "uw_endpoint_result_capture",
       "row_count": 0
@@ -58,17 +58,17 @@
       "endpoint": "MARKET_CORRELATIONS",
       "ticker": "",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
-      "summary": "Fetched MARKET_CORRELATIONS; row_count=6. Result requires operator interpretation before any promotion.",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched MARKET_CORRELATIONS; row_count=20. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
-      "row_count": 6
+      "row_count": 20
     },
     {
       "mode": "pre_market_crash_triage",
       "endpoint": "ETF_TIDE",
       "ticker": "XOP",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 390
@@ -78,7 +78,7 @@
       "endpoint": "ETF_TIDE",
       "ticker": "XLE",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 390
@@ -88,7 +88,7 @@
       "endpoint": "ETF_TIDE",
       "ticker": "TNX",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 390
@@ -98,8 +98,28 @@
       "endpoint": "ETF_TIDE",
       "ticker": "XLF",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched ETF_TIDE for XLF; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "SMH",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched ETF_TIDE for SMH; row_count=390. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 390
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "ETF_TIDE",
+      "ticker": "MAGS",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched ETF_TIDE for MAGS; row_count=390. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 390
     },
@@ -108,7 +128,7 @@
       "endpoint": "TICKER_FLOW_RECENT",
       "ticker": "XOP",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 50
@@ -118,7 +138,7 @@
       "endpoint": "TICKER_FLOW_RECENT",
       "ticker": "XLE",
       "status": "neutral",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
       "source": "uw_endpoint_result_capture",
       "row_count": 50
@@ -128,15 +148,115 @@
       "endpoint": "TICKER_FLOW_RECENT",
       "ticker": "TNX",
       "status": "missing",
-      "checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
       "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
       "source": "uw_endpoint_result_capture",
       "row_count": 0
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "XLF",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for XLF; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "SMH",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for SMH; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_RECENT",
+      "ticker": "MAGS",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_RECENT for MAGS; row_count=50. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 50
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS for XOP; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "XLE",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS for XLE; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "TNX",
+      "status": "missing",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS but captured no result rows.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 0
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "XLF",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS for XLF; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "SMH",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS for SMH; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_FLOW_ALERTS",
+      "ticker": "MAGS",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_FLOW_ALERTS for MAGS; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
+    },
+    {
+      "mode": "pre_market_crash_triage",
+      "endpoint": "TICKER_OPTIONS_VOLUME",
+      "ticker": "XOP",
+      "status": "neutral",
+      "checked_at": "2026-06-27T01:20:10.601345+00:00",
+      "summary": "Fetched TICKER_OPTIONS_VOLUME for XOP; row_count=5. Result requires operator interpretation before any promotion.",
+      "source": "uw_endpoint_result_capture",
+      "row_count": 5
     }
   ],
   "counts": {
-    "missing": 2,
-    "neutral": 10,
+    "missing": 3,
+    "neutral": 21,
     "failed": 1
   },
   "honesty_rule": "Rows prove endpoint fetch status only; neutral rows do not confirm a trade thesis."

@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T00:54:46.691077Z",
-      "summary": "FS inbox catch-up evening ingested 2 entries; logged 9 Newton calls; marker advanced to [06/18/2026 20:10 ET]; flags QQQ gate refresh 722, oil/rates tailwind, banks/semis/consumer research; no gate/card mutation; query endpoint dark fallback search"
-    },
-    {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T01:16:17.962690Z",
-      "summary": "life-work-os-heartbeat-watch started"
-    },
-    {
       "routine_id": "life-work-os-heartbeat-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -6628,7 +6614,114 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T01:17:34.621541Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T01:28:09.074613Z",
+      "summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, Social Watch; updated verified HOOD Signal Log final convert close; UUUU already verified no duplicate; validations passed; dark Social Watch, Polymarket 403, PortWatch direct not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing",
+      "details": {
+        "checked_at": "2026-06-26T21:40:00-04:00",
+        "source_state": {
+          "anchored_on": [
+            "live_status",
+            "uw_action_runbook",
+            "latest_cockpit_feed",
+            "research_queue",
+            "signal_log",
+            "event_risks",
+            "account_positions",
+            "fed_day_reallocation_packet",
+            "watch_queue",
+            "top_prospects",
+            "decision_dossiers"
+          ],
+          "sources_checked": [
+            "SEC EDGAR company submissions and filing exhibits for active/material universe",
+            "UW endpoint capture via current runbook",
+            "Kalshi public Hormuz pages",
+            "Polymarket Gamma public read attempts",
+            "Notion Research Queue schema/search/fetch",
+            "Notion Signal Log schema/search/update/fetch",
+            "local Social Watch cache availability"
+          ],
+          "dark_or_blocked": [
+            "Social Watch cache missing/not_checked; no direct Reddit API or scraping used",
+            "Polymarket Gamma API returned HTTP 403 for targeted active-exposure searches",
+            "Direct IMF PortWatch export not pulled; Kalshi pages still reference PortWatch as resolution source",
+            "UW MARKET_MOVERS failed advanced_tier_required 403",
+            "UW SECTOR_TIDE unsupported path parameter",
+            "UW TNX flow/alerts missing or empty",
+            "UW neutral rows are endpoint access proof only and do not promote actions"
+          ],
+          "uw_proof": "25 captured rows; supports=0 contradicts=0 inconclusive=21 missing=4; newest=2026-06-26 21:20 ET",
+          "notion_write_verification": "HOOD Signal Log page 389c5031-4bb6-8103-9eef-ec296c9d7022 fetched back with updated Signal and Notes"
+        },
+        "packets": [
+          {
+            "ticker_entity": "HOOD / Robinhood",
+            "source_timestamp": "SEC 8-K/Ex.99.1 filed 2026-06-25; checked 2026-06-26 21:36 ET",
+            "why_it_matters": "Final close terms refine the existing HOOD sell-fast/recheck row: $2.2B 0% convert, $123.2M capped calls, $290M repurchase, dilution cap mechanics, and remaining growth/acquisition/capex use-of-proceeds uncertainty.",
+            "current_decision_affected": "HOOD sell-fast/recheck Signal Log row and next-session price/flow follow-up.",
+            "conviction_effect": "mixed; supports recheck rather than automatic sell-fast, but keeps convert/ROI risk visible",
+            "time_window": "next cash session through deployment/use-of-proceeds follow-up",
+            "disconfirmation_trigger": "price/flow rejects the financing, convert overhang widens, or deployed capital fails to improve growth/ROI",
+            "missing_evidence": "same-session price/flow, deployment of remaining proceeds, acquisition/capex ROI, post-close market reaction",
+            "proposed_route": "Signal Log update, watch-only",
+            "routed": "Updated existing Notion Signal Log page and repo signal_log.json mirror; readback verified title/notes"
+          },
+          {
+            "ticker_entity": "UUUU / Energy Fuels",
+            "source_timestamp": "SEC 8-K filed 2026-06-26; Research Queue readback checked 2026-06-26 21:32 ET",
+            "why_it_matters": "Full filing confirms the VAC acquisition/OSC financing diligence lane, but the live Research Queue page already captured the combined VAC plus OSC thesis, dilution, approvals, financing, offtake, and MONITOR guardrails.",
+            "current_decision_affected": "UUUU MONITOR / research-only rare-earth platform review",
+            "conviction_effect": "mixed; no additive action signal beyond existing verified row",
+            "time_window": "deal financing/approval/close through expected 2027 close path",
+            "disconfirmation_trigger": "OSC loan or deal fails, financing dilutes materially, approvals slip, offtake/margins fail, or tape remains weak",
+            "missing_evidence": "same-session price/flow, options flow, final financing terms/covenants, approvals, customer/offtake, defined-risk MONITOR-RE-ENTRY fields",
+            "proposed_route": "no new row; existing Research Queue page remains Working",
+            "routed": "No write; Notion page 389c5031-4bb6-8117-9b6c-d4e77ed95d69 already fetch-verified with the evidence"
+          },
+          {
+            "ticker_entity": "Hormuz / oil-rates event risk",
+            "source_timestamp": "Kalshi public pages checked 2026-06-26 21:30 ET; public news/search checked same run",
+            "why_it_matters": "Kalshi shows traffic improving but normal 7DMA recovery still not cleared, so the oil/rates gate should remain active rather than blocking all risk by default or clearing the shock.",
+            "current_decision_affected": "Event Risk lane and new-buy timing for GOOGL/MSFT/AI-growth plus XOP/XLE/TNX-sensitive exposure",
+            "conviction_effect": "mixed/inconclusive; lowers acute panic but contradicts checked-clear status",
+            "time_window": "next session through Jul/Aug Hormuz normalization windows",
+            "disconfirmation_trigger": "direct PortWatch 7DMA >60 plus WTI/TNX and shipping/insurance normalization confirm durable reopening",
+            "missing_evidence": "direct PortWatch export, Polymarket read blocked, same-session oil/rates confirmation after close",
+            "proposed_route": "no new duplicate; existing Event Risk/Signal Log rows already cover the lane",
+            "routed": "No write; duplicate/no posture change beyond active event-risk row"
+          }
+        ],
+        "suppressed": [
+          "MSFT 11-Ks routine plan filings; no decision impact",
+          "HOOD principal accounting officer appointment 8-K; governance/accounting transition only",
+          "SATS chief legal officer transition; no DBS cure/thesis delta",
+          "GOOGL/AVGO/STRL Form 144/Form 4 mechanics; no new decision impact",
+          "CCJ sustainability report 6-K; useful ESG context but no uranium/nuclear capital posture change",
+          "TSM monthly 6-K; routine holdings/capital/cancellation disclosures; no clean current decision delta",
+          "AVAV board appointment; useful defense governance context but no current queue/action delta",
+          "GS structured-note filings; unrelated issuer-note noise"
+        ],
+        "validations": {
+          "signal_log": "valid rows=108",
+          "research_queue": "valid",
+          "event_risks": "valid rows=13",
+          "receipts_before_final": "valid; failed latest remains post-open evidence gate; Life OS weekly review still no receipt"
+        }
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T01:16:28.083657Z"
+  "updated_at": "2026-06-27T01:28:09.074613Z"
 }
