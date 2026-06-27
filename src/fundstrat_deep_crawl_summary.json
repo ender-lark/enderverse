@@ -2590,9 +2590,10 @@
   ],
   "validation": {
     "manifest_validate": "passed_before_capture",
-    "fundstrat_email_intake_validate": "pending",
-    "fundstrat_deep_crawl_validate": "pending",
-    "pytest": "pending"
+    "fundstrat_email_intake_validate": "passed",
+    "fundstrat_deep_crawl_validate": "passed",
+    "pytest": "passed: 10 passed in 0.30s",
+    "dashboard_refresh": "passed"
   },
   "blockers": [
     "latest_videos_and_webinars: manifest URL /members/latest-videos/ returned 404 and no transcript/caption/companion text was captured from navigation category"

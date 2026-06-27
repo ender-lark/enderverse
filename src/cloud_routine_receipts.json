@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T00:46:47.515429Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
       "routine_id": "investing-os-top-prospects-auto-research",
       "status": "started",
       "run_source": "scheduled",
@@ -6614,7 +6607,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-27T00:50:38.670866Z",
       "summary": "FS inbox catch-up evening success: ingested 3 entries through [06/26/2026 20:10 ET]; Source Call Log rows 4 fetch-verified; flags Tech neutral/rotation risk and MSTR Monday 8-K/STRC dividend risk; Source Call Log SQL query blocked/not_checked; no trades broker gate or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-deep-crawl",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T00:52:10.344924Z",
+      "summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked"
     }
   ],
-  "updated_at": "2026-06-27T00:50:38.670866Z"
+  "updated_at": "2026-06-27T00:52:10.344924Z"
 }
