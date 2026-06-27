@@ -2,36 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T06:32:18.208310Z",
-      "summary": "life-work-os-safe-hygiene started"
-    },
-    {
-      "routine_id": "life-work-os-safe-hygiene",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T06:32:32.449068Z",
-      "summary": "Life/Work OS safe hygiene succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_hygiene.py",
-          "--apply",
-          "--max-mutations",
-          "10",
-          "--out",
-          "src/life_work_os_hygiene_receipt.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "started",
       "run_source": "scheduled",
@@ -6695,7 +6665,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T08:46:50.731533Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T08:52:44.084684Z",
+      "summary": "queued H3/M5/L7; processed Med CBRS and GRNY Findings with Notion write/readback 2/2; no status changes; remaining 15 queued (13 unadvanced, 2 updated still queued) blocked by operator/code/full-article/source-flow/options/share-count/doctrine; dark SQL Notion AI plan, CBRS OPRA/options/SEC lockup-share reconciliation, GRNY look-through/tax/same-session flow; no trades"
     }
   ],
-  "updated_at": "2026-06-27T06:31:10.590403Z"
+  "updated_at": "2026-06-27T08:52:44.084684Z"
 }
