@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T05:46:48.598860Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T05:53:37.907506Z",
-      "summary": "off-hours worker advanced 6 live Research Queue pages: High Working BMNR/GOOGL updated; Low Done PWR/GS/ELF/DE vetted; Notion writes/readbacks verified 6/6; query counts dark due notion-query-data-sources unavailable; dark lanes mNAV/ETH-share/ATM dilution/current valuation/flow remain not_checked"
-    },
-    {
       "routine_id": "life-work-os-safe-hygiene",
       "status": "started",
       "run_source": "scheduled",
@@ -6679,7 +6665,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-27T05:48:46.780774Z",
       "summary": "processed RTX AIM-9X and UAMY antimony; Notion SQL blocked so exact live counts dark; fallback mirror H9/M3/L1 pending Q4/W9; verified writes 2/2; remaining backlog prior-handled or blocked by price/flow/account/options/margin/order evidence"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T06:31:06.100057Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T06:31:10.590403Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T05:48:46.780774Z"
+  "updated_at": "2026-06-27T06:31:10.590403Z"
 }
