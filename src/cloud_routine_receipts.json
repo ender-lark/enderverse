@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T11:46:46.902803Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T11:50:46.062253Z",
-      "summary": "checked Chrome web Macro FlashInsights, Crypto FlashInsights, Latest Research, DTS, US Policy, Fed Watch, First Word, Intraday, crypto research; Gmail 0 not needed; rows landed 0; suppressed 6 duplicate/stale/context/discovery-only items; validation passed; Notion not used; Crypto FlashInsights stale Jun8; no Jun19 web items"
-    },
-    {
       "routine_id": "work-os-daily-briefing",
       "status": "started",
       "run_source": "scheduled",
@@ -6693,7 +6679,38 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "life-os-weekly-review",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T17:01:58.331616Z",
+      "summary": "life-os-weekly-review started"
+    },
+    {
+      "routine_id": "life-os-weekly-review",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T17:02:04.014459Z",
+      "summary": "Life OS weekly review succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "life_weekly",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/life_os_weekly_review_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T13:17:34.456182Z"
+  "updated_at": "2026-06-27T17:02:04.014459Z"
 }
