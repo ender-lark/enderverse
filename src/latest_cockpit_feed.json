@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T00:51:07.310909+00:00",
+  "generated_at": "2026-06-27T02:51:25.357462+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-26 \u00b7 uw_price 06-26 \u00b7 uw_macro 06-26 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-26",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-26T20:51:07.310909-04:00",
+        "date": "2026-06-26T22:51:25.357462-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-26T20:51:07.310909-04:00",
+        "date": "2026-06-26T22:51:25.357462-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -2052,12 +2052,12 @@
       "note": "Scheduled Morning Scan 2026-06-23 08:35 ET. AP today reports global markets lower, U.S. futures lower, WTI near $73.58 and Brent near $77.47 on U.S.-Iran negotiation hopes; Times of India says oil rebounded modestly as peace hopes compete with Hormuz supply fears. Conflict means event-risk lane stays active/dark where direct PortWatch and same-session cash reaction are not supplied. Notion Signal Log verified https://app.notion.com/p/388c50314bb681bf8e94f9fd3705349c."
     },
     {
-      "signal": "HOOD $2B 0% convertible note financing changes sell-fast review",
+      "signal": "HOOD $2.2B 0% convertible close changes sell-fast review",
       "ticker": "HOOD",
       "date": "2026-06-24",
       "priority": "high",
-      "source": "SEC 8-K accession 0001783879-26-000074; off-hours alt-data scout 2026-06-24T01:23Z",
-      "note": "Packet: Robinhood priced $2.0B 0.00% convertible senior notes due 2029, approx $290M concurrent share repurchase, $112M capped-call cost, remainder for growth/acquisitions/capex. Decision affected: HOOD sell-fast/recheck row. Conviction effect mixed: strategic flexibility and buyback/capped-call support versus future convert/dilution and M&A/capex uncertainty. Time window: close expected 2026-06-25 and next-session reaction. Disconfirm: poor price/flow reaction, widening convert overhang, or weak ROI use of proceeds. Missing: same-session price/flow and final use of proceeds. Watch-only; no trade instruction. Notion Signal Log verified page 389c5031-4bb6-8103-9eef-ec296c9d7022."
+      "source": "SEC 8-K accessions 0001783879-26-000074 and 0001783879-26-000077; off-hours alt-data scout updated 2026-06-26T21:36 ET",
+      "note": "Updated off-hours scout 2026-06-26 21:36 ET: Robinhood's final close 8-K/Ex.99.1 says the 0.00% convertible senior notes due 2029 closed at $2.2B aggregate principal, net proceeds were about $2.169B, about $290M repurchased 2.743M Class A shares, and $123.2M funded capped calls. Robinhood says the capped calls lift the initial dilution cap to about $237.85/share, or about $303.95 after factoring the share repurchase; the 8-K also lists an initial conversion price near $174.42/share and max conversion shares of 20,811,560 subject to adjustment. Current decision affected: existing HOOD sell-fast/recheck row. Conviction effect remains mixed: liquidity/repurchase/capped-call support versus convert overhang and future growth/acquisition/capex ROI uncertainty. Time window: next cash session to use-of-proceeds/price-flow follow-up. Disconfirm if price/flow rejects the financing, convert overhang widens, or deployed capital fails to improve growth/ROI. Missing evidence: same-session price/flow, deployment of remaining proceeds, acquisition/capex ROI, and post-close market reaction. Route Signal Log watch-only; no trade or sizing inference. Notion Signal Log verified page 389c5031-4bb6-8103-9eef-ec296c9d7022."
     },
     {
       "signal": "Hormuz markets still do not clear near-term oil/rates event risk",
@@ -3992,37 +3992,37 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-27T00:51:07.128732+00:00",
+      "last_run": "2026-06-27T02:51:25.172882+00:00",
       "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json, src/event_risks.json; +4 more"
     }
   ],
@@ -5691,7 +5691,7 @@
   },
   "watch_interest": {
     "schema_version": 1,
-    "generated_at": "2026-06-27T00:51:07.310909+00:00",
+    "generated_at": "2026-06-27T02:51:25.357462+00:00",
     "source": "watch_interest_index",
     "status": "has_data",
     "manual_interest_count": 1,
@@ -18196,7 +18196,7 @@
         "connector_available": true,
         "connector_proof_fresh": true,
         "connector_verified_at": "2026-06-26T10:02:36-04:00",
-        "connector_proof_age_hours": 10.81
+        "connector_proof_age_hours": 12.81
       }
     ],
     "missing": [],
@@ -18229,7 +18229,7 @@
       "expected_count": 14,
       "core_expected_count": 14,
       "support_expected_count": 23,
-      "support_scheduled_success_count": 21,
+      "support_scheduled_success_count": 22,
       "support_manual_support_only_count": 0,
       "support_overdue_count": 0,
       "manual_support_only_count": 0,
@@ -18238,7 +18238,7 @@
       "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-26T20:51:07.310909-04:00",
+        "now": "2026-06-26T22:51:25.357462-04:00",
         "grace_minutes": 30,
         "overdue_count": 1,
         "due_waiting_count": 0,
@@ -18899,47 +18899,47 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-26T20:51:07.310909-04:00",
+        "now": "2026-06-26T22:51:25.357462-04:00",
         "grace_minutes": 30,
         "overdue_count": 0,
         "due_waiting_count": 1,
         "current_count": 19,
         "not_due_yet_count": 3,
         "next_due": {
-          "routine_id": "investing-os-off-hours-alt-data-scout",
-          "routine_name": "Investing OS Off-Hours Alt-Data Scout",
-          "role": "off_hours_alt_data_scout",
-          "schedule": "daily 9:15 PM ET",
+          "routine_id": "investing-os-off-hours-worker",
+          "routine_name": "Investing OS Off-Hours Worker",
+          "role": "off_hours_worker",
+          "schedule": "daily 1:45 AM ET",
           "due_state": "current",
           "expected_since": "2026-06-25T16:59:45-04:00",
-          "last_due_at": "2026-06-25T21:15:00-04:00",
-          "next_due_at": "2026-06-26T21:15:00-04:00",
-          "overdue_after": "2026-06-25T21:45:00-04:00",
+          "last_due_at": "2026-06-26T01:45:00-04:00",
+          "next_due_at": "2026-06-27T01:45:00-04:00",
+          "overdue_after": "2026-06-26T02:15:00-04:00",
           "max_age_minutes": 30,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T01:26:07.069335Z",
-          "last_success_at": "2026-06-26T01:26:07.069335Z",
+          "last_recorded_at": "2026-06-26T05:48:18.293047Z",
+          "last_success_at": "2026-06-26T05:48:18.293047Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T01:26:07.069335Z",
-          "last_scheduled_success_at": "2026-06-26T01:26:07.069335Z",
-          "last_scheduled_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+          "last_scheduled_recorded_at": "2026-06-26T05:48:18.293047Z",
+          "last_scheduled_success_at": "2026-06-26T05:48:18.293047Z",
+          "last_scheduled_summary": "dedupe/verification pass; SQL blocked by Notion plan; fallback mirror H7/M3/L1 pending; selected UUUU/AVGO/defense rows already had verified Findings; new writes 0; live fetch verified UUUU VAC, AVGO, LMT THAAD/PrSM, BA, TXT; remaining exact live backlog dark; dark lanes price/flow/account/options/margin/order cadence",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+          "last_summary": "dedupe/verification pass; SQL blocked by Notion plan; fallback mirror H7/M3/L1 pending; selected UUUU/AVGO/defense rows already had verified Findings; new writes 0; live fetch verified UUUU VAC, AVGO, LMT THAAD/PrSM, BA, TXT; remaining exact live backlog dark; dark lanes price/flow/account/options/margin/order cadence",
           "last_boundary_outcome": "fired_unknown",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
           "missing_boundary_artifacts": [],
           "stale_boundary_artifacts": [],
           "changed_boundary_artifacts": [],
-          "last_ran_at": "2026-06-26T01:26:07.069335Z",
-          "last_ran_label": "2026-06-26T01:26:07.069335Z",
-          "last_scheduled_success_label": "2026-06-26T01:26:07.069335Z",
+          "last_ran_at": "2026-06-26T05:48:18.293047Z",
+          "last_ran_label": "2026-06-26T05:48:18.293047Z",
+          "last_scheduled_success_label": "2026-06-26T05:48:18.293047Z",
           "latest_manual_support_label": "",
-          "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last scheduled success 2026-06-26T01:26:07.069335Z"
+          "overdue_line": "overdue: Investing OS Off-Hours Worker, last scheduled success 2026-06-26T05:48:18.293047Z"
         },
         "rows": [
           {
@@ -19151,36 +19151,36 @@
             "routine_name": "Investing OS Fundstrat Deep Crawl",
             "role": "fundstrat_deep_crawl",
             "schedule": "Monday/Wednesday/Friday 8:40 PM ET",
-            "due_state": "due_waiting",
+            "due_state": "current",
             "expected_since": "2026-06-26T00:00:00-04:00",
             "last_due_at": "2026-06-26T20:40:00-04:00",
             "next_due_at": "2026-06-29T20:40:00-04:00",
             "overdue_after": "2026-06-26T21:10:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "started",
+            "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-27T00:40:36.040754Z",
-            "last_success_at": "",
-            "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-27T00:40:36.040754Z",
-            "last_scheduled_success_at": "",
-            "last_scheduled_summary": "fundstrat deep crawl started",
+            "last_recorded_at": "2026-06-27T00:52:10.344924Z",
+            "last_success_at": "2026-06-27T00:52:10.344924Z",
+            "last_scheduled_status": "success",
+            "last_scheduled_recorded_at": "2026-06-27T00:52:10.344924Z",
+            "last_scheduled_success_at": "2026-06-27T00:52:10.344924Z",
+            "last_scheduled_summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "fundstrat deep crawl started",
-            "last_boundary_outcome": "",
+            "last_summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked",
+            "last_boundary_outcome": "fired_unknown",
             "last_boundary_artifact_count": 0,
             "last_boundary_artifacts": [],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "last_scheduled_success_label": "never",
+            "last_ran_at": "2026-06-27T00:52:10.344924Z",
+            "last_ran_label": "2026-06-27T00:52:10.344924Z",
+            "last_scheduled_success_label": "2026-06-27T00:52:10.344924Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Fundstrat Deep Crawl, last scheduled success never"
+            "overdue_line": "overdue: Investing OS Fundstrat Deep Crawl, last scheduled success 2026-06-27T00:52:10.344924Z"
           },
           {
             "routine_id": "investing-os-off-hours-worker",
@@ -19225,34 +19225,34 @@
             "schedule": "daily 9:15 PM ET",
             "due_state": "current",
             "expected_since": "2026-06-25T16:59:45-04:00",
-            "last_due_at": "2026-06-25T21:15:00-04:00",
-            "next_due_at": "2026-06-26T21:15:00-04:00",
-            "overdue_after": "2026-06-25T21:45:00-04:00",
+            "last_due_at": "2026-06-26T21:15:00-04:00",
+            "next_due_at": "2026-06-27T21:15:00-04:00",
+            "overdue_after": "2026-06-26T21:45:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T01:26:07.069335Z",
-            "last_success_at": "2026-06-26T01:26:07.069335Z",
+            "last_recorded_at": "2026-06-27T01:28:09.074613Z",
+            "last_success_at": "2026-06-27T01:28:09.074613Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-26T01:26:07.069335Z",
-            "last_scheduled_success_at": "2026-06-26T01:26:07.069335Z",
-            "last_scheduled_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+            "last_scheduled_recorded_at": "2026-06-27T01:28:09.074613Z",
+            "last_scheduled_success_at": "2026-06-27T01:28:09.074613Z",
+            "last_scheduled_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, Social Watch; updated verified HOOD Signal Log final convert close; UUUU already verified no duplicate; validations passed; dark Social Watch, Polymarket 403, PortWatch direct not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+            "last_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, Social Watch; updated verified HOOD Signal Log final convert close; UUUU already verified no duplicate; validations passed; dark Social Watch, Polymarket 403, PortWatch direct not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing",
             "last_boundary_outcome": "fired_unknown",
             "last_boundary_artifact_count": 0,
             "last_boundary_artifacts": [],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-26T01:26:07.069335Z",
-            "last_ran_label": "2026-06-26T01:26:07.069335Z",
-            "last_scheduled_success_label": "2026-06-26T01:26:07.069335Z",
+            "last_ran_at": "2026-06-27T01:28:09.074613Z",
+            "last_ran_label": "2026-06-27T01:28:09.074613Z",
+            "last_scheduled_success_label": "2026-06-27T01:28:09.074613Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last scheduled success 2026-06-26T01:26:07.069335Z"
+            "overdue_line": "overdue: Investing OS Off-Hours Alt-Data Scout, last scheduled success 2026-06-27T01:28:09.074613Z"
           },
           {
             "routine_id": "investing-os-loose-thread-sweep",
@@ -19261,17 +19261,17 @@
             "schedule": "daily 10:15 PM ET",
             "due_state": "current",
             "expected_since": "2026-06-25T16:59:45-04:00",
-            "last_due_at": "2026-06-25T22:15:00-04:00",
-            "next_due_at": "2026-06-26T22:15:00-04:00",
-            "overdue_after": "2026-06-25T22:45:00-04:00",
+            "last_due_at": "2026-06-26T22:15:00-04:00",
+            "next_due_at": "2026-06-27T22:15:00-04:00",
+            "overdue_after": "2026-06-26T22:45:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T02:18:01.381240Z",
-            "last_success_at": "2026-06-26T02:18:01.381240Z",
+            "last_recorded_at": "2026-06-27T02:17:30.156274Z",
+            "last_success_at": "2026-06-27T02:17:30.156274Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-26T02:18:01.381240Z",
-            "last_scheduled_success_at": "2026-06-26T02:18:01.381240Z",
+            "last_scheduled_recorded_at": "2026-06-27T02:17:30.156274Z",
+            "last_scheduled_success_at": "2026-06-27T02:17:30.156274Z",
             "last_scheduled_summary": "loose-thread sweep nothing new",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
@@ -19284,11 +19284,11 @@
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-26T02:18:01.381240Z",
-            "last_ran_label": "2026-06-26T02:18:01.381240Z",
-            "last_scheduled_success_label": "2026-06-26T02:18:01.381240Z",
+            "last_ran_at": "2026-06-27T02:17:30.156274Z",
+            "last_ran_label": "2026-06-27T02:17:30.156274Z",
+            "last_scheduled_success_label": "2026-06-27T02:17:30.156274Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Loose-Thread Sweep, last scheduled success 2026-06-26T02:18:01.381240Z"
+            "overdue_line": "overdue: Investing OS Loose-Thread Sweep, last scheduled success 2026-06-27T02:17:30.156274Z"
           },
           {
             "routine_id": "investing-os-dossier-keeper",
@@ -19297,34 +19297,34 @@
             "schedule": "daily 10:15 PM ET",
             "due_state": "current",
             "expected_since": "2026-06-25T16:59:45-04:00",
-            "last_due_at": "2026-06-25T22:15:00-04:00",
-            "next_due_at": "2026-06-26T22:15:00-04:00",
-            "overdue_after": "2026-06-25T22:45:00-04:00",
+            "last_due_at": "2026-06-26T22:15:00-04:00",
+            "next_due_at": "2026-06-27T22:15:00-04:00",
+            "overdue_after": "2026-06-26T22:45:00-04:00",
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T02:18:24.670082Z",
-            "last_success_at": "2026-06-26T02:18:24.670082Z",
+            "last_recorded_at": "2026-06-27T02:20:33.319521Z",
+            "last_success_at": "2026-06-27T02:20:33.319521Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-26T02:18:24.670082Z",
-            "last_scheduled_success_at": "2026-06-26T02:18:24.670082Z",
-            "last_scheduled_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation",
+            "last_scheduled_recorded_at": "2026-06-27T02:20:33.319521Z",
+            "last_scheduled_success_at": "2026-06-27T02:20:33.319521Z",
+            "last_scheduled_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=0 coverage=25/25 current action/material fresh missing=0 stale=0 unparsed=0 discipline=clean tests=32 passed; worklist now 47/83 covered missing=36 stale=0 refresh_soon=0; dark/not_checked blockers CLS same-session price/flow precise 52-week range operator thesis; COHR final CHIPS terms input availability customer demand same-session price/flow operator thesis",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation",
+            "last_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=0 coverage=25/25 current action/material fresh missing=0 stale=0 unparsed=0 discipline=clean tests=32 passed; worklist now 47/83 covered missing=36 stale=0 refresh_soon=0; dark/not_checked blockers CLS same-session price/flow precise 52-week range operator thesis; COHR final CHIPS terms input availability customer demand same-session price/flow operator thesis",
             "last_boundary_outcome": "fired_unknown",
             "last_boundary_artifact_count": 0,
             "last_boundary_artifacts": [],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-26T02:18:24.670082Z",
-            "last_ran_label": "2026-06-26T02:18:24.670082Z",
-            "last_scheduled_success_label": "2026-06-26T02:18:24.670082Z",
+            "last_ran_at": "2026-06-27T02:20:33.319521Z",
+            "last_ran_label": "2026-06-27T02:20:33.319521Z",
+            "last_scheduled_success_label": "2026-06-27T02:20:33.319521Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Dossier Keeper, last scheduled success 2026-06-26T02:18:24.670082Z"
+            "overdue_line": "overdue: Investing OS Dossier Keeper, last scheduled success 2026-06-27T02:20:33.319521Z"
           },
           {
             "routine_id": "investing-os-off-hours-queue-buffer",
@@ -19525,25 +19525,25 @@
             "routine_name": "Investing OS Fundstrat Late Evening Web/Transcript Sweep",
             "role": "fundstrat_late_evening_web_transcript_sweep",
             "schedule": "market weekdays 10:45 PM ET",
-            "due_state": "current",
+            "due_state": "due_waiting",
             "expected_since": "2026-06-25T16:59:45-04:00",
-            "last_due_at": "2026-06-25T22:45:00-04:00",
-            "next_due_at": "2026-06-26T22:45:00-04:00",
-            "overdue_after": "2026-06-25T23:15:00-04:00",
+            "last_due_at": "2026-06-26T22:45:00-04:00",
+            "next_due_at": "2026-06-29T22:45:00-04:00",
+            "overdue_after": "2026-06-26T23:15:00-04:00",
             "max_age_minutes": 30,
-            "last_status": "success",
+            "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T02:54:54.930496Z",
+            "last_recorded_at": "2026-06-27T02:46:09.302173Z",
             "last_success_at": "2026-06-26T02:54:54.930496Z",
-            "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-26T02:54:54.930496Z",
+            "last_scheduled_status": "started",
+            "last_scheduled_recorded_at": "2026-06-27T02:46:09.302173Z",
             "last_scheduled_success_at": "2026-06-26T02:54:54.930496Z",
-            "last_scheduled_summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none",
+            "last_scheduled_summary": "fundstrat late evening web/transcript sweep started",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none",
+            "last_summary": "fundstrat late evening web/transcript sweep started",
             "last_boundary_outcome": "fired_unknown",
             "last_boundary_artifact_count": 0,
             "last_boundary_artifacts": [],
@@ -19749,11 +19749,11 @@
             "max_age_minutes": 30,
             "last_status": "success",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-26T13:16:13.671772Z",
-            "last_success_at": "2026-06-26T13:16:13.671772Z",
+            "last_recorded_at": "2026-06-27T01:16:28.083657Z",
+            "last_success_at": "2026-06-27T01:16:28.083657Z",
             "last_scheduled_status": "success",
-            "last_scheduled_recorded_at": "2026-06-26T13:16:13.671772Z",
-            "last_scheduled_success_at": "2026-06-26T13:16:13.671772Z",
+            "last_scheduled_recorded_at": "2026-06-27T01:16:28.083657Z",
+            "last_scheduled_success_at": "2026-06-27T01:16:28.083657Z",
             "last_scheduled_summary": "Life/Work OS heartbeat watch succeeded",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
@@ -19766,11 +19766,11 @@
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "2026-06-26T13:16:13.671772Z",
-            "last_ran_label": "2026-06-26T13:16:13.671772Z",
-            "last_scheduled_success_label": "2026-06-26T13:16:13.671772Z",
+            "last_ran_at": "2026-06-27T01:16:28.083657Z",
+            "last_ran_label": "2026-06-27T01:16:28.083657Z",
+            "last_scheduled_success_label": "2026-06-27T01:16:28.083657Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Life/Work OS Heartbeat Watch, last scheduled success 2026-06-26T13:16:13.671772Z"
+            "overdue_line": "overdue: Life/Work OS Heartbeat Watch, last scheduled success 2026-06-27T01:16:28.083657Z"
           },
           {
             "routine_id": "life-work-os-safe-hygiene",
@@ -19812,40 +19812,40 @@
         "overdue": [],
         "due_waiting": [
           {
-            "routine_id": "investing-os-fundstrat-deep-crawl",
-            "routine_name": "Investing OS Fundstrat Deep Crawl",
-            "role": "fundstrat_deep_crawl",
-            "schedule": "Monday/Wednesday/Friday 8:40 PM ET",
+            "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+            "routine_name": "Investing OS Fundstrat Late Evening Web/Transcript Sweep",
+            "role": "fundstrat_late_evening_web_transcript_sweep",
+            "schedule": "market weekdays 10:45 PM ET",
             "due_state": "due_waiting",
-            "expected_since": "2026-06-26T00:00:00-04:00",
-            "last_due_at": "2026-06-26T20:40:00-04:00",
-            "next_due_at": "2026-06-29T20:40:00-04:00",
-            "overdue_after": "2026-06-26T21:10:00-04:00",
+            "expected_since": "2026-06-25T16:59:45-04:00",
+            "last_due_at": "2026-06-26T22:45:00-04:00",
+            "next_due_at": "2026-06-29T22:45:00-04:00",
+            "overdue_after": "2026-06-26T23:15:00-04:00",
             "max_age_minutes": 30,
             "last_status": "started",
             "last_run_source": "scheduled",
-            "last_recorded_at": "2026-06-27T00:40:36.040754Z",
-            "last_success_at": "",
+            "last_recorded_at": "2026-06-27T02:46:09.302173Z",
+            "last_success_at": "2026-06-26T02:54:54.930496Z",
             "last_scheduled_status": "started",
-            "last_scheduled_recorded_at": "2026-06-27T00:40:36.040754Z",
-            "last_scheduled_success_at": "",
-            "last_scheduled_summary": "fundstrat deep crawl started",
+            "last_scheduled_recorded_at": "2026-06-27T02:46:09.302173Z",
+            "last_scheduled_success_at": "2026-06-26T02:54:54.930496Z",
+            "last_scheduled_summary": "fundstrat late evening web/transcript sweep started",
             "last_manual_recorded_at": "",
             "last_manual_success_at": "",
             "last_manual_summary": "",
             "manual_support_only": false,
-            "last_summary": "fundstrat deep crawl started",
-            "last_boundary_outcome": "",
+            "last_summary": "fundstrat late evening web/transcript sweep started",
+            "last_boundary_outcome": "fired_unknown",
             "last_boundary_artifact_count": 0,
             "last_boundary_artifacts": [],
             "missing_boundary_artifacts": [],
             "stale_boundary_artifacts": [],
             "changed_boundary_artifacts": [],
-            "last_ran_at": "",
-            "last_ran_label": "never",
-            "last_scheduled_success_label": "never",
+            "last_ran_at": "2026-06-26T02:54:54.930496Z",
+            "last_ran_label": "2026-06-26T02:54:54.930496Z",
+            "last_scheduled_success_label": "2026-06-26T02:54:54.930496Z",
             "latest_manual_support_label": "",
-            "overdue_line": "overdue: Investing OS Fundstrat Deep Crawl, last scheduled success never"
+            "overdue_line": "overdue: Investing OS Fundstrat Late Evening Web/Transcript Sweep, last scheduled success 2026-06-26T02:54:54.930496Z"
           }
         ],
         "not_due_yet": [
@@ -20621,21 +20621,21 @@
           "role": "fundstrat_deep_crawl",
           "schedule": "Monday/Wednesday/Friday 8:40 PM ET",
           "proof_scope": "support",
-          "receipt_count": 1,
-          "last_status": "started",
+          "receipt_count": 2,
+          "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-27T00:40:36.040754Z",
-          "last_success_at": "",
-          "last_scheduled_success_at": "",
-          "last_scheduled_status": "started",
-          "last_scheduled_recorded_at": "2026-06-27T00:40:36.040754Z",
-          "last_scheduled_summary": "fundstrat deep crawl started",
+          "last_recorded_at": "2026-06-27T00:52:10.344924Z",
+          "last_success_at": "2026-06-27T00:52:10.344924Z",
+          "last_scheduled_success_at": "2026-06-27T00:52:10.344924Z",
+          "last_scheduled_status": "success",
+          "last_scheduled_recorded_at": "2026-06-27T00:52:10.344924Z",
+          "last_scheduled_summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "fundstrat deep crawl started",
-          "last_boundary_outcome": "",
+          "last_summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked",
+          "last_boundary_outcome": "fired_unknown",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
           "missing_boundary_artifacts": [],
@@ -20678,17 +20678,17 @@
           "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T01:26:07.069335Z",
-          "last_success_at": "2026-06-26T01:26:07.069335Z",
-          "last_scheduled_success_at": "2026-06-26T01:26:07.069335Z",
+          "last_recorded_at": "2026-06-27T01:28:09.074613Z",
+          "last_success_at": "2026-06-27T01:28:09.074613Z",
+          "last_scheduled_success_at": "2026-06-27T01:28:09.074613Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T01:26:07.069335Z",
-          "last_scheduled_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+          "last_scheduled_recorded_at": "2026-06-27T01:28:09.074613Z",
+          "last_scheduled_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, Social Watch; updated verified HOOD Signal Log final convert close; UUUU already verified no duplicate; validations passed; dark Social Watch, Polymarket 403, PortWatch direct not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, War.gov/NIST; routed 2 verified Notion Signal Log rows plus repo mirrors and 1 Event Risk row; suppressed HOOD duplicate, SATS/MSFT/LMT mechanics, AVGO Form144, noisy Polymarket; Social Watch and direct PortWatch not_checked; UW blockers MARKET_MOVERS advanced-tier, SECTOR_TIDE unsupported, TNX flow empty",
+          "last_summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Kalshi/Polymarket, Social Watch; updated verified HOOD Signal Log final convert close; UUUU already verified no duplicate; validations passed; dark Social Watch, Polymarket 403, PortWatch direct not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing",
           "last_boundary_outcome": "fired_unknown",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
@@ -20702,14 +20702,14 @@
           "role": "loose_thread_sweep",
           "schedule": "daily 10:15 PM ET",
           "proof_scope": "support",
-          "receipt_count": 6,
+          "receipt_count": 7,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T02:18:01.381240Z",
-          "last_success_at": "2026-06-26T02:18:01.381240Z",
-          "last_scheduled_success_at": "2026-06-26T02:18:01.381240Z",
+          "last_recorded_at": "2026-06-27T02:17:30.156274Z",
+          "last_success_at": "2026-06-27T02:17:30.156274Z",
+          "last_scheduled_success_at": "2026-06-27T02:17:30.156274Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T02:18:01.381240Z",
+          "last_scheduled_recorded_at": "2026-06-27T02:17:30.156274Z",
           "last_scheduled_summary": "loose-thread sweep nothing new",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
@@ -20729,20 +20729,20 @@
           "role": "dossier_keeper",
           "schedule": "daily 10:15 PM ET",
           "proof_scope": "support",
-          "receipt_count": 4,
+          "receipt_count": 6,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T02:18:24.670082Z",
-          "last_success_at": "2026-06-26T02:18:24.670082Z",
-          "last_scheduled_success_at": "2026-06-26T02:18:24.670082Z",
+          "last_recorded_at": "2026-06-27T02:20:33.319521Z",
+          "last_success_at": "2026-06-27T02:20:33.319521Z",
+          "last_scheduled_success_at": "2026-06-27T02:20:33.319521Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T02:18:24.670082Z",
-          "last_scheduled_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation",
+          "last_scheduled_recorded_at": "2026-06-27T02:20:33.319521Z",
+          "last_scheduled_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=0 coverage=25/25 current action/material fresh missing=0 stale=0 unparsed=0 discipline=clean tests=32 passed; worklist now 47/83 covered missing=36 stale=0 refresh_soon=0; dark/not_checked blockers CLS same-session price/flow precise 52-week range operator thesis; COHR final CHIPS terms input availability customer demand same-session price/flow operator thesis",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38; drafted RYF/XOP as WATCH pending operator confirmation; coverage 25/25 current action/material fresh; discipline clean; pytest 32 passed; worklist now 45/83 covered, missing=38 stale=0 refresh_soon=0; dark/not_checked blockers: precise 52-week ranges, social/flow confirmation",
+          "last_summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=0 coverage=25/25 current action/material fresh missing=0 stale=0 unparsed=0 discipline=clean tests=32 passed; worklist now 47/83 covered missing=36 stale=0 refresh_soon=0; dark/not_checked blockers CLS same-session price/flow precise 52-week range operator thesis; COHR final CHIPS terms input availability customer demand same-session price/flow operator thesis",
           "last_boundary_outcome": "fired_unknown",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
@@ -20845,7 +20845,7 @@
           "role": "top_prospects_autoresearch",
           "schedule": "daily 8:45 PM ET",
           "proof_scope": "support",
-          "receipt_count": 18,
+          "receipt_count": 16,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-27T00:47:35.677479Z",
@@ -20872,7 +20872,7 @@
           "role": "fs_inbox_catchup_evening",
           "schedule": "market weekdays 8:45 PM ET",
           "proof_scope": "support",
-          "receipt_count": 14,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "scheduled",
           "last_recorded_at": "2026-06-27T00:50:38.670866Z",
@@ -20905,20 +20905,20 @@
           "role": "fundstrat_late_evening_web_transcript_sweep",
           "schedule": "market weekdays 10:45 PM ET",
           "proof_scope": "support",
-          "receipt_count": 12,
-          "last_status": "success",
+          "receipt_count": 13,
+          "last_status": "started",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T02:54:54.930496Z",
+          "last_recorded_at": "2026-06-27T02:46:09.302173Z",
           "last_success_at": "2026-06-26T02:54:54.930496Z",
           "last_scheduled_success_at": "2026-06-26T02:54:54.930496Z",
-          "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T02:54:54.930496Z",
-          "last_scheduled_summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none",
+          "last_scheduled_status": "started",
+          "last_scheduled_recorded_at": "2026-06-27T02:46:09.302173Z",
+          "last_scheduled_summary": "fundstrat late evening web/transcript sweep started",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
           "last_manual_summary": "",
           "manual_support_only": false,
-          "last_summary": "Chrome checked Macro FlashInsights latest Jun25 13:15 pre-cutoff, Crypto FlashInsights stale Jun22, listings/details Intraday/First Word/DTS/Live Technical/US Policy/Fed/Crypto/Macro Minute/Latest Videos/DTS videos; post-7pm detail pages checked DTS Jun25 20:18 and Macro Minute Jun25 19:58; transcript vault entries written 2 and pushed; Gmail messages checked 0 because Chrome full content available; compact rows landed 4, suppressed low-value/discovery-only/stale 9; validations transcript-index/email-intake passed; dashboard refresh passed; dark lanes Social Watch not_checked, Crypto Flash stale; blockers none",
+          "last_summary": "fundstrat late evening web/transcript sweep started",
           "last_boundary_outcome": "fired_unknown",
           "last_boundary_artifact_count": 0,
           "last_boundary_artifacts": [],
@@ -21067,14 +21067,14 @@
           "role": "life_work_os_heartbeat_watch",
           "schedule": "daily 9:15 AM and 9:15 PM ET",
           "proof_scope": "support",
-          "receipt_count": 13,
+          "receipt_count": 12,
           "last_status": "success",
           "last_run_source": "scheduled",
-          "last_recorded_at": "2026-06-26T13:16:13.671772Z",
-          "last_success_at": "2026-06-26T13:16:13.671772Z",
-          "last_scheduled_success_at": "2026-06-26T13:16:13.671772Z",
+          "last_recorded_at": "2026-06-27T01:16:28.083657Z",
+          "last_success_at": "2026-06-27T01:16:28.083657Z",
+          "last_scheduled_success_at": "2026-06-27T01:16:28.083657Z",
           "last_scheduled_status": "success",
-          "last_scheduled_recorded_at": "2026-06-26T13:16:13.671772Z",
+          "last_scheduled_recorded_at": "2026-06-27T01:16:28.083657Z",
           "last_scheduled_summary": "Life/Work OS heartbeat watch succeeded",
           "last_manual_recorded_at": "",
           "last_manual_success_at": "",
@@ -22827,28 +22827,28 @@
       "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
       "endpoint_proof": {
         "status": "has_data",
-        "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-26 10:32 ET.",
+        "line": "UW endpoint proof: 25 captured result(s); supports=0, contradicts=0, inconclusive=21, missing=4; stale=0. newest=2026-06-26 21:20 ET.",
         "blockers": [
           "inconclusive endpoint result(s) cannot promote related actions",
           "missing/failed endpoint result(s) keep related actions blocked"
         ],
-        "newest_checked_at": "2026-06-26T14:32:12.987490+00:00"
+        "newest_checked_at": "2026-06-27T01:20:10.601345+00:00"
       }
     },
     "uw_endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-26 10:32 ET.",
-      "count": 13,
+      "line": "UW endpoint proof: 25 captured result(s); supports=0, contradicts=0, inconclusive=21, missing=4; stale=0. newest=2026-06-26 21:20 ET.",
+      "count": 25,
       "counts": {
-        "missing": 2,
-        "neutral": 10,
+        "missing": 3,
+        "neutral": 21,
         "failed": 1
       },
       "interpretation_counts": {
-        "missing": 3,
-        "inconclusive": 10
+        "missing": 4,
+        "inconclusive": 21
       },
-      "newest_checked_at": "2026-06-26T14:32:12.987490+00:00",
+      "newest_checked_at": "2026-06-27T01:20:10.601345+00:00",
       "same_session_date": "2026-06-26",
       "stale_count": 0,
       "off_runbook_count": 0,
@@ -22859,7 +22859,7 @@
           "ticker": "",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "unsupported path parameter(s): sector",
           "source": "uw_endpoint_result_capture"
         },
@@ -22869,8 +22869,8 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
-          "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
         {
@@ -22879,7 +22879,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22889,7 +22889,7 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22899,7 +22899,7 @@
           "ticker": "",
           "status": "failed",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
           "source": "uw_endpoint_result_capture"
         },
@@ -22909,8 +22909,8 @@
           "ticker": "",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
-          "summary": "Fetched MARKET_CORRELATIONS; row_count=6. Result requires operator interpretation before any promotion.",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched MARKET_CORRELATIONS; row_count=20. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
         {
@@ -22919,7 +22919,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22929,7 +22929,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22939,7 +22939,7 @@
           "ticker": "TNX",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22949,8 +22949,28 @@
           "ticker": "XLF",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched ETF_TIDE for XLF; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched ETF_TIDE for SMH; row_count=390. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "ETF_TIDE",
+          "ticker": "MAGS",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched ETF_TIDE for MAGS; row_count=390. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
         {
@@ -22959,7 +22979,7 @@
           "ticker": "XOP",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22969,7 +22989,7 @@
           "ticker": "XLE",
           "status": "neutral",
           "decision_interpretation": "inconclusive",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         },
@@ -22979,8 +22999,108 @@
           "ticker": "TNX",
           "status": "missing",
           "decision_interpretation": "missing",
-          "checked_at": "2026-06-26T14:32:12.987490+00:00",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
           "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "XLF",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for XLF; row_count=50. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for SMH; row_count=50. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_RECENT",
+          "ticker": "MAGS",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_RECENT for MAGS; row_count=50. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "XOP",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS for XOP; row_count=5. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "XLE",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS for XLE; row_count=5. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "TNX",
+          "status": "missing",
+          "decision_interpretation": "missing",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS but captured no result rows.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "XLF",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS for XLF; row_count=5. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "SMH",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS for SMH; row_count=5. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_FLOW_ALERTS",
+          "ticker": "MAGS",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_FLOW_ALERTS for MAGS; row_count=5. Result requires operator interpretation before any promotion.",
+          "source": "uw_endpoint_result_capture"
+        },
+        {
+          "mode": "pre_market_crash_triage",
+          "endpoint": "TICKER_OPTIONS_VOLUME",
+          "ticker": "XOP",
+          "status": "neutral",
+          "decision_interpretation": "inconclusive",
+          "checked_at": "2026-06-27T01:20:10.601345+00:00",
+          "summary": "Fetched TICKER_OPTIONS_VOLUME for XOP; row_count=5. Result requires operator interpretation before any promotion.",
           "source": "uw_endpoint_result_capture"
         }
       ],
@@ -23645,28 +23765,28 @@
     "honesty_rule": "Runbook recommends UW checks from dashboard state only; it is not proof any endpoint was fetched.",
     "endpoint_proof": {
       "status": "has_data",
-      "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-26 10:32 ET.",
+      "line": "UW endpoint proof: 25 captured result(s); supports=0, contradicts=0, inconclusive=21, missing=4; stale=0. newest=2026-06-26 21:20 ET.",
       "blockers": [
         "inconclusive endpoint result(s) cannot promote related actions",
         "missing/failed endpoint result(s) keep related actions blocked"
       ],
-      "newest_checked_at": "2026-06-26T14:32:12.987490+00:00"
+      "newest_checked_at": "2026-06-27T01:20:10.601345+00:00"
     }
   },
   "uw_endpoint_proof": {
     "status": "has_data",
-    "line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-26 10:32 ET.",
-    "count": 13,
+    "line": "UW endpoint proof: 25 captured result(s); supports=0, contradicts=0, inconclusive=21, missing=4; stale=0. newest=2026-06-26 21:20 ET.",
+    "count": 25,
     "counts": {
-      "missing": 2,
-      "neutral": 10,
+      "missing": 3,
+      "neutral": 21,
       "failed": 1
     },
     "interpretation_counts": {
-      "missing": 3,
-      "inconclusive": 10
+      "missing": 4,
+      "inconclusive": 21
     },
-    "newest_checked_at": "2026-06-26T14:32:12.987490+00:00",
+    "newest_checked_at": "2026-06-27T01:20:10.601345+00:00",
     "same_session_date": "2026-06-26",
     "stale_count": 0,
     "off_runbook_count": 0,
@@ -23677,7 +23797,7 @@
         "ticker": "",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "unsupported path parameter(s): sector",
         "source": "uw_endpoint_result_capture"
       },
@@ -23687,8 +23807,8 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
-        "summary": "Fetched MARKET_TIDE; row_count=13. Result requires operator interpretation before any promotion.",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched MARKET_TIDE; row_count=81. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
       {
@@ -23697,7 +23817,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched TOP_NET_IMPACT; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23707,7 +23827,7 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched TOTAL_OPTIONS_VOLUME; row_count=1. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23717,7 +23837,7 @@
         "ticker": "",
         "status": "failed",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "UW fetch failed for MARKET_MOVERS: UW HTTP 403 for /api/market/movers: (\"code\":\"advanced_tier_required\",\"message\":\"This endpoint requires the Advanced API tier or higher. Visit https://unusualwhales.com/dashboard/api?utm_source=api&utm_campaign=json_msg to upgrade, or contac",
         "source": "uw_endpoint_result_capture"
       },
@@ -23727,8 +23847,8 @@
         "ticker": "",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
-        "summary": "Fetched MARKET_CORRELATIONS; row_count=6. Result requires operator interpretation before any promotion.",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched MARKET_CORRELATIONS; row_count=20. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
       {
@@ -23737,7 +23857,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched ETF_TIDE for XOP; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23747,7 +23867,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched ETF_TIDE for XLE; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23757,7 +23877,7 @@
         "ticker": "TNX",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched ETF_TIDE for TNX; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23767,8 +23887,28 @@
         "ticker": "XLF",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched ETF_TIDE for XLF; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched ETF_TIDE for SMH; row_count=390. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "ETF_TIDE",
+        "ticker": "MAGS",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched ETF_TIDE for MAGS; row_count=390. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
       {
@@ -23777,7 +23917,7 @@
         "ticker": "XOP",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XOP; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23787,7 +23927,7 @@
         "ticker": "XLE",
         "status": "neutral",
         "decision_interpretation": "inconclusive",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT for XLE; row_count=50. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       },
@@ -23797,8 +23937,108 @@
         "ticker": "TNX",
         "status": "missing",
         "decision_interpretation": "missing",
-        "checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
         "summary": "Fetched TICKER_FLOW_RECENT but captured no result rows.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "XLF",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for XLF; row_count=50. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for SMH; row_count=50. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_RECENT",
+        "ticker": "MAGS",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_RECENT for MAGS; row_count=50. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "XOP",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS for XOP; row_count=5. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "XLE",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS for XLE; row_count=5. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "TNX",
+        "status": "missing",
+        "decision_interpretation": "missing",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS but captured no result rows.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "XLF",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS for XLF; row_count=5. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "SMH",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS for SMH; row_count=5. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_FLOW_ALERTS",
+        "ticker": "MAGS",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_FLOW_ALERTS for MAGS; row_count=5. Result requires operator interpretation before any promotion.",
+        "source": "uw_endpoint_result_capture"
+      },
+      {
+        "mode": "pre_market_crash_triage",
+        "endpoint": "TICKER_OPTIONS_VOLUME",
+        "ticker": "XOP",
+        "status": "neutral",
+        "decision_interpretation": "inconclusive",
+        "checked_at": "2026-06-27T01:20:10.601345+00:00",
+        "summary": "Fetched TICKER_OPTIONS_VOLUME for XOP; row_count=5. Result requires operator interpretation before any promotion.",
         "source": "uw_endpoint_result_capture"
       }
     ],
@@ -28148,7 +28388,7 @@
     },
     "deep_discount_research": [
       {
-        "checked_at": "2026-06-27T00:49:17.785605+00:00",
+        "checked_at": "2026-06-27T02:49:54.149036+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 3.06,
@@ -28180,7 +28420,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:12.237843+00:00",
+        "checked_at": "2026-06-27T02:49:50.742381+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -28208,7 +28448,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:51.869787+00:00",
+        "checked_at": "2026-06-27T02:50:27.526187+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -28240,7 +28480,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:52.552379+00:00",
+        "checked_at": "2026-06-27T02:50:28.572952+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 4.9,
@@ -28268,7 +28508,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:29.901559+00:00",
+        "checked_at": "2026-06-27T02:50:07.946952+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.0,
@@ -28300,7 +28540,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:50:52.302871+00:00",
+        "checked_at": "2026-06-27T02:51:13.066840+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.78,
@@ -28336,7 +28576,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:59.868301+00:00",
+        "checked_at": "2026-06-27T02:50:33.847580+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.88,
@@ -28364,7 +28604,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:50:30.729401+00:00",
+        "checked_at": "2026-06-27T02:50:58.241284+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.05,
@@ -28396,7 +28636,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:40.665867+00:00",
+        "checked_at": "2026-06-27T02:50:19.210727+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.11,
@@ -28454,10 +28694,10 @@
         "Use only the deliberately reviewed starter cap; keep the rest staged as tickets, not trades."
       ]
     },
-    "generated_at": "2026-06-27T00:51:05.446213+00:00",
+    "generated_at": "2026-06-27T02:51:23.455128+00:00",
     "higher_quality_pullbacks": [
       {
-        "checked_at": "2026-06-27T00:50:01.542422+00:00",
+        "checked_at": "2026-06-27T02:50:35.506495+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.84,
@@ -28487,7 +28727,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:37.800967+00:00",
+        "checked_at": "2026-06-27T02:50:16.281024+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 5.0,
@@ -28523,7 +28763,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:34.607145+00:00",
+        "checked_at": "2026-06-27T02:50:12.641320+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.39,
@@ -28553,7 +28793,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:13.580244+00:00",
+        "checked_at": "2026-06-27T02:49:51.352548+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 2.44,
@@ -28585,7 +28825,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:50:54.666565+00:00",
+        "checked_at": "2026-06-27T02:51:15.023191+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 0.69,
@@ -28613,7 +28853,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:50:06.403448+00:00",
+        "checked_at": "2026-06-27T02:50:40.092046+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 13.24,
@@ -28641,7 +28881,7 @@
         "trigger_date": ""
       },
       {
-        "checked_at": "2026-06-27T00:49:07.980493+00:00",
+        "checked_at": "2026-06-27T02:49:46.476486+00:00",
         "conviction": {},
         "currency": "USD",
         "current_exposure_pct": 1.12,
@@ -28731,6 +28971,8 @@
       },
       "uw": {
         "checked_tickers": [
+          "MAGS",
+          "SMH",
           "TNX",
           "XLE",
           "XLF",
@@ -28738,12 +28980,12 @@
         ],
         "counts": {
           "failed": 1,
-          "missing": 2,
-          "neutral": 10
+          "missing": 3,
+          "neutral": 21
         },
         "honesty_rule": "Rows prove endpoint fetch status only; neutral rows do not confirm a trade thesis.",
-        "line": "UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.",
-        "newest_checked_at": "2026-06-26T14:32:12.987490+00:00",
+        "line": "UW endpoint proof: 25 captured row(s); neutral/inconclusive rows do not promote trades.",
+        "newest_checked_at": "2026-06-27T01:20:10.601345+00:00",
         "status": "has_data"
       }
     },
@@ -28770,7 +29012,7 @@
       "row_count": 125,
       "rows": [
         {
-          "checked_at": "2026-06-27T00:50:07.790637+00:00",
+          "checked_at": "2026-06-27T02:50:41.365845+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -28798,7 +29040,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:17.785605+00:00",
+          "checked_at": "2026-06-27T02:49:54.149036+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.06,
@@ -28830,7 +29072,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:03.016973+00:00",
+          "checked_at": "2026-06-27T02:50:36.755878+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.07,
@@ -28862,7 +29104,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:06.475322+00:00",
+          "checked_at": "2026-06-27T02:49:44.759468+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28890,7 +29132,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:51.616656+00:00",
+          "checked_at": "2026-06-27T02:51:12.381773+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.07,
@@ -28918,7 +29160,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:30.590333+00:00",
+          "checked_at": "2026-06-27T02:50:08.987220+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.13,
@@ -28946,7 +29188,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:12.237843+00:00",
+          "checked_at": "2026-06-27T02:49:50.742381+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -28974,7 +29216,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:23.967902+00:00",
+          "checked_at": "2026-06-27T02:50:00.944512+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -29002,7 +29244,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:51.869787+00:00",
+          "checked_at": "2026-06-27T02:50:27.526187+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29034,7 +29276,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:46.719215+00:00",
+          "checked_at": "2026-06-27T02:51:09.070255+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29065,7 +29307,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:52.552379+00:00",
+          "checked_at": "2026-06-27T02:50:28.572952+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.9,
@@ -29093,7 +29335,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:20.605337+00:00",
+          "checked_at": "2026-06-27T02:49:57.084048+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29121,7 +29363,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:55.301783+00:00",
+          "checked_at": "2026-06-27T02:50:31.597753+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -29149,7 +29391,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:08.472907+00:00",
+          "checked_at": "2026-06-27T02:50:41.981591+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.7,
@@ -29177,7 +29419,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:29.901559+00:00",
+          "checked_at": "2026-06-27T02:50:07.946952+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29209,7 +29451,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:17.248488+00:00",
+          "checked_at": "2026-06-27T02:50:46.273975+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.17,
@@ -29237,7 +29479,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:41.360043+00:00",
+          "checked_at": "2026-06-27T02:50:19.820017+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
@@ -29265,7 +29507,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:28.702973+00:00",
+          "checked_at": "2026-06-27T02:50:56.147406+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29295,7 +29537,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:52.302871+00:00",
+          "checked_at": "2026-06-27T02:51:13.066840+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.78,
@@ -29331,7 +29573,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:11.529554+00:00",
+          "checked_at": "2026-06-27T02:49:50.132623+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
@@ -29359,7 +29601,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:37.397530+00:00",
+          "checked_at": "2026-06-27T02:51:04.246285+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -29387,7 +29629,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:59.868301+00:00",
+          "checked_at": "2026-06-27T02:50:33.847580+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.88,
@@ -29415,7 +29657,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:36.657502+00:00",
+          "checked_at": "2026-06-27T02:51:03.588173+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
@@ -29443,7 +29685,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:16.473792+00:00",
+          "checked_at": "2026-06-27T02:50:45.279697+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.15,
@@ -29471,7 +29713,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:30.729401+00:00",
+          "checked_at": "2026-06-27T02:50:58.241284+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.05,
@@ -29503,7 +29745,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:48.417372+00:00",
+          "checked_at": "2026-06-27T02:51:10.384719+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.1,
@@ -29531,7 +29773,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:51.167897+00:00",
+          "checked_at": "2026-06-27T02:50:26.497424+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29559,7 +29801,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:19.302772+00:00",
+          "checked_at": "2026-06-27T02:50:48.375320+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.96,
@@ -29587,7 +29829,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:09.355863+00:00",
+          "checked_at": "2026-06-27T02:49:48.505773+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -29615,7 +29857,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:19.098511+00:00",
+          "checked_at": "2026-06-27T02:49:55.389743+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29643,7 +29885,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:36.748128+00:00",
+          "checked_at": "2026-06-27T02:50:15.662261+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29673,7 +29915,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:40.665867+00:00",
+          "checked_at": "2026-06-27T02:50:19.210727+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -29705,7 +29947,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:02.317621+00:00",
+          "checked_at": "2026-06-27T02:50:36.138838+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29733,7 +29975,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:07.139225+00:00",
+          "checked_at": "2026-06-27T02:50:40.710965+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.12,
@@ -29761,7 +30003,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:35.275576+00:00",
+          "checked_at": "2026-06-27T02:50:13.637739+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.64,
@@ -29789,7 +30031,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:27.740604+00:00",
+          "checked_at": "2026-06-27T02:50:55.462530+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.55,
@@ -29817,7 +30059,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:01.542422+00:00",
+          "checked_at": "2026-06-27T02:50:35.506495+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.84,
@@ -29847,7 +30089,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:33.521883+00:00",
+          "checked_at": "2026-06-27T02:51:00.419870+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29879,7 +30121,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:56.112447+00:00",
+          "checked_at": "2026-06-27T02:51:16.393434+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.09,
@@ -29907,7 +30149,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:50.209811+00:00",
+          "checked_at": "2026-06-27T02:51:11.069339+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29935,7 +30177,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:34.607145+00:00",
+          "checked_at": "2026-06-27T02:50:12.641320+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.39,
@@ -29965,7 +30207,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:26.947668+00:00",
+          "checked_at": "2026-06-27T02:50:54.762983+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -29997,7 +30239,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:15.750790+00:00",
+          "checked_at": "2026-06-27T02:49:53.441403+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.14,
@@ -30025,7 +30267,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:40.170465+00:00",
+          "checked_at": "2026-06-27T02:51:06.197368+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30057,7 +30299,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:54.515775+00:00",
+          "checked_at": "2026-06-27T02:50:30.897980+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30088,7 +30330,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:13.580244+00:00",
+          "checked_at": "2026-06-27T02:49:51.352548+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 2.44,
@@ -30120,7 +30362,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:35.342837+00:00",
+          "checked_at": "2026-06-27T02:51:02.277724+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30151,7 +30393,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:53.856978+00:00",
+          "checked_at": "2026-06-27T02:50:29.843594+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.24,
@@ -30179,7 +30421,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:41.597817+00:00",
+          "checked_at": "2026-06-27T02:51:06.947792+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.01,
@@ -30207,7 +30449,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:19.771344+00:00",
+          "checked_at": "2026-06-27T02:49:56.403458+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.11,
@@ -30235,7 +30477,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:12.067868+00:00",
+          "checked_at": "2026-06-27T02:50:43.599721+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.67,
@@ -30263,7 +30505,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:57.294111+00:00",
+          "checked_at": "2026-06-27T02:50:32.205863+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -30291,7 +30533,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:54.666565+00:00",
+          "checked_at": "2026-06-27T02:51:15.023191+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.69,
@@ -30319,7 +30561,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:35.988973+00:00",
+          "checked_at": "2026-06-27T02:51:02.939832+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.51,
@@ -30349,7 +30591,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:04.580149+00:00",
+          "checked_at": "2026-06-27T02:50:38.413845+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.29,
@@ -30377,7 +30619,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:00.581011+00:00",
+          "checked_at": "2026-06-27T02:50:34.493147+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.31,
@@ -30405,7 +30647,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:31.774193+00:00",
+          "checked_at": "2026-06-27T02:50:09.970157+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30435,7 +30677,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:25.267556+00:00",
+          "checked_at": "2026-06-27T02:50:54.055057+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30469,7 +30711,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:51:04.747261+00:00",
+          "checked_at": "2026-06-27T02:51:22.741373+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30503,7 +30745,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:06.403448+00:00",
+          "checked_at": "2026-06-27T02:50:40.092046+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 13.24,
@@ -30531,7 +30773,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:18.429353+00:00",
+          "checked_at": "2026-06-27T02:49:54.764646+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.19,
@@ -30559,7 +30801,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:53.205830+00:00",
+          "checked_at": "2026-06-27T02:50:29.202482+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.08,
@@ -30587,7 +30829,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:37.800967+00:00",
+          "checked_at": "2026-06-27T02:50:16.281024+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.0,
@@ -30623,7 +30865,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:24.590820+00:00",
+          "checked_at": "2026-06-27T02:50:53.389689+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30653,7 +30895,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:07.980493+00:00",
+          "checked_at": "2026-06-27T02:49:46.476486+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.12,
@@ -30681,7 +30923,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:59.003727+00:00",
+          "checked_at": "2026-06-27T02:51:19.157205+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30709,7 +30951,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:14.251526+00:00",
+          "checked_at": "2026-06-27T02:49:52.373242+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30740,7 +30982,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:55.330644+00:00",
+          "checked_at": "2026-06-27T02:51:15.715681+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30770,7 +31012,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:45.662373+00:00",
+          "checked_at": "2026-06-27T02:50:23.091011+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 3.57,
@@ -30798,7 +31040,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:23.304663+00:00",
+          "checked_at": "2026-06-27T02:49:59.950862+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30829,7 +31071,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:58.082178+00:00",
+          "checked_at": "2026-06-27T02:50:32.856551+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.02,
@@ -30860,7 +31102,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:29.106808+00:00",
+          "checked_at": "2026-06-27T02:50:07.332229+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.63,
@@ -30888,7 +31130,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:24.662026+00:00",
+          "checked_at": "2026-06-27T02:50:01.952070+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.31,
@@ -30916,7 +31158,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:17.925950+00:00",
+          "checked_at": "2026-06-27T02:50:47.012295+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.47,
@@ -30946,7 +31188,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:23.860033+00:00",
+          "checked_at": "2026-06-27T02:50:52.598146+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -30977,7 +31219,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:08.678516+00:00",
+          "checked_at": "2026-06-27T02:49:47.471853+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.43,
@@ -31007,7 +31249,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:35.950359+00:00",
+          "checked_at": "2026-06-27T02:50:14.665895+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.11,
@@ -31035,7 +31277,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:05.664744+00:00",
+          "checked_at": "2026-06-27T02:50:39.035112+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.04,
@@ -31063,7 +31305,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:30.063363+00:00",
+          "checked_at": "2026-06-27T02:50:57.547562+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.27,
@@ -31091,7 +31333,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:42.054097+00:00",
+          "checked_at": "2026-06-27T02:50:20.812955+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.46,
@@ -31121,7 +31363,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:27.029745+00:00",
+          "checked_at": "2026-06-27T02:50:04.993811+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.26,
@@ -31149,7 +31391,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:32.442554+00:00",
+          "checked_at": "2026-06-27T02:50:10.657941+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31180,7 +31422,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:33.908443+00:00",
+          "checked_at": "2026-06-27T02:50:12.007703+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.44,
@@ -31210,7 +31452,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:45.996501+00:00",
+          "checked_at": "2026-06-27T02:51:08.326406+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31241,7 +31483,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:31.982032+00:00",
+          "checked_at": "2026-06-27T02:50:59.746392+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.29,
@@ -31269,7 +31511,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:03.689021+00:00",
+          "checked_at": "2026-06-27T02:50:37.380607+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.33,
@@ -31300,7 +31542,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:21.442288+00:00",
+          "checked_at": "2026-06-27T02:49:58.157518+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.23,
@@ -31328,7 +31570,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:39.946258+00:00",
+          "checked_at": "2026-06-27T02:50:18.478366+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.7,
@@ -31358,7 +31600,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:45.286764+00:00",
+          "checked_at": "2026-06-27T02:51:07.627463+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.72,
@@ -31386,7 +31628,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:28.380605+00:00",
+          "checked_at": "2026-06-27T02:50:06.616155+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31418,7 +31660,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:29.349430+00:00",
+          "checked_at": "2026-06-27T02:50:56.813400+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.26,
@@ -31452,7 +31694,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:25.548782+00:00",
+          "checked_at": "2026-06-27T02:50:02.972830+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31482,7 +31724,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:10.603479+00:00",
+          "checked_at": "2026-06-27T02:49:49.125126+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.47,
@@ -31510,7 +31752,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:23.111104+00:00",
+          "checked_at": "2026-06-27T02:50:51.915116+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31540,7 +31782,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:07.242202+00:00",
+          "checked_at": "2026-06-27T02:49:45.853884+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.52,
@@ -31571,7 +31813,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:22.103913+00:00",
+          "checked_at": "2026-06-27T02:49:59.193519+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31603,7 +31845,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:38.584356+00:00",
+          "checked_at": "2026-06-27T02:50:16.901702+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 8.56,
@@ -31631,7 +31873,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:57.541806+00:00",
+          "checked_at": "2026-06-27T02:51:17.801580+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31661,7 +31903,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:18.606986+00:00",
+          "checked_at": "2026-06-27T02:50:47.705873+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31698,7 +31940,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:33.208623+00:00",
+          "checked_at": "2026-06-27T02:50:11.354316+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.06,
@@ -31726,7 +31968,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:44.966786+00:00",
+          "checked_at": "2026-06-27T02:50:22.450783+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.31,
@@ -31754,7 +31996,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:19.961797+00:00",
+          "checked_at": "2026-06-27T02:50:49.046645+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31784,7 +32026,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:38.871924+00:00",
+          "checked_at": "2026-06-27T02:51:04.917646+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31818,7 +32060,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:59.693937+00:00",
+          "checked_at": "2026-06-27T02:51:19.873484+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 5.11,
@@ -31848,7 +32090,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:53.837565+00:00",
+          "checked_at": "2026-06-27T02:51:14.346340+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 4.46,
@@ -31876,7 +32118,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:47.399846+00:00",
+          "checked_at": "2026-06-27T02:51:09.720579+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31906,7 +32148,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:49.756916+00:00",
+          "checked_at": "2026-06-27T02:50:24.724698+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.33,
@@ -31934,7 +32176,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:34.605920+00:00",
+          "checked_at": "2026-06-27T02:51:01.569316+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -31972,7 +32214,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:20.677523+00:00",
+          "checked_at": "2026-06-27T02:50:49.731670+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.66,
@@ -32000,7 +32242,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:39.258649+00:00",
+          "checked_at": "2026-06-27T02:50:17.498824+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 7.0,
@@ -32028,7 +32270,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:51:01.827359+00:00",
+          "checked_at": "2026-06-27T02:51:22.034757+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 1.25,
@@ -32058,7 +32300,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:12.799013+00:00",
+          "checked_at": "2026-06-27T02:50:44.251654+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32090,7 +32332,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:27.718147+00:00",
+          "checked_at": "2026-06-27T02:50:05.985860+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32121,7 +32363,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:51:00.374767+00:00",
+          "checked_at": "2026-06-27T02:51:20.558131+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.71,
@@ -32151,7 +32393,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:26.306501+00:00",
+          "checked_at": "2026-06-27T02:50:03.961644+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.2,
@@ -32181,7 +32423,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:21.386776+00:00",
+          "checked_at": "2026-06-27T02:50:50.446328+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32212,7 +32454,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:49.023130+00:00",
+          "checked_at": "2026-06-27T02:50:24.096228+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32243,7 +32485,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:51:01.059150+00:00",
+          "checked_at": "2026-06-27T02:51:21.351610+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.73,
@@ -32271,7 +32513,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:09.182101+00:00",
+          "checked_at": "2026-06-27T02:50:42.986606+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.32,
@@ -32299,7 +32541,7 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:50.916972+00:00",
+          "checked_at": "2026-06-27T02:51:11.712169+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32329,7 +32571,37 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:49:50.454617+00:00",
+          "checked_at": "2026-06-27T02:51:17.120013+00:00",
+          "conviction": {},
+          "currency": "USD",
+          "current_exposure_pct": 0.0,
+          "current_exposure_usd": 0.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 155.93,
+          "first_flagged": "",
+          "flag_price": null,
+          "high_date": "2026-06-26",
+          "latest_price_date": "2026-06-26",
+          "move_since_flagged": "",
+          "pct_below_high": -0.35,
+          "price": 155.38,
+          "rank_score": 0.35,
+          "research_status": "",
+          "size": "",
+          "size_band_usd": null,
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [
+            "mark l. newton, cmt A"
+          ],
+          "status": "has_data",
+          "thesis": "",
+          "ticker": "XBI",
+          "trigger": "",
+          "trigger_date": ""
+        },
+        {
+          "checked_at": "2026-06-27T02:50:25.471711+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32360,51 +32632,21 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:56.793401+00:00",
+          "checked_at": "2026-06-27T02:50:51.152834+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
           "current_exposure_usd": 0.0,
           "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 155.915,
+          "fifty_two_week_high": 33.53,
           "first_flagged": "",
           "flag_price": null,
           "high_date": "2026-06-26",
           "latest_price_date": "2026-06-26",
           "move_since_flagged": "",
-          "pct_below_high": -0.34,
-          "price": 155.38,
-          "rank_score": 0.34,
-          "research_status": "",
-          "size": "",
-          "size_band_usd": null,
-          "source": "Yahoo Finance chart endpoint",
-          "source_flags": [],
-          "source_tags": [
-            "mark l. newton, cmt A"
-          ],
-          "status": "has_data",
-          "thesis": "",
-          "ticker": "XBI",
-          "trigger": "",
-          "trigger_date": ""
-        },
-        {
-          "checked_at": "2026-06-27T00:50:22.096767+00:00",
-          "conviction": {},
-          "currency": "USD",
-          "current_exposure_pct": 0.0,
-          "current_exposure_usd": 0.0,
-          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 33.525,
-          "first_flagged": "",
-          "flag_price": null,
-          "high_date": "2026-06-26",
-          "latest_price_date": "2026-06-26",
-          "move_since_flagged": "",
-          "pct_below_high": -0.1,
+          "pct_below_high": -0.12,
           "price": 33.49,
-          "rank_score": 0.1,
+          "rank_score": 0.12,
           "research_status": "",
           "size": "",
           "size_band_usd": null,
@@ -32420,7 +32662,35 @@
           "trigger_date": ""
         },
         {
-          "checked_at": "2026-06-27T00:50:58.320481+00:00",
+          "checked_at": "2026-06-27T02:50:21.442612+00:00",
+          "conviction": {},
+          "currency": "USD",
+          "current_exposure_pct": 1.43,
+          "current_exposure_usd": 25982.0,
+          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
+          "fifty_two_week_high": 55.61,
+          "first_flagged": "",
+          "flag_price": null,
+          "high_date": "2026-06-26",
+          "latest_price_date": "2026-06-26",
+          "move_since_flagged": "",
+          "pct_below_high": 0.0,
+          "price": 55.61,
+          "rank_score": -0.26,
+          "research_status": "",
+          "size": "",
+          "size_band_usd": null,
+          "source": "Yahoo Finance chart endpoint",
+          "source_flags": [],
+          "source_tags": [],
+          "status": "has_data",
+          "thesis": "",
+          "ticker": "IHF",
+          "trigger": "",
+          "trigger_date": ""
+        },
+        {
+          "checked_at": "2026-06-27T02:51:18.482158+00:00",
           "conviction": {},
           "currency": "USD",
           "current_exposure_pct": 0.0,
@@ -32448,34 +32718,6 @@
           "ticker": "XHS",
           "trigger": "",
           "trigger_date": ""
-        },
-        {
-          "checked_at": "2026-06-27T00:49:42.793755+00:00",
-          "conviction": {},
-          "currency": "USD",
-          "current_exposure_pct": 1.43,
-          "current_exposure_usd": 25982.0,
-          "disconfirmation": "Needs same-session price/flow and thesis confirmation before promotion.",
-          "fifty_two_week_high": 55.59,
-          "first_flagged": "",
-          "flag_price": null,
-          "high_date": "2026-06-26",
-          "latest_price_date": "2026-06-26",
-          "move_since_flagged": "",
-          "pct_below_high": 0.04,
-          "price": 55.61,
-          "rank_score": -0.22,
-          "research_status": "",
-          "size": "",
-          "size_band_usd": null,
-          "source": "Yahoo Finance chart endpoint",
-          "source_flags": [],
-          "source_tags": [],
-          "status": "has_data",
-          "thesis": "",
-          "ticker": "IHF",
-          "trigger": "",
-          "trigger_date": ""
         }
       ],
       "source": "Yahoo Finance chart endpoint, 1y daily range",
@@ -32485,7 +32727,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-26",
-    "generated_at": "2026-06-27T00:49:06.187032+00:00",
+    "generated_at": "2026-06-27T02:49:44.389265+00:00",
     "opportunities": [
       {
         "ticker": "MSFT",
@@ -32903,7 +33145,7 @@
     "status": "has_data",
     "count": 3,
     "as_of": "2026-06-26",
-    "generated_at": "2026-06-27T00:51:07.310909+00:00",
+    "generated_at": "2026-06-27T02:51:25.357462+00:00",
     "line": "3 options idea(s) ready to act now; 9 names checked. these ideas use ~3.4% of your ~10% options budget.",
     "rows": [
       {
@@ -38958,7 +39200,7 @@
           "section": "higher_quality_pullbacks",
           "label": "Higher-quality pullback",
           "row": {
-            "checked_at": "2026-06-27T00:49:07.980493+00:00",
+            "checked_at": "2026-06-27T02:49:46.476486+00:00",
             "conviction": {},
             "currency": "USD",
             "current_exposure_pct": 1.12,
@@ -42332,7 +42574,7 @@
     "options": {
       "source": "options_surface",
       "as_of": "2026-06-26",
-      "generated_at": "2026-06-27T00:51:07.310909+00:00",
+      "generated_at": "2026-06-27T02:51:25.357462+00:00",
       "ideas": [
         {
           "schema_version": "1.0",

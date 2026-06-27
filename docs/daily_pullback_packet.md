@@ -9,7 +9,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 
 ## Source Status
 - Positions: has_data from 2026-06-26 on $1,816,658.
-- UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
+- UW: UW endpoint proof: 25 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
 - Social Watch: not_checked - Social watch not checked: no Reddit/social cache supplied.
