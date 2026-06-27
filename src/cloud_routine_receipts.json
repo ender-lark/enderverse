@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T01:16:40.826061Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T01:24:12.516672Z",
-      "summary": "checked cockpit/research/event-risk/holdings; SEC active universe, UW proof, Polymarket/Kalshi public search, Social Watch; found 2 routed packets LEU-Oklo HALEU and SATS DBS cure; Notion Signal Log 2 written+readback verified, repo Signal Log +2 validated; suppressed duplicate NVDA/BMNR/AVGO and governance-only COIN/GOOGL; dark/blockers Social Watch missing, UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, prediction search unrelated/no relevant markets"
-    },
-    {
       "routine_id": "investing-os-loose-thread-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6702,7 +6688,21 @@
         "target_verification": "nothing_written"
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T02:18:10.163103Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T02:20:33.319521Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=0 coverage=25/25 current action/material fresh missing=0 stale=0 unparsed=0 discipline=clean tests=32 passed; worklist now 47/83 covered missing=36 stale=0 refresh_soon=0; dark/not_checked blockers CLS same-session price/flow precise 52-week range operator thesis; COHR final CHIPS terms input availability customer demand same-session price/flow operator thesis"
     }
   ],
-  "updated_at": "2026-06-27T02:17:30.156274Z"
+  "updated_at": "2026-06-27T02:20:33.319521Z"
 }
