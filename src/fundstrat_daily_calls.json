@@ -2577,5 +2577,43 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "QQQ",
+    "direction": "avoid",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Newton lowered Technology to Neutral from Bullish tactically; avoid adding QQQ/SMH/MAGS tech beta until recheck confirms rotation risk has cleared.",
+    "date": "2026-06-26",
+    "subject": "Lowering Technology to Neutral from Bullish on a Tactical Basis",
+    "source_message_id": "fundstrat-web-article_detail-2026-06-26-qqq-15a2550aa95e",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "medium",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Sean Farrell",
+    "ticker": "MSTR",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "MSTR mNAV below 1.0x raises stakes for Monday 8-K; recheck crypto-equity exposure and STRC/dividend risk before sizing.",
+    "date": "2026-06-26",
+    "subject": "MSTR mNAV below 1.0x raises stakes for Monday 8-K",
+    "source_message_id": "fundstrat-web-article_detail-2026-06-26-mstr-e67be6819fe5",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "crypto_strategy",
+    "capture_policy": "daily_call",
+    "use_case": "crypto_sleeve",
+    "decision_usefulness": "medium",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
   }
 ]

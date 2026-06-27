@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-18T23:31:55.181097Z",
-      "summary": "Research Queue not_checked: Drive drop folder missing; cache not refreshed; existing cache valid with 5 pending, 0 done, 0 ACT_NOW, 0 skipped"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "started",
       "run_source": "scheduled",
@@ -6614,7 +6607,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-27T00:47:35.677479Z",
       "summary": "dry-run selected 0; queued none; cache verified 21 prospects 19 queued 2 unqueued RYF/XOP below threshold QUIET; Notion writes/readback not_checked no selected rows; dark/stale lanes post-open evidence gate latest scheduled failed dashboard refresh; blockers none for bridge"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T00:50:38.670866Z",
+      "summary": "FS inbox catch-up evening success: ingested 3 entries through [06/26/2026 20:10 ET]; Source Call Log rows 4 fetch-verified; flags Tech neutral/rotation risk and MSTR Monday 8-K/STRC dividend risk; Source Call Log SQL query blocked/not_checked; no trades broker gate or card mutation"
     }
   ],
-  "updated_at": "2026-06-27T00:47:35.677479Z"
+  "updated_at": "2026-06-27T00:50:38.670866Z"
 }
