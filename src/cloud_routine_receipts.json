@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T00:47:43.113917Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T00:49:05.731315Z",
-      "summary": "dry-run selected 8 BUILDING/QUIET; queued ELF,DE,STRL,PWR,IESC,GS,FN,FIX; Notion write/readback verified 8/8 and cache page ids set; remaining unqueued BUILDING/QUIET 3 CRS,ANET,AMD; no HOT/ACT_NOW; source pulls not refreshed by bridge remain not_checked"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "success",
       "run_source": "scheduled",
@@ -6614,7 +6600,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-27T00:52:10.344924Z",
       "summary": "fundstrat deep crawl success: checked latest research/detail rows, Stock Lists, Upticks, Sector Allocation, Large-Cap Top Ideas, SMID Top Ideas, crypto strategy tables; latest videos not_checked manifest URL 404/transcript not captured; compact rows 2 MSTR/QQQ; first baseline/no table diffs; overlaps UUUU monitor, MSTR/QQQ/crypto-tech proxies; validation passed email-intake/deep-crawl/pytest; dashboard refreshed; dark Social Watch remains not_checked"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T01:16:26.103617Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T01:16:28.083657Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T00:52:10.344924Z"
+  "updated_at": "2026-06-27T01:16:28.083657Z"
 }
