@@ -2,48 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T01:16:19.555450Z",
-      "summary": "Life/Work OS heartbeat watch succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_heartbeat.py",
-          "--push",
-          "--out",
-          "src/life_work_os_heartbeat.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "life-work-os-heartbeat-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T01:16:19.555450Z",
-      "summary": "Life/Work OS heartbeat watch succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_heartbeat.py",
-          "--push",
-          "--out",
-          "src/life_work_os_heartbeat.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6721,7 +6679,30 @@
         }
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T02:16:58.403341Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-27T02:17:30.156274Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 0,
+        "captured_count": 0,
+        "skipped_duplicate_count": 0,
+        "skipped_stale_count": 0,
+        "target_verification": "nothing_written"
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-27T01:28:09.074613Z"
+  "updated_at": "2026-06-27T02:17:30.156274Z"
 }
