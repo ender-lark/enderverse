@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:06:27.504381Z",
-      "summary": "investing-os-parabolic-cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:06:36.511499Z",
-      "summary": "parabolic cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/parabolic_setups.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "c489993223f2cc30a55c8bf7e6a199d14982ecd956ce53b40b591abcacc612ba",
-            "as_of": "2026-06-19T14:06:36.200193+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "7c57513fda22bbaaa70c0cf4753e4c181b8dde1b1c8502d2dd27acdc6d3ff8ea",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6611,7 +6572,124 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-28T17:06:31.234962Z",
       "summary": "weekly deep 2026-06-28 read trailing 30d; patterns recheck-and-reconcile, HOOD PASS vs sell-fast surfacing, Hormuz oil/rates not clear, GOOGL/AVGO/MSFT missing-target research pressure, MU/GRNY/NVDA drift risk; pilot/outcomes row-level reads not_checked; Notion page 38dc5031-4bb6-814f-b9a8-eb1376049d04 written/readback verified; blocker post-open evidence gate failed latest"
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T22:01:15.103250Z",
+      "summary": "weekly pilot run started"
+    },
+    {
+      "routine_id": "investing-os-weekly-pilot-run",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T22:04:22.704815Z",
+      "summary": "weekly pilot checked pilots/debt/options/gamma/insider/13F; Pilot rows not_checked; 3 debt warnings; post-open gate failing",
+      "details": {
+        "checked_at": "2026-06-28T18:18:00-04:00",
+        "mission_lens": "weekly pilot review only; no trades, no sizing, no execution recommendation",
+        "pilot_status": {
+          "notion_page_fetch": "checked",
+          "notion_page_id": "36dc5031-4bb6-81a5-913b-f0f70da71ae9",
+          "pilot_dashboard_data_source": "collection://fa232ea9-1e78-4bd4-a9db-6e16bf7c7ec5",
+          "notion_rows": "not_checked",
+          "notion_row_blocker": "Notion query_data_sources blocked: Business plan or higher with Notion AI required. Page/schema fetch succeeded; row data did not."
+        },
+        "calibration_state": {
+          "source_rates_snapshot_date": "2026-06-26",
+          "status": "provisional_insufficient_data",
+          "evidence": "src/source_rates.json remains mostly INSUFFICIENT_DATA or NOT_SCORED; no pilot promoted from calibration."
+        },
+        "integration_debt": {
+          "status": "warn",
+          "warning_count": 3,
+          "finding_count": 18,
+          "warnings": [
+            "disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry",
+            "fundstrat_deep_crawl_summary.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry",
+            "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status"
+          ],
+          "outputs": [
+            "docs/integration_debt_report.md",
+            "src/integration_debt_report.json"
+          ]
+        },
+        "cloud_status": {
+          "cloud_operating_state": "not_ready",
+          "failed_latest": [
+            "investing-os-post-open-evidence-gate latest scheduled receipt failed 2026-06-26T13:43:36Z: UW proof 0 supports, 0 contradicts, 10 inconclusive, 3 missing; dashboard_refresh=failed"
+          ],
+          "stale_or_dark_lanes": [
+            "pre-market catalysts/event_risks stale",
+            "Fundstrat intake summary stale on several FS routines",
+            "Morning Scan macro_state/signal_log stale",
+            "Social Watch missing_optional/dark",
+            "MSFT open action review due"
+          ]
+        },
+        "options_exit": {
+          "portfolio_export": "src/account_positions.json",
+          "as_of": "2026-06-28",
+          "option_positions_scanned": 0,
+          "within_30_dte": 0,
+          "action_required_under_5_dte": 0,
+          "status": "checked_clean_for_available_export_only",
+          "initial_markdown_print_blocker": "Windows cp1252 console could not encode emoji output; reran with PYTHONIOENCODING=utf-8 and succeeded."
+        },
+        "gamma_pilot": {
+          "connector": "Unusual Whales get_greek_exposure_by_ticker",
+          "latest_market_date": "2026-06-26",
+          "SPY": "call_gamma 2448916.7849; put_gamma -5183821.3065; net negative gamma context",
+          "QQQ": "call_gamma 1347353.0361; put_gamma -2453681.7047; net negative gamma context",
+          "status": "checked_context_only_not_trade_signal"
+        },
+        "insider_pilot": {
+          "repo_cache": "src/insider_data.json refreshed; src/insider_cache_summary.json status has_data ticker_count=13 transaction_count=76",
+          "live_sample": "MP UW insider flow sample: 2026-06-09 buy 10000 shares/$543000 after several late-May/early-June sell-flow rows; mixed, context-only",
+          "status": "checked_context_only_no_trade_signal"
+        },
+        "thirteen_f_pilot": {
+          "schedule_check": "not within any 13F filing window on 2026-06-28",
+          "connector_snapshot": "BMNR institutional ownership checked via UW get_institutions; Q1 2026 filing-lagged context only",
+          "notable_context": [
+            "Vanguard Capital Management 20343583 BMNR shares filed 2026-05-15 for 2026-03-31",
+            "Citadel Advisors +5923450 BMNR shares filed 2026-05-15 for 2026-03-31",
+            "BlackRock +2028590 BMNR shares filed 2026-05-13 for 2026-03-31"
+          ],
+          "status": "checked_context_only_no_delta_write"
+        },
+        "artifact_boundaries": [
+          {
+            "path": "src/cloud_routine_receipts.json",
+            "status": "changed",
+            "routine_owned": true
+          },
+          {
+            "path": "docs/integration_debt_report.md",
+            "status": "changed",
+            "routine_owned": true
+          },
+          {
+            "path": "src/integration_debt_report.json",
+            "status": "changed",
+            "routine_owned": true
+          },
+          {
+            "path": "src/insider_data.json",
+            "status": "created_or_updated",
+            "routine_owned": "helper_allowlist_dependent"
+          },
+          {
+            "path": "src/insider_cache_summary.json",
+            "status": "created_or_updated",
+            "routine_owned": "helper_allowlist_dependent"
+          }
+        ],
+        "trade_execution": "none; review-only scheduled pilot"
+      },
+      "boundary_outcome": "stale_boundary"
     }
   ],
-  "updated_at": "2026-06-28T17:06:31.234962Z"
+  "updated_at": "2026-06-28T22:04:22.704815Z"
 }
