@@ -2,80 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:23:21.400104Z",
-      "summary": "FS inbox catch-up preopen nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:23:55.032092Z",
-      "summary": "broker position intake succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/snaptrade_book_refresh.py",
-          "--refresh-dashboard"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "8037667af00f7400ee65f1ab831db66e306ea1cc94c11f50911e2f75d42ef25d",
-            "as_of": "2026-06-19",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "ad5078e074301222db13431331e65d388222c54a4ea45c2d312f2adeaf4673a2",
-            "changed": true
-          },
-          {
-            "path": "src/account_positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "dfc805ccfaf1fba67615e79aee7d647c9018e85e643403229f7c38ac4163739e",
-            "as_of": "2026-06-19",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "74bd63e4f6a22f2345bb517b4e68ba325ac48b284cb9c240a38cd5f0bed05f05",
-            "changed": true
-          },
-          {
-            "path": "src/position_reconciliation.json",
-            "as_of_field": "current_snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "9092ccfce1c4505feae1406bd554fb56a76002c7a98ea7e30453da212bef35c8",
-            "as_of": "2026-06-19",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "c32dab0da2520f77785850b1f0db1f38048b52176546a73f655881401e4ca550",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:36:53.271026Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6786,7 +6712,37 @@
         }
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T02:16:37.487705Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T02:17:14.708765Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T02:17:29.916759Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 0,
+        "captured_count": 0,
+        "skipped_duplicate_count": 0,
+        "skipped_stale_count": 0,
+        "target_verification": "nothing_written"
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-28T01:26:35.474025Z"
+  "updated_at": "2026-06-28T02:17:29.916759Z"
 }
