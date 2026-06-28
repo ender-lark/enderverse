@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:03:03.028872Z",
-      "summary": "investing-os-uw-opportunity-cache started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:03:07.721300Z",
-      "summary": "uw opportunity cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/uw_opportunity_signals.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "b36e745fee9f44619ecdf46d19368ddb1223982ac6dd750fd820dbacb9a43411",
-            "as_of": "2026-06-19T14:03:07.598707+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "9d85d47229108b1123ea382d365e1dc1fe585d60911a92b2e2669224ea25a500",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -6636,7 +6597,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T17:02:39.873895Z",
+      "summary": "deep synthesis started"
+    },
+    {
+      "routine_id": "investing-os-deep-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T17:06:31.234962Z",
+      "summary": "weekly deep 2026-06-28 read trailing 30d; patterns recheck-and-reconcile, HOOD PASS vs sell-fast surfacing, Hormuz oil/rates not clear, GOOGL/AVGO/MSFT missing-target research pressure, MU/GRNY/NVDA drift risk; pilot/outcomes row-level reads not_checked; Notion page 38dc5031-4bb6-814f-b9a8-eb1376049d04 written/readback verified; blocker post-open evidence gate failed latest"
     }
   ],
-  "updated_at": "2026-06-28T13:16:20.875786Z"
+  "updated_at": "2026-06-28T17:06:31.234962Z"
 }
