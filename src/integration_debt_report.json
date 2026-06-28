@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-21T22:02:41Z",
+  "generated_at": "2026-06-28T22:02:07Z",
   "status": "warn",
-  "warning_count": 2,
-  "finding_count": 17,
-  "line": "Integration debt: 2 warning(s), 17 total finding(s).",
+  "warning_count": 3,
+  "finding_count": 18,
+  "line": "Integration debt: 3 warning(s), 18 total finding(s).",
   "sections": {
     "options_exit_cadence": {
       "status": "ok",
@@ -231,9 +231,9 @@
     },
     "build_without_wire": {
       "status": "warn",
-      "line": "Build-without-wire sweep: 29 candidate-bearing artifact(s); 1 unwired warning(s).",
-      "candidate_count": 29,
-      "unwired_count": 1,
+      "line": "Build-without-wire sweep: 33 candidate-bearing artifact(s); 2 unwired warning(s).",
+      "candidate_count": 33,
+      "unwired_count": 2,
       "rows": [
         {
           "artifact": "account_positions.json",
@@ -294,6 +294,13 @@
           "line": "fundstrat_daily_calls.json carries ticker/candidate rows and is wired via decision_path_reader."
         },
         {
+          "artifact": "fundstrat_deep_crawl_summary.json",
+          "path": "src/fundstrat_deep_crawl_summary.json",
+          "wired": false,
+          "wiring": "missing",
+          "line": "fundstrat_deep_crawl_summary.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry."
+        },
+        {
           "artifact": "latest_cockpit_feed.json",
           "path": "src/latest_cockpit_feed.json",
           "wired": true,
@@ -306,6 +313,13 @@
           "wired": true,
           "wiring": "decision_path_reader",
           "line": "open_opportunities.json carries ticker/candidate rows and is wired via decision_path_reader."
+        },
+        {
+          "artifact": "options_chain_cache.json",
+          "path": "src/options_chain_cache.json",
+          "wired": true,
+          "wiring": "decision_path_reader",
+          "line": "options_chain_cache.json carries ticker/candidate rows and is wired via decision_path_reader."
         },
         {
           "artifact": "orphan_triage.json",
@@ -368,22 +382,6 @@
           "line": "source_call_cache_summary.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
           "classification": "proof_cache",
           "non_surfacing_reason": "Summary/proof of source-call cache merge state; source_calls.json is the decision-path input."
-        },
-        {
-          "artifact": "source_call_candidates.json",
-          "path": "src/source_call_candidates.json",
-          "wired": true,
-          "wiring": "non_surfacing_allowlist",
-          "line": "source_call_candidates.json carries ticker/candidate rows and is wired via non_surfacing_allowlist.",
-          "classification": "intermediate_cache",
-          "non_surfacing_reason": "Pre-merge/classification candidate cache; source_calls.json is the scored and surfaced decision-path artifact."
-        },
-        {
-          "artifact": "source_calls.json",
-          "path": "src/source_calls.json",
-          "wired": true,
-          "wiring": "decision_path_reader",
-          "line": "source_calls.json carries ticker/candidate rows and is wired via decision_path_reader."
         }
       ],
       "findings": [
@@ -396,6 +394,17 @@
           "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
           "evidence": [
             "src/disconfirmation_registry.json"
+          ]
+        },
+        {
+          "id": "build_without_wire_fundstrat_deep_crawl_summary",
+          "area": "build_without_wire",
+          "severity": "warn",
+          "title": "fundstrat_deep_crawl_summary.json carries candidates but is not surfaced",
+          "line": "fundstrat_deep_crawl_summary.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.",
+          "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
+          "evidence": [
+            "src/fundstrat_deep_crawl_summary.json"
           ]
         }
       ]
@@ -665,6 +674,17 @@
       "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
       "evidence": [
         "src/disconfirmation_registry.json"
+      ]
+    },
+    {
+      "id": "build_without_wire_fundstrat_deep_crawl_summary",
+      "area": "build_without_wire",
+      "severity": "warn",
+      "title": "fundstrat_deep_crawl_summary.json carries candidates but is not surfaced",
+      "line": "fundstrat_deep_crawl_summary.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.",
+      "next_step": "Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.",
+      "evidence": [
+        "src/fundstrat_deep_crawl_summary.json"
       ]
     },
     {

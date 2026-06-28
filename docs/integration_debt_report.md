@@ -1,8 +1,8 @@
 # Integration Debt Report
 
-Generated: 2026-06-21T22:02:41Z
+Generated: 2026-06-28T22:02:07Z
 
-Status: warn | warnings: 2 | findings: 17
+Status: warn | warnings: 3 | findings: 18
 
 ## Findings
 
@@ -71,21 +71,26 @@ Status: warn | warnings: 2 | findings: 17
    - Line: disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.
    - Next: Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.
    - Evidence: src/disconfirmation_registry.json
-14. [INFO] research_action_promotion prompt is not visibly scheduled
+14. [WARN] fundstrat_deep_crawl_summary.json carries candidates but is not surfaced
+   - Area: build_without_wire
+   - Line: fundstrat_deep_crawl_summary.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry.
+   - Next: Wire it through the decision path, declare a real state_ownership_map feed_path, or add a justified non_surfacing_reason to src/non_surfacing_allowlist.json.
+   - Evidence: src/fundstrat_deep_crawl_summary.json
+15. [INFO] research_action_promotion prompt is not visibly scheduled
    - Area: routine_schedule
    - Line: src/codex_routines/research_action_promotion.md is not referenced by the manifest or active cloud schedules.
    - Next: Register it, mark it retired, or document why it is manual-only.
-15. [INFO] federal_funding_midday_watch lacks repo prompt coverage
+16. [INFO] federal_funding_midday_watch lacks repo prompt coverage
    - Area: routine_schedule
    - Line: federal_funding_midday_watch is scheduled but has no repo prompt/manifest doc match.
    - Next: Add a repo prompt/doc or map the schedule to an existing manifest entry.
    - Evidence: investing-os-federal-funding-midday-watch; market weekdays 11:20 AM ET
-16. [INFO] federal_funding_post_close_sweep lacks repo prompt coverage
+17. [INFO] federal_funding_post_close_sweep lacks repo prompt coverage
    - Area: routine_schedule
    - Line: federal_funding_post_close_sweep is scheduled but has no repo prompt/manifest doc match.
    - Next: Add a repo prompt/doc or map the schedule to an existing manifest entry.
    - Evidence: investing-os-federal-funding-post-close-sweep; market weekdays 5:35 PM ET
-17. [WARN] Notion System Update Queue not checked
+18. [WARN] Notion System Update Queue not checked
    - Area: notion_queue
    - Line: Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status.
    - Next: Run with a Notion queue export/connector snapshot when doing the weekly debt review.
@@ -102,7 +107,7 @@ Module wiring sweep: 36 candidate orphan module(s); 0 priority warning(s).
 
 ### build_without_wire
 
-Build-without-wire sweep: 29 candidate-bearing artifact(s); 1 unwired warning(s).
+Build-without-wire sweep: 33 candidate-bearing artifact(s); 2 unwired warning(s).
 
 ### routine_schedule
 
