@@ -210,6 +210,45 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-27",
+    "title": "Kalshi Hormuz curve lowers near-term normalization odds before Monday",
+    "severity": "high",
+    "horizon": "Jul1-Aug1 Hormuz normalization window",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "volatility",
+      "energy",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "USO",
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "new-buy timing",
+      "energy exposure",
+      "high-duration growth",
+      "AI add timing",
+      "nuclear and critical minerals"
+    ],
+    "source": "Kalshi public API KXHORMUZNORM checked 2026-06-27 21:22 ET; Polymarket Gamma search noisy/unusable; direct IMF PortWatch not_checked",
+    "summary": "Kalshi public markets priced PortWatch >60 7DMA transit normalization around 1.8% before Jul1, 15% before Jul15, 34% before Aug1, 48% before Sep1, 61% before Oct1, and 76% before Jan1 2027. This lowers near-term normalization confidence and keeps oil/rates event-risk gating active before Monday AI/growth adds rather than clearing the shock.",
+    "trigger": "Disconfirm only if direct IMF PortWatch 7DMA transit calls exceed 60 and WTI/TNX plus shipping/insurance reports confirm durable normalization; re-escalate if odds fall further, traffic drops, talks fail, or oil/rates spike.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",

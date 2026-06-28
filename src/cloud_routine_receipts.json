@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:21:29.052730Z",
-      "summary": "FS inbox catch-up preopen started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T12:23:21.400104Z",
@@ -6707,7 +6700,93 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T01:26:35.474025Z",
+      "summary": "checked cockpit/RQ/positions/event risk; SEC no fresh filings; UW proof inconclusive; routed MSFT Signal Log Notion+repo and Kalshi Hormuz Event Risk repo; validations passed; Social/PortWatch dark; Polymarket/Kalshi keyword searches noisy; UW MARKET_MOVERS 403 SECTOR_TIDE unsupported",
+      "details": {
+        "checked_at": "2026-06-27T21:27:00-04:00",
+        "source_state": {
+          "anchored_on": [
+            "live_status",
+            "uw_action_runbook",
+            "latest_cockpit_feed",
+            "research_queue",
+            "signal_log",
+            "event_risks",
+            "account_positions",
+            "watch_interest",
+            "decision_dossiers"
+          ],
+          "sources_checked": [
+            "SEC EDGAR submissions metadata for active/material universe since 2026-06-27T01:28Z",
+            "UW endpoint capture via current runbook",
+            "Kalshi public KXHORMUZNORM series and orderbook endpoints",
+            "Polymarket Gamma public searches for Hormuz and targeted crypto/policy/rates/semiconductor keywords",
+            "Microsoft Official Blog and Chevron primary release for Pecos/Kilby AI datacenter power evidence",
+            "War.gov contracts page attempted; local fetch 403 and public search showed latest June 26 contracts",
+            "Notion Signal Log search/create/fetch verification",
+            "local Social Watch cache availability"
+          ],
+          "dark_or_blocked": [
+            "Social Watch cache missing/not_checked; no direct Reddit API or scraping used",
+            "Direct IMF PortWatch export not pulled; Kalshi remains prediction context only",
+            "UW MARKET_MOVERS advanced-tier 403",
+            "UW SECTOR_TIDE unsupported path parameter",
+            "UW TNX ticker flow/alerts missing or empty",
+            "UW proof 26 rows: supports=0 contradicts=0 inconclusive=22 missing=4; proof labels stale/not same-session for action promotion",
+            "Polymarket Gamma search returned unrelated/noisy markets for targeted queries",
+            "Kalshi keyword search returned unrelated sports/combinator markets outside direct Hormuz series",
+            "War.gov direct local fetch returned 403; no new accessible June 27 contract page found"
+          ],
+          "uw_proof": "26 captured rows; supports=0 contradicts=0 inconclusive=22 missing=4; newest=2026-06-27 21:19 ET; not action-promoting"
+        },
+        "packets": [
+          {
+            "ticker_entity": "MSFT / AI infrastructure power",
+            "source_timestamp": "Microsoft Official Blog 2026-06-22; Chevron primary release 2026-06-22; checked 2026-06-27 21:24 ET",
+            "why_it_matters": "Pecos/Kilby confirms dedicated AI datacenter capacity and power supply, supporting the MSFT open review while making power/capex/regulatory execution a required check.",
+            "current_decision_affected": "MSFT open review, funded add candidate, AI-power bottleneck read-throughs to GEV/CAT/CVX.",
+            "conviction_effect": "mixed/supports review; not action-grade",
+            "time_window": "2026 FID through 2028 first power",
+            "disconfirmation_trigger": "FID slips/fails, regulatory/community pushback, energy cost/carbon tradeoff worsens, or Azure demand/ROI fails to justify capacity.",
+            "missing_evidence": "same-session MSFT price/flow, capex economics, PPA cost, grid/regulatory approvals, actual power delivery",
+            "proposed_route": "Signal Log / Watchlist",
+            "routed": "Notion Signal Log verified https://app.notion.com/p/38dc50314bb68172a713ce3798009268; repo signal_log.json +1"
+          },
+          {
+            "ticker_entity": "Hormuz / oil-rates event risk",
+            "source_timestamp": "Kalshi public KXHORMUZNORM API checked 2026-06-27 21:22 ET",
+            "why_it_matters": "Kalshi curve lowered near-term PortWatch >60 7DMA normalization odds, keeping Monday new-buy timing gated rather than clearing the oil/rates shock.",
+            "current_decision_affected": "Event Risk lane and AI/growth/energy/rates-sensitive new-buy timing for GOOGL/MSFT/MAGS/SMH/XOP/XLE/TNX.",
+            "conviction_effect": "mixed/inconclusive; contradicts checked-clear status",
+            "time_window": "Jul1-Aug1 normalization window, with longer tail to Jan1 2027",
+            "disconfirmation_trigger": "direct IMF PortWatch 7DMA transit calls exceed 60 and WTI/TNX plus shipping/insurance reports confirm durable normalization",
+            "missing_evidence": "direct PortWatch export; same-session oil/rates confirmation; Polymarket targeted read remained noisy/unusable",
+            "proposed_route": "Event Risk",
+            "routed": "repo event_risks.json +1; Notion duplicate avoided"
+          }
+        ],
+        "suppressed": [
+          "SEC active/material universe had 0 fresh filings since the prior scout window",
+          "GOOGL/UUUU/COHR primary items were already represented in existing queue/log rows",
+          "Polymarket targeted searches returned unrelated GTA/celebrity/politics markets and were suppressed",
+          "Kalshi broad keyword searches returned unrelated sports/combinator markets and were suppressed",
+          "War.gov latest accessible/public search context showed June 26 contracts already handled by federal funding routines"
+        ],
+        "validations": {
+          "signal_log": "valid rows=109",
+          "event_risks": "valid rows=14",
+          "research_queue": "valid",
+          "receipts_before_final": "valid; failed_latest remains investing-os-post-open-evidence-gate",
+          "notion_write_verification": "MSFT Signal Log page fetched back with Signal, Linked Tickers, Status, Date Scanned, and packet Notes"
+        }
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-28T01:17:39.602110Z"
+  "updated_at": "2026-06-28T01:26:35.474025Z"
 }
