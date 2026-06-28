@@ -2,37 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "work-os-daily-briefing",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:02:52.318633Z",
-      "summary": "work-os-daily-briefing started"
-    },
-    {
-      "routine_id": "work-os-daily-briefing",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:03:02.248206Z",
-      "summary": "Work OS daily briefing succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_briefing.py",
-          "--routine",
-          "work_daily",
-          "--write-log",
-          "--push",
-          "--out",
-          "src/work_os_daily_briefing_last_run.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -6710,7 +6679,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T00:46:37.474471Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T00:46:57.118227Z",
+      "summary": "top prospects auto-research success: dry-run selected 0; queued none; cache verified 19/21 already queued with RYF/XOP unqueued below floor QUIET/BUILDING; Research Queue write/readback not_checked no new rows; dark/stale lanes no live Notion write needed"
     }
   ],
-  "updated_at": "2026-06-27T17:02:04.014459Z"
+  "updated_at": "2026-06-28T00:46:57.118227Z"
 }
