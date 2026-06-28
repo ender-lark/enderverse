@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:11:43.361861Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:14:22.000619Z",
-      "summary": "landed 5 Fundstrat full-body Newton rows; positions untouched no broker upload; web checked no Jun19; drop folders empty; UW/Notion no writes"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:21:17.302591Z",
-      "summary": "investing-os-broker-position-intake started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "started",
       "run_source": "scheduled",
@@ -6693,7 +6672,42 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-28T00:46:57.118227Z",
       "summary": "top prospects auto-research success: dry-run selected 0; queued none; cache verified 19/21 already queued with RYF/XOP unqueued below floor QUIET/BUILDING; Research Queue write/readback not_checked no new rows; dark/stale lanes no live Notion write needed"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T01:17:09.171107Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T01:17:37.889786Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T01:17:39.602110Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-28T00:46:57.118227Z"
+  "updated_at": "2026-06-28T01:17:39.602110Z"
 }
