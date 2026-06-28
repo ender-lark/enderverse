@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:52:32.935200Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T12:54:06.817802Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "0124d9bbb9bb8f19d6bb1ff2d0cb9a661bd0500d927f23cbbbf5ba3c1c332d74",
-            "as_of": "2026-06-19T12:54:01.401148+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "5276a5ef47364c7bebf87f08125d69c8b58777b6285817b070e688ad6734c26c",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "life-work-os-heartbeat-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6663,7 +6625,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-28T02:19:56.294929Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=34; coverage 25/25 current action/material fresh; discipline clean; dark/not_checked blockers remaining missing non-held dossiers=34, independent flow/social not checked for JETS/XHB"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T05:46:37.664888Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T05:49:40.353917Z",
+      "summary": "live RQ active H17/M32/L20; selected CCJ AP1000; Notion writes 1/1 verified; remaining blocked by operator/system/full-article/source-flow/options/account/margin evidence; dark MCP SQL plan gate and same-session flow"
     }
   ],
-  "updated_at": "2026-06-28T02:19:56.294929Z"
+  "updated_at": "2026-06-28T05:49:40.353917Z"
 }
