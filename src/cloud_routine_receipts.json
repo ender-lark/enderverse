@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T13:31:14.555499Z",
-      "summary": "daily synthesis started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T13:34:38.168291Z",
-      "summary": "repo synthesis refreshed and validated; Notion page 384c5031-4bb6-8146-a858-cbe8bbf976d0 written/readback verified; Social Watch and row-level Notion lanes not_checked"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "started",
       "run_source": "scheduled",
@@ -6641,7 +6627,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T08:47:36.383143Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-28T08:51:33.386670Z",
+      "summary": "queued H3/M5/L7 live Notion REST; processed Med v0 checkpoint Findings with write/readback 1/1; remaining 15 queued (High operator/code/full-article blocked; other Med/Low prior-reviewed or need fresh source/operator evidence); dark MCP SQL/v0 calibration rows/same-session flow/options/account/margin; no trades"
     }
   ],
-  "updated_at": "2026-06-28T06:32:11.415103Z"
+  "updated_at": "2026-06-28T08:51:33.386670Z"
 }
