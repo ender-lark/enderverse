@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-19T16:47:45.508204Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T16:53:40.139790Z",
-      "summary": "checked Chrome Macro FI Jun18 15:02 stale, Crypto FI Jun8 09:32 stale, research listings no Jun19; Gmail Jun19 domain 0 messages full-body 0; rows landed 0; suppressed stale/duplicate/discovery-only; validation passed; alert quiet 0 candidates 12 duplicates 62 suppressed; dashboard skipped; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-19T17:46:33.062841Z",
       "summary": "fundstrat daytime watch started"
     },
@@ -6709,7 +6695,37 @@
         "no_trade_execution": true
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T06:31:51.892624Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T06:32:00.360865Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T05:51:06.071562Z"
+  "updated_at": "2026-06-29T06:32:00.360865Z"
 }
