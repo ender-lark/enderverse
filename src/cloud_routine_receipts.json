@@ -3,35 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T17:46:33.062841Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T17:48:40.835001Z",
-      "summary": "trigger check fired 1 trigger(s): GOOGL",
-      "details": {
-        "fired": [
-          {
-            "id": "googl-tranche-2-review-2026-06-19",
-            "ticker": "GOOGL",
-            "condition_type": "date_event",
-            "source": "Live Thesis 37dc50314bb681738ff3e12f39893b7e: GOOGL tranche-2 trigger for staged 6/12 entry.",
-            "status": "fired",
-            "fire_reason": "date_event due 2026-06-19"
-          }
-        ],
-        "not_checked_count": 4,
-        "summary_line": "Trigger check: fired=1; not_checked=4; armed=4; expired=0."
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T17:49:09.046202Z",
@@ -6725,7 +6696,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T08:47:15.163346Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T08:50:40.784608Z",
+      "summary": "queued H3/M5/L7 live Notion REST; processed Med v0 checkpoint and AI labor Findings with write/readback 2/2; statuses kept Queued; remaining 15 queued (High operator/code/full-article blocked; CBRS worker-updated; other Med/Low prior-reviewed or need fresh source/operator/current-flow/account/options evidence); dark MCP SQL/Notion plan gate, live pilot rows, same-session flow/options/account/margin; no trades"
     }
   ],
-  "updated_at": "2026-06-29T06:32:00.360865Z"
+  "updated_at": "2026-06-29T08:50:40.784608Z"
 }
