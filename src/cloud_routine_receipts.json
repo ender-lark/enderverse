@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T00:46:19.238982Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T00:46:58.668056Z",
-      "summary": "dry-run selected 0; queued none; write verification not needed; remaining unqueued 2 RYF/XOP below threshold QUIET; dark/stale lanes none touched; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6663,7 +6649,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T17:50:19.351473Z",
       "summary": "fundstrat daytime watch success: Chrome checked Macro FlashInsights latest Jun29 12:32 ET L. Thomas Block Fed/SCOTUS duplicate/non-distinct and Crypto FlashInsights latest Jun29 10:10 ET MSTR/STRC/BTC duplicate; Latest Research/category discovery exposed nav only/no checked article detail; Gmail checked 0 because web full-content FlashInsights available; rows landed 0; suppressed duplicate/low-value/discovery-only web surfaces; validation passed; daytime alert quiet candidates=0 duplicates=6 suppressed=146; trigger_check fired=0 not_checked=4 EWRE/ASTS/RKLB/MU quote lanes; Notion not used; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T18:46:57.020790Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T18:55:19.865295Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0; landed 1 compact TLT Fed-governor/rates recheck row; suppressed duplicate/stale visible cards Macro 11:07 and Crypto 10:10/Jun22, low-value/discovery-only 0; validation passed; dashboard refreshed; alert quiet candidates=0 duplicates=6 suppressed=147; trigger_check fired=0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; Social Watch dark/not_checked; blockers none; Notion not used"
     }
   ],
-  "updated_at": "2026-06-29T17:50:19.351473Z"
+  "updated_at": "2026-06-29T18:55:19.865295Z"
 }
