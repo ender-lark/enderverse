@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:07:50.853079Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:07:56.842506Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "success",
       "run_source": "manual",
@@ -6624,7 +6610,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T21:41:36.585984Z",
       "summary": "sources checked War.gov contracts/releases, DOE, Commerce/CHIPS/NIST, DHS/CBP, NASA, NSF TIP, Treasury/IRS/IRA, DOT, EXIM/DFC; verified rows 2 direct public UAMY/VVX; research rows 2; Signal Log rows 2; Notion VVX write/readback verified and UAMY existing row readback verified; dark/no new material rows June29 agency searches and USAspending/SAM not needed; blockers stale automation-main push rejected then canonical runtime-main replayed"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T23:02:50.743164Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T23:11:41.998156Z",
+      "summary": "Chrome checked Macro Flash latest Jun29 12:32 duplicate/non-distinct, Crypto Flash latest Jun29 10:10 already cached, Latest Research plus Intraday/First Word/DTS/LTSA/US Policy/Fed/Crypto/Macro Minute/Latest Videos; opened Jun29 DTS 18:20 detail; videos checked 1 DTS Vimeo caption surface plus latest video listings; transcript vault entries written/pushed 1 (675dfbe); Gmail checked 0 because Chrome full content/captions available; compact rows landed 3 SPY/QQQ/RSP; suppressed duplicate/stale/discovery-only surfaces incl Flash duplicates, old Macro Minute/Crypto, stale LTSA/Fed Watch; validations transcript-index/email-intake/26 pytest/dashboard passed; Notion not used; dark/stale Social Watch not_checked and Cloud Routine Receipts heartbeat stale until commit; blockers none"
     }
   ],
-  "updated_at": "2026-06-29T21:41:36.585984Z"
+  "updated_at": "2026-06-29T23:11:41.998156Z"
 }
