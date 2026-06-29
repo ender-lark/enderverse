@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T01:17:30.013411Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T01:26:54.396617Z",
@@ -6663,7 +6656,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T18:55:19.865295Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0; landed 1 compact TLT Fed-governor/rates recheck row; suppressed duplicate/stale visible cards Macro 11:07 and Crypto 10:10/Jun22, low-value/discovery-only 0; validation passed; dashboard refreshed; alert quiet candidates=0 duplicates=6 suppressed=147; trigger_check fired=0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; Social Watch dark/not_checked; blockers none; Notion not used"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T19:01:25.276547Z",
+      "summary": "Correction: Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0; final rows landed 0 after suppressing Jun29 12:32 Macro Fed-governor card as duplicate/non-distinct from the 13:50 ET run; duplicate/stale visible cards Macro 11:07 and Crypto 10:10/Jun22 kept quiet, low-value/discovery-only 0; validation passed; dashboard refreshed from corrected caches generated_at 2026-06-29T19:00:46Z; alert quiet candidates=0 duplicates=6 suppressed=146; trigger_check fired=0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; Social Watch dark/not_checked; blockers none; Notion not used"
     }
   ],
-  "updated_at": "2026-06-29T18:55:19.865295Z"
+  "updated_at": "2026-06-29T19:01:25.276547Z"
 }

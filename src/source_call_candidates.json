@@ -3507,28 +3507,5 @@
     "use_case": "context",
     "decision_usefulness": "low",
     "capture_reason": "No ticker-level or portfolio-posture change detected."
-  },
-  {
-    "source": "l. thomas block",
-    "ticker": "TLT",
-    "tier": "D",
-    "confidence_in_tier": "LOW",
-    "verbatim_quote": "SCOTUS let Gov. Lisa Cook remain, but the close vote and broader removal-power ruling keep Fed-independence/rates risk on recheck rather than fully cleared.",
-    "falsification_condition": "Unfalsifiable narrative \u2014 DO NOT SCORE; track for hit-rate denominator transparency only",
-    "date": "2026-06-29",
-    "window_end": "2026-08-28",
-    "window_days": 60,
-    "outcome": "Pending",
-    "backfill": false,
-    "classified_at": "2026-06-29",
-    "fundstrat_lane": "general",
-    "source_domain": "fundstrat_general",
-    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
-    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
-    "publication_type": "macro_update",
-    "capture_policy": "daily_call",
-    "use_case": "risk_posture",
-    "decision_usefulness": "medium",
-    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]
