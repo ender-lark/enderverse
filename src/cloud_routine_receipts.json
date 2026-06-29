@@ -5,44 +5,6 @@
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:31:49.463983Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:31:52.512069Z",
-      "summary": "full cockpit build failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "cdb610342923d9960890985954e9decacad371504e5265845b96b789003e321a",
-            "as_of": "2026-06-19T13:44:07.271051+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "cdb610342923d9960890985954e9decacad371504e5265845b96b789003e321a",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-19T14:32:04.776410Z",
       "summary": "investing-os-full-cockpit-build started"
     },
@@ -6689,7 +6651,21 @@
         "trade_execution": "none; review-only scheduled pilot"
       },
       "boundary_outcome": "stale_boundary"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T00:46:21.220011Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T00:46:45.521411Z",
+      "summary": "dry-run selected 0; queued tickers none; write verification not_checked no live writes; remaining unqueued 2 RYF/XOP QUIET below BUILDING; dark/stale lanes post-open evidence gate failed latest; blockers none for bridge"
     }
   ],
-  "updated_at": "2026-06-28T22:04:22.704815Z"
+  "updated_at": "2026-06-29T00:46:45.521411Z"
 }
