@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T16:32:39.723446Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T16:35:36.889291Z",
-      "summary": "FS inbox catch-up midday nothing new; marker checked through [06/18/2026 20:10 ET]; Notion marker fetch-verified"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6666,7 +6652,64 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T02:19:50.342107Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32; coverage 25/25 current action/material fresh; discipline clean; dark/not_checked blockers remaining missing dossiers=32, HOOD same-session price/flow and post-convert reaction not_checked, VRT source-call/news/flow lanes not_checked"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T05:47:22.339859Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T05:51:06.071562Z",
+      "summary": "live RQ active H3q/H14w M5q/M27w L7q/L13w; selected CBRS; Notion writes 1/1 verified; remaining 15 queued blocked/prior-reviewed; dark SQL/options/lockup/share-count/flow/account lanes; no trades",
+      "details": {
+        "queue_source": "live Notion REST data_sources query; fallback src/research_queue.json validated but stale 2026-06-26T21:55:00Z and not used for live counts",
+        "counts": {
+          "high": {
+            "queued": 3,
+            "working": 14
+          },
+          "med": {
+            "queued": 5,
+            "working": 27
+          },
+          "low": {
+            "queued": 7,
+            "working": 13
+          },
+          "active_total": 69
+        },
+        "selected": [
+          "CBRS"
+        ],
+        "outputs_drafted": [
+          "CBRS incremental Findings update"
+        ],
+        "notion_write_verification": {
+          "attempted": 1,
+          "verified": 1,
+          "page_ids": [
+            "38cc5031-4bb6-8171-ba60-d263c98c90c1"
+          ]
+        },
+        "remaining_backlog": "15 queued; high queued rows blocked by operator review, code/framework work, or full article/source independence; other Med/Low prior-reviewed or blocked by source/operator/current-flow evidence",
+        "dark_stale_lanes": [
+          "MCP Notion SQL/query_data_sources plan gate",
+          "same-session price/flow",
+          "OPRA-grade CBRS options chain",
+          "CBRS exact lockup share schedule",
+          "CBRS diluted share-count/market-cap reconciliation",
+          "analyst independence by IPO syndicate role",
+          "GRNY live holdings look-through/tax/account friction"
+        ],
+        "no_trade_execution": true
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T02:19:50.342107Z"
+  "updated_at": "2026-06-29T05:51:06.071562Z"
 }
