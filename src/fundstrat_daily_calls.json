@@ -2710,5 +2710,24 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "L. Thomas Block",
+    "ticker": "TLT",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "SCOTUS blocked the Lisa Cook firing for now, reducing the June 26 Fed-independence/rate-risk trigger; keep TLT/rates on recheck if the Powell/Fed-governor path changes.",
+    "date": "2026-06-29",
+    "subject": "US Policy 10:42 ET: SCOTUS blocks Fed-governor firing risk",
+    "source_message_id": "fundstrat-web-article-detail-2026-06-29-1042-et-tlt-fed-independence-risk-update",
+    "source": "Fundstrat Chrome article detail page",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]

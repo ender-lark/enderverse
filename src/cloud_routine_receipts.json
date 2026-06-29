@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T00:46:28.516666Z",
-      "summary": "dry-run selected 0; queued none; write verification n/a; remaining unqueued 2 QUIET below BUILDING conviction (RYF,XOP); dark/stale lanes not checked clear; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T01:17:34.786574Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "success",
       "run_source": "scheduled",
@@ -6823,7 +6809,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:47:11.560187Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:54:56.190068Z",
+      "summary": "Chrome checked Macro Flash latest Jun26 17:12, Crypto Flash latest Jun22 11:14, Latest Research listing plus Jun29 US Policy and First to Market detail pages; Gmail checked 0; rows landed 1 TLT SCOTUS/Fed-governor risk update; suppressed First to Market barbell/margin broad context plus listing/discovery-only and stale/duplicate FlashInsights; validation passed; dashboard refreshed; alert sent 1 TLT; dark/stale Macro Jun26 Crypto Jun22 Social Watch not_checked; blockers none; Notion not used"
     }
   ],
-  "updated_at": "2026-06-29T14:33:58.738296Z"
+  "updated_at": "2026-06-29T14:54:56.190068Z"
 }

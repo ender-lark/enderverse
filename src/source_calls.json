@@ -2480,5 +2480,22 @@
     "call_summary": null,
     "repo_cache_only": true,
     "id": "repo_10febbb588f1"
+  },
+  {
+    "source": "l. thomas block",
+    "ticker": "TLT",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "SCOTUS blocked the Lisa Cook firing for now, reducing the June 26 Fed-independence/rate-risk trigger; keep TLT/rates on recheck if the Powell/Fed-governor path changes.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-29",
+    "window_end": "2026-07-29",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-29",
+    "call_summary": null,
+    "repo_cache_only": true,
+    "id": "repo_db3814654d6a"
   }
 ]

@@ -3341,5 +3341,28 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "source": "l. thomas block",
+    "ticker": "TLT",
+    "tier": "B",
+    "confidence_in_tier": "HIGH",
+    "verbatim_quote": "SCOTUS blocked the Lisa Cook firing for now, reducing the June 26 Fed-independence/rate-risk trigger; keep TLT/rates on recheck if the Powell/Fed-governor path changes.",
+    "falsification_condition": "FALSIFIED if stated condition does not produce stated outcome within window",
+    "date": "2026-06-29",
+    "window_end": "2026-07-29",
+    "window_days": 30,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-29",
+    "fundstrat_lane": "general",
+    "source_domain": "fundstrat_general",
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
+    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
   }
 ]
