@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T23:12:03.431004Z",
-      "summary": "checked 16 Chrome web/detail surfaces incl Macro/Crypto Flash, DTS, policy, crypto, videos; videos 1 detail/1 listing; transcript vault updated 1 fuller DTS caption pack pushed ec5f303; Gmail 0 not needed; landed 0 new rows; suppressed 12 duplicate/stale/context/discovery-only surfaces; validation public-index+Fundstrat passed; Notion not used; dark/stale no Jun19 full-content evidence, Crypto Flash Jun8, First Word Jun12, Live Tech Jun4; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T23:32:15.158958Z",
-      "summary": "off-hours research queue started"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "success",
       "run_source": "scheduled",
@@ -6821,7 +6807,35 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:16:32.760484Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:16:34.694506Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T12:53:33.631053Z"
+  "updated_at": "2026-06-29T13:16:34.694506Z"
 }
