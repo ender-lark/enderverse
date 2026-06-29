@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T23:32:42.588847Z",
-      "summary": "Research Queue not_checked; drop folder missing; cache preserved; pending 5 done 0 ACT_NOW 0 skipped 0"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T00:46:16.008997Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "started",
       "run_source": "scheduled",
@@ -6835,7 +6821,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:32:01.803265Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:35:24.166872Z",
+      "summary": "daily synthesis success: repo cache refreshed/validated from 2026-06-29T12:53:26Z cockpit feed; Notion page 38ec5031-4bb6-8120-a055-e289492c342b written/readback verified; HOOD sell-fast review leads; Social Watch/PortWatch stale Macro/Crypto Flash row-level Notion and post-open evidence gate dark/not_checked; verify_standard passed 1888/6"
     }
   ],
-  "updated_at": "2026-06-29T13:16:34.694506Z"
+  "updated_at": "2026-06-29T13:35:24.166872Z"
 }
