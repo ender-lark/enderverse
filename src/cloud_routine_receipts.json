@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:40:18.317305Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "e8d6ccbc027ae6ca9625fd8d0f6e927fd7f7ce8c63c99433ac27e4ad5fd6a4f7",
-            "as_of": "2026-06-19T20:40:11.746105+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "a9c8de9b18554c27c111379c5c10bb9fbe3831edab3ba3d606054f7ef6e8131a",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:47:09.911554Z",
-      "summary": "positions sync started"
-    },
-    {
       "routine_id": "investing-os-positions-sync",
       "status": "success",
       "run_source": "scheduled",
@@ -6756,7 +6718,86 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T12:27:06.915556Z",
       "summary": "FS inbox catch-up preopen ingested 1 entry through [06/27/2026 17:25 ET]; Source Call Log rows 2 fetch-verified; marker advanced; flags Mag-7/MAGS pullback-maturing recheck context and memory/MU/storage bottleneck research context; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:37:29.733381Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:41:22.728649Z",
+      "summary": "morning scan success: Signal Log rows 3 Notion verified/repo mirrored; repo scan explicit_add 8 drumbeat 9; macro cache stale not refreshed; UW bounded dark-pool empty; Social/PortWatch not_checked",
+      "details": {
+        "run_source": "scheduled",
+        "top_signals": [
+          "AI semi pullback remains decision-relevant; bounded UW dark-pool checks for SMH/MU/NVDA returned 0 rows under tested filters",
+          "Hormuz/oil macro risk easing but not checked clear; macro_state snapshot remains 2026-06-04 without validated yield/cross-asset JSON",
+          "BMNR monitor sleeve price-bounce context logged; bounded UW dark-pool check returned 0 rows and no alternate buy path promoted"
+        ],
+        "morning_scan": {
+          "as_of": "2026-06-29T12:38:12+00:00",
+          "summary": {
+            "endorsed_dip": 0,
+            "explicit_add": 8,
+            "drumbeat": 9,
+            "stale_leaps": 0,
+            "overexposure_rotation": 0,
+            "tier_b_side_play": 19
+          },
+          "warnings": 0,
+          "parabolic_dampener": [
+            "AEHR",
+            "CLS",
+            "COHR",
+            "LITE",
+            "VIAV"
+          ]
+        },
+        "signal_log": {
+          "notion_data_source": "collection://a5aba41d-97bd-4e1a-883d-8c3d1d8298bb",
+          "notion_rows_written": 3,
+          "notion_rows_verified": 3,
+          "repo_cache_rows": 113,
+          "repo_cache_valid": true,
+          "pages": [
+            "https://app.notion.com/p/38ec50314bb68126a3e6d7531d3fe0d1",
+            "https://app.notion.com/p/38ec50314bb681cea93df69e4d85b4ec",
+            "https://app.notion.com/p/38ec50314bb681879321e22f15d0767c"
+          ]
+        },
+        "cache_refresh": {
+          "signal_log_json": "updated via signal_log_intake --merge-existing",
+          "macro_state_json": "not_refreshed_missing_validated_yield_curve_and_cross_asset_json",
+          "macro_state_snapshot_date": "2026-06-04"
+        },
+        "source_lanes": {
+          "web_market_news": "checked",
+          "notion_signal_log": "write_readback_verified",
+          "uw_dark_pool_bounded": "checked_empty_for_tested_filters",
+          "uw_prediction_finance": "checked",
+          "social_watch": "not_checked",
+          "portwatch_direct": "not_checked"
+        },
+        "verification": [
+          "python src/signal_log_intake.py --validate src/signal_log.json",
+          "python src/macro_pulse_scan.py --validate src/macro_state.json",
+          "python -m pytest src/test_signal_log_intake.py src/test_v3_routines.py -q"
+        ],
+        "failures_or_dark_lanes": [
+          "macro_state.json stale at 2026-06-04; no validated yield/cross-asset JSON supplied, so not refreshed",
+          "Social Watch not_checked",
+          "PortWatch direct export not_checked",
+          "web finance/yahoo quote pull unavailable; used web/source snippets and repo/SnapTrade caches instead"
+        ],
+        "no_trades": true
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T12:27:06.915556Z"
+  "updated_at": "2026-06-29T12:41:22.728649Z"
 }

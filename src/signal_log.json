@@ -875,5 +875,29 @@
     "priority": "high",
     "source": "Guardian Jun 28 2026; Polymarket Gamma/Kalshi public APIs checked 2026-06-29T01:20Z; Notion verified https://app.notion.com/p/Hormuz-weekend-violence-resets-oil-rates-gate-before-Monday-38ec50314bb681d59f2ce999fd857c69",
     "note": "Packet: Guardian reports renewed US-Iran strikes, Iran attacks on Bahrain/Kuwait, and unresolved Strait of Hormuz control despite late stand-down/technical-talks note. Polymarket Gamma prices normal traffic Yes at 0.85% by Jun30, 7.5% by Jul7, and 40.5% by Jul31; Kalshi Jul1 market is active but exposes no simple top-line price in the market object. Decision affected: active oil/rates event-risk gate for Monday new-buy timing across AI/growth, energy, rates, nuclear/critical minerals, and GOOGL/MSFT/AMZN funded add candidates. Conviction effect: contradicts clearing/easing; supports keeping event-risk gate high. Not a trade or sizing signal. Time window next cash session through Jun30/Jul7/Jul31. Disconfirm if direct IMF PortWatch 7DMA >=60, WTI/TNX and shipping/insurance normalize, and talks hold. Missing: direct PortWatch pull, same-session cash-market/oil/rates reaction, shipping insurance/AIS confirmation, and interpreted UW proof; UW Market Movers 403/Sector Tide unsupported/TNX flow missing."
+  },
+  {
+    "signal": "Morning scan: AI semi pullback remains decision-relevant but same-session dark-pool blocks were empty under bounded filters",
+    "ticker": "SMH, NVDA, MU, QQQ",
+    "date": "2026-06-29",
+    "priority": "high",
+    "source": "https://app.notion.com/p/38ec50314bb68126a3e6d7531d3fe0d1",
+    "note": "Notion readback https://app.notion.com/p/38ec50314bb68126a3e6d7531d3fe0d1. Repo scan showed explicit_add=8, drumbeat=9, tier_b_side_play=19 with parabolic dampener active for AEHR/CLS/COHR/LITE/VIAV. Web sources report AI/chip weakness and cautious market posture while NVDA premarket steadied; UW bounded dark-pool rows returned 0 for SMH/MU/NVDA. Watch-only: recheck same-session tape/flow before any add/hedge posture change."
+  },
+  {
+    "signal": "Morning scan: Hormuz/oil macro risk easing but not checked clear for rates and inflation-sensitive exposure",
+    "ticker": "USO, TNX, XLF, SMH, LEU, UUUU, MP",
+    "date": "2026-06-29",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/38ec50314bb681cea93df69e4d85b4ec",
+    "note": "Notion readback https://app.notion.com/p/38ec50314bb681cea93df69e4d85b4ec. MarketWatch/WSJ/Barron's snippets report U.S.-Iran halt/diplomacy hopes, Brent near $72, and Treasury yields slightly higher; Trading Economics showed WTI near $70. UW prediction-market finance anomalies included same-day S&P and crude markets resolving 2026-06-29. Macro_state.json remains stale at 2026-06-04 because validated yield/cross-asset JSON was not supplied. Watch-only macro pulse context."
+  },
+  {
+    "signal": "Morning scan: BMNR monitor sleeve has price bounce context but no bounded same-session dark-pool confirmation",
+    "ticker": "BMNR",
+    "date": "2026-06-29",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/38ec50314bb681879321e22f15d0767c",
+    "note": "Notion readback https://app.notion.com/p/38ec50314bb681879321e22f15d0767c. Public.com showed BMNR premarket $13.89, +2.43% vs $13.56 close, while Investing.com/Robinhood pages showed same-session $13.85-$13.89 area. UW bounded intraday dark-pool query for BMNR min premium $250k returned 0 rows. Monitor-only; AGENTS rail says MONITOR sleeve uses defined-risk MONITOR-RE-ENTRY path only, no alternate buy path."
   }
 ]
