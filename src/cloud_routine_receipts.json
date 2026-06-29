@@ -2,37 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "work-os-weekly-review",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:03:06.399270Z",
-      "summary": "Work OS weekly review succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/life_work_os_briefing.py",
-          "--routine",
-          "work_weekly",
-          "--write-log",
-          "--push",
-          "--out",
-          "src/work_os_weekly_review_last_run.json",
-          "--format",
-          "text"
-        ],
-        "artifact_boundaries": []
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:35:04.447055Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "started",
       "run_source": "scheduled",
@@ -6744,7 +6713,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:12:29.650034Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:17:50.775509Z",
+      "summary": "pre-market source intake success: Fundstrat Gmail/Chrome checked; compact rows landed 3 (PPH healthcare rotation, SMH 606.23 recheck, MSTR 8-K/STRC patience); position cache untouched no broker input; UW same-session dark-pool checks SMH/MSTR/QQQ empty/inconclusive; Crypto FlashInsights stale Jun22; Social/PortWatch not_checked; Notion not used"
     }
   ],
-  "updated_at": "2026-06-29T12:02:25.613315Z"
+  "updated_at": "2026-06-29T12:17:50.775509Z"
 }
