@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T00:47:12.518081Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T00:47:30.139534Z",
-      "summary": "dry-run selected 3; queued CRS/ANET/AMD; cache + Notion readback verified 3/3; remaining unqueued 2 RYF/XOP below BUILDING threshold; no source pulls promoted; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-20T00:50:19.943485Z",
@@ -6835,7 +6821,57 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T13:35:24.166872Z",
       "summary": "daily synthesis success: repo cache refreshed/validated from 2026-06-29T12:53:26Z cockpit feed; Notion page 38ec5031-4bb6-8120-a055-e289492c342b written/readback verified; HOOD sell-fast review leads; Social Watch/PortWatch stale Macro/Crypto Flash row-level Notion and post-open evidence gate dark/not_checked; verify_standard passed 1888/6"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:42:51.582987Z",
+      "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T13:44:49.265616Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": true,
+        "dashboard_refresh_status": "success",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-06-29T13:42:51.606017+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-29 09:42 ET.",
+        "proof_newest_checked_at": "2026-06-29T13:42:51.606017+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "f337902",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 0,
+        "feed_uw_proof_newest_checked_at": "2026-06-29T13:42:51.606017+00:00",
+        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-29 09:42 ET."
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T13:35:24.166872Z"
+  "updated_at": "2026-06-29T13:44:49.265616Z"
 }
