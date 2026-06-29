@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:53:59.052501Z",
-      "summary": "positions sync succeeded: 2026-06-19; 11 accounts; 276 rows; diffs VALUE_CHANGE 1; share changes 0; orphan 76; warnings 6; dashboard artifacts refreshed"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T23:01:56.761303Z",
-      "summary": "fundstrat after-hours catch-up started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-after-hours-catch-up",
       "status": "success",
       "run_source": "scheduled",
@@ -6797,7 +6783,45 @@
         "no_trades": true
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:51:31.752219Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:53:33.631053Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "8ef926de4628dea7ca0aef19640c58b3849f157e83a4a60bc7dedf7ffae50818",
+            "as_of": "2026-06-29T12:53:26.116238+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "e0019552890c2f4c63cb3100fda049d6e011465396830e793ef7b46d73830cb7",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-29T12:41:22.728649Z"
+  "updated_at": "2026-06-29T12:53:33.631053Z"
 }
