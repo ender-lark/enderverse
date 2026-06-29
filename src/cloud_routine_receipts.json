@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T17:04:44.042379Z",
-      "summary": "weekly deep read 2026-06-21; patterns: recheck-first, HOOD disposition mismatch, oil/rates event risk, GOOGL/COHR/BMNR/UUUU/MP research hanging; pilot/calibration/trade outcomes not_checked; Notion write pending readback"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T17:05:03.942336Z",
-      "summary": "weekly deep 2026-06-21 read trailing 30d; patterns recheck-first, HOOD PASS vs sell-fast surfacing, oil/rates event risk, GOOGL/COHR/BMNR/UUUU/MP hanging; pilot/calibration/trade outcomes not_checked; Notion page 386c5031-4bb6-819f-bc7c-e60da973fe87 written/readback verified"
-    },
-    {
       "routine_id": "investing-os-weekly-pilot-run",
       "status": "started",
       "run_source": "scheduled",
@@ -6758,7 +6744,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T16:40:58.457280Z",
       "summary": "FS inbox catch-up midday ingested 2 entries through [06/29/2026 10:55 ET]; Source Call Log rows 2 fetch-verified; marker advanced; repo cache added 1 barbell row; flags barbell leverage/cash context low-confidence, TLT/Fed-risk lowered by SCOTUS Cook decision, Hormuz one-week watch; no trades, broker access, timing-gate mutation, or decision-card mutation; verify_standard passed 1888/6"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T16:47:59.706042Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T16:51:20.642501Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0; rows landed 0; suppressed duplicate Macro 12:32 Fed/SCOTUS card, duplicate Crypto 10:10 MSTR/STRC/BTC card, and discovery-only/previously handled listings; validation passed; alert quiet candidates 0 duplicates 6 suppressed 146; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; no Notion writes"
     }
   ],
-  "updated_at": "2026-06-29T16:40:58.457280Z"
+  "updated_at": "2026-06-29T16:51:20.642501Z"
 }
