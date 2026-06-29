@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T02:50:39.449425Z",
-      "summary": "Chrome web checked Macro FlashInsights latest Jun18 3:02PM ET, Crypto FlashInsights latest Jun8, latest research/video categories through Jun18 7:43PM ET duplicate; detail checked duplicate Newton DTS; videos checked duplicate/no new transcript capture; Gmail 0 not needed; rows landed 0; suppressed duplicate/stale/discovery-only surfaces; validations passed; dark/stale no Jun19 post-7PM full-content evidence"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T05:46:37.979928Z",
-      "summary": "off-hours worker started"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
@@ -6821,7 +6807,46 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:07:41.193912Z",
+      "summary": "investing-os-parabolic-cache started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:07:50.733703Z",
+      "summary": "parabolic cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/parabolic_setups.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "32ff122873db1e1408f2c091ee17b78b42998952399099a0d9061852c5baf5c1",
+            "as_of": "2026-06-29T14:07:50.404712+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "7202e6adadc42bc4312144de8c9574a2ecde5e149e1786f2b71000fca48021b9",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-29T14:03:00.502237Z"
+  "updated_at": "2026-06-29T14:07:50.733703Z"
 }
