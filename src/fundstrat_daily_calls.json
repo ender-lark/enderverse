@@ -2615,5 +2615,43 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "author": "Tom Lee",
+    "ticker": "SMH",
+    "direction": "buy",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Sunday Snapshot says 6%+ SMH one-day drops in bull markets have usually been buyable pullbacks; recheck semi weakness for staged add rather than de-risking by default.",
+    "date": "2026-06-28",
+    "subject": "Snapshot: SMH/semi pullback framed as buyable",
+    "source_message_id": "gmail-19f101f89b50eec4-smh-buyable-pullback",
+    "source": "Fundstrat Gmail full-body read",
+    "publication_type": "macro_update",
+    "capture_policy": "daily_call",
+    "use_case": "risk_posture",
+    "decision_usefulness": "medium",
+    "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Tom Lee / Mark L. Newton",
+    "ticker": "SPY",
+    "direction": "buy",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": null,
+    "quote": "Sunday Snapshot keeps Lee/Newton constructive despite tech slide; both target SPX 8,000 and frame near-term tech consolidation as a dip/recheck, not thesis break.",
+    "date": "2026-06-28",
+    "subject": "Snapshot: Lee, Newton raise SPX year-end targets despite tech slide",
+    "source_message_id": "gmail-19f101f89b50eec4-spy-spx-8000",
+    "source": "Fundstrat Gmail full-body read",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]

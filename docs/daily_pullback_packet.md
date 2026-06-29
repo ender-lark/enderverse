@@ -1,4 +1,4 @@
-# Daily pullback packet - 2026-06-26
+# Daily pullback packet - 2026-06-29
 
 Candidate-only packet. No trades executed. No option contracts selected.
 
@@ -8,8 +8,8 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-26 on $1,816,658.
-- UW: UW endpoint proof: 25 captured row(s); neutral/inconclusive rows do not promote trades.
+- Positions: stale_or_dark from 2026-06-26 on $1,816,658.
+- UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
 - Social Watch: not_checked - Social watch not checked: no Reddit/social cache supplied.
@@ -47,7 +47,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | ELF | $67 | $151 | -55.3% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
 | UUUU | $15 | $28 | -47.6% | $32,325 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
 | MP | $54 | $100 | -46.2% | $16,034 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
-| SOFI | $18 | $33 | -45.4% | $865 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
+| SOFI | $18 | $33 | -45.5% | $865 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
 | HOOD | $99 | $154 | -35.9% | $2,018 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
 
 ## Higher Quality Pullbacks

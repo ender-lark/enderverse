@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-19T18:49:09.500472Z",
-      "summary": "web Macro/Crypto FlashInsights checked; Gmail 0 not needed; rows landed 0; new low-value/discovery-only suppressed 0; validation passed; alert quiet 0 candidates 62 stale/dupe suppressed; trigger guard fired 0 with 4 quote lanes not_checked; stale Macro Jun18 15:02 ET Crypto Jun8 09:32 ET; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T19:46:35.894346Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-19T19:48:58.753286Z",
       "summary": "checked Chrome Macro FlashInsights latest Jun18 3:02PM ET and Crypto FlashInsights latest Jun8 9:32AM ET; Gmail 0 not needed; rows landed 0; suppressed 0 low-value/discovery-only rows; validation passed; daytime alert quiet 0 candidates 12 duplicates 62 stale; trigger guard fired 0 not_checked 4; dark/stale no Jun19 full-content evidence"
     },
@@ -6727,7 +6713,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T11:46:04.301873Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T11:53:57.487664Z",
+      "summary": "Chrome checked Macro Flash latest Jun26 5:12 and Crypto Flash stale Jun22 plus First Word/Intraday/DTS/US Policy/Fed Watch/Crypto listings/detail coverage; Gmail checked 2 full bodies from Jun27-28; rows landed 2 Sunday Snapshot SPY/SMH compact calls; suppressed Saturday Signal From Noise research context plus duplicate/cached Jun26 web rows and listing/video-only surfaces; validation passed and dashboard refreshed; Notion not used; dark/stale Crypto Flash Jun22, Social Watch not_checked, post-open evidence gate failed latest"
     }
   ],
-  "updated_at": "2026-06-29T11:33:27.274702Z"
+  "updated_at": "2026-06-29T11:53:57.487664Z"
 }
