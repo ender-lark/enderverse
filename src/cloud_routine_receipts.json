@@ -3,51 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:36:47.455151Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:36:47.842869Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "a9c8de9b18554c27c111379c5c10bb9fbe3831edab3ba3d606054f7ef6e8131a",
-            "as_of": "2026-06-19T20:36:40.401126+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "84bba344ce87c855eebab0f185b9ea68caadbd706c454a558e240df492bd3dd6",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:38:38.127238Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-19T20:39:00.837848Z",
@@ -6727,7 +6682,81 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T12:17:50.775509Z",
       "summary": "pre-market source intake success: Fundstrat Gmail/Chrome checked; compact rows landed 3 (PPH healthcare rotation, SMH 606.23 recheck, MSTR 8-K/STRC patience); position cache untouched no broker input; UW same-session dark-pool checks SMH/MSTR/QQQ empty/inconclusive; Crypto FlashInsights stale Jun22; Social/PortWatch not_checked; Notion not used"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:22:00.648150Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:22:14.662428Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:24:51.935510Z",
+      "summary": "broker position intake succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "9d425f26bc46c2ff3f214e2c0011b8374fff2eee776d3becca627def6b099746",
+            "as_of": "2026-06-29",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "8d00959a9257b9711fcf207c529516fd87350f48fb6c921327128e3923984c6c",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "bfd476f77f121576c0ec6f26fff6fe847af06affa4cb8e688cf243e695c2b3f5",
+            "as_of": "2026-06-29",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "47afa43a80aafc4cb14d489767ac3d12469b000f59c0d22f48ec78fbc35bd2bd",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "977bda3dce02cd20e0a762de9c2f692b1c8c53795ba7a15b91bdd6bf14e4cddb",
+            "as_of": "2026-06-29",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "fa26ccf76c90094bb129ab7bf91077756a14a2e6ff673caac67641099ba3e6ed",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-29T12:17:50.775509Z"
+  "updated_at": "2026-06-29T12:24:51.935510Z"
 }
