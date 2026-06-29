@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T15:49:35.742296Z",
-      "summary": "checked Chrome Macro FlashInsights, Crypto FlashInsights, Latest Research, Intraday, DTS, First Word, US Policy, Fed Watch, Crypto Research, Latest Videos; Gmail search 0 messages read 0; rows landed 0; suppressed stale/discovery-only web surfaces 10 plus alert stale 62 duplicates 12; validation passed; alert quiet; dark lanes none beyond stale Crypto FlashInsights Jun8 and no Jun19 web/mail; blockers none"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -6666,7 +6659,14 @@
         "captured_pages": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T02:19:50.342107Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32; coverage 25/25 current action/material fresh; discipline clean; dark/not_checked blockers remaining missing dossiers=32, HOOD same-session price/flow and post-convert reaction not_checked, VRT source-call/news/flow lanes not_checked"
     }
   ],
-  "updated_at": "2026-06-29T02:17:35.567088Z"
+  "updated_at": "2026-06-29T02:19:50.342107Z"
 }
