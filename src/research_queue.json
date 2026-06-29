@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T15:27:12Z",
+  "generated_at": "2026-06-29T21:41:21Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -104,16 +104,32 @@
       "ticker": "UAMY",
       "notes": "United States Antimony Corp.: $29.98M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs through Sept. 21, 2030 and supports Army, Marine Corps, Navy, Air Force, and Space Force users.. Agency/program: Department of War / Defense Logistics Agency / DLA Strategic Materials / antimony metal ingots. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check company disclosure/backlog treatment, shipment cadence, gross-margin economics, DLA follow-on orders, and whether market reaction confirms materiality without chasing.. Risks: sole-source order; delivery-order ceiling vs realized revenue; small-cap execution risk; long delivery window; price and margin not disclosed.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "UAMY - federal funding catalyst review: United States Antimony Corp. ($29.979M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs to Sept. 21, 2030)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "UAMY",
+      "notes": "United States Antimony Corp.: $29.979M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs to Sept. 21, 2030. Agency/program: Department of War / Defense Logistics Agency / DLA strategic materials / antimony metal ingots. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Confirm UAMY capacity/margin disclosure, whether follow-on DLA orders scale, and same-session price/flow before any posture change.. Risks: sole-source order not broad commercial validation; delivery spans through 2030; small-cap execution and capacity risk; working-capital and margin visibility not checked; same-session price and flow not checked.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "VVX - federal funding catalyst review: Vertex Aerospace LLC ($500M ceiling firm-fixed-price IDIQ for contractor logistics support services for the Air Force C-12 aircraft fleet; only minimal funds obligated at award)",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "VVX",
+      "notes": "Vertex Aerospace LLC: $500M ceiling firm-fixed-price IDIQ for contractor logistics support services for the Air Force C-12 aircraft fleet; only minimal funds obligated at award. Agency/program: Department of War / Air Force / Air Force C-12 aircraft fleet contractor logistics support. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Track task-order conversion, management backlog commentary, margin profile, and whether VVX reaction confirms materiality.. Risks: IDIQ ceiling not guaranteed revenue; only about $250K obligated at award; foreign military sales and global support execution; margin and task-order cadence not checked; same-session price and flow not checked.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 9,
-    "pending": 9,
+    "input_rows": 11,
+    "pending": 11,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 13,
+    "stored_pending": 15,
     "stored_done": 0
   }
 }

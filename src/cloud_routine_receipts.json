@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:07:28.906464Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:07:46.247408Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6624,7 +6610,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T20:53:04.802148Z",
       "summary": "positions sync succeeded: 2026-06-29; 11 accounts; 276 rows; diffs VALUE_CHANGE 93; share changes 0; orphan 76; warnings 6; dashboard ok; Notion verified"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T21:41:01.892716Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T21:41:36.585984Z",
+      "summary": "sources checked War.gov contracts/releases, DOE, Commerce/CHIPS/NIST, DHS/CBP, NASA, NSF TIP, Treasury/IRS/IRA, DOT, EXIM/DFC; verified rows 2 direct public UAMY/VVX; research rows 2; Signal Log rows 2; Notion VVX write/readback verified and UAMY existing row readback verified; dark/no new material rows June29 agency searches and USAspending/SAM not needed; blockers stale automation-main push rejected then canonical runtime-main replayed"
     }
   ],
-  "updated_at": "2026-06-29T20:53:04.802148Z"
+  "updated_at": "2026-06-29T21:41:36.585984Z"
 }

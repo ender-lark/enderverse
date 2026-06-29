@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-29T15:27:12Z",
+  "generated_at": "2026-06-29T21:41:21Z",
   "as_of": "2026-06-29",
   "scan_status": "has_data",
   "rows": [
@@ -173,6 +173,35 @@
         "https://usantimony.com/investors/"
       ],
       "source_quality": "primary plus company ticker mapping"
+    },
+    {
+      "date": "2026-06-26",
+      "priority": "high",
+      "agency": "Department of War / Defense Logistics Agency",
+      "program": "DLA strategic materials / antimony metal ingots",
+      "recipient": "United States Antimony Corp.",
+      "title": "United States Antimony Corp.",
+      "award_text": "$29.979M sole-source delivery order for antimony metal ingots under a five-year DLA contract; delivery order runs to Sept. 21, 2030",
+      "award_value_usd": 29979000,
+      "tickers": [
+        "UAMY"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Direct public-company critical-minerals award; small absolute dollars but strategically relevant because antimony is defense-sensitive and UAMY is a pure-play public beneficiary.",
+      "risks": [
+        "sole-source order not broad commercial validation",
+        "delivery spans through 2030",
+        "small-cap execution and capacity risk",
+        "working-capital and margin visibility not checked",
+        "same-session price and flow not checked"
+      ],
+      "next_trigger": "Confirm UAMY capacity/margin disclosure, whether follow-on DLA orders scale, and same-session price/flow before any posture change.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
+        "https://usantimony.com/"
+      ],
+      "source_quality": "primary"
     },
     {
       "date": "2026-06-15",
@@ -695,6 +724,36 @@
       "source_quality": "primary plus company mapping"
     },
     {
+      "date": "2026-06-26",
+      "priority": "medium",
+      "agency": "Department of War / Air Force",
+      "program": "Air Force C-12 aircraft fleet contractor logistics support",
+      "recipient": "Vertex Aerospace LLC",
+      "title": "Vertex Aerospace LLC",
+      "award_text": "$500M ceiling firm-fixed-price IDIQ for contractor logistics support services for the Air Force C-12 aircraft fleet; only minimal funds obligated at award",
+      "award_value_usd": 500000000,
+      "tickers": [
+        "VVX"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Large direct services backlog signal for V2X/Vertex, but IDIQ ceiling and tiny initial obligation make it research context rather than urgent capital evidence.",
+      "risks": [
+        "IDIQ ceiling not guaranteed revenue",
+        "only about $250K obligated at award",
+        "foreign military sales and global support execution",
+        "margin and task-order cadence not checked",
+        "same-session price and flow not checked"
+      ],
+      "next_trigger": "Track task-order conversion, management backlog commentary, margin profile, and whether VVX reaction confirms materiality.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
+        "https://gov2x.com/about-us/",
+        "https://www.sec.gov/Archives/edgar/data/1601548/000160154823000012/v2x-12312022ex21subsidiari.htm"
+      ],
+      "source_quality": "primary"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -956,10 +1015,10 @@
     }
   ],
   "summary": {
-    "stored": 35,
-    "high": 6,
-    "direct_public": 11,
-    "research_candidates": 9,
+    "stored": 37,
+    "high": 7,
+    "direct_public": 13,
+    "research_candidates": 11,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }
