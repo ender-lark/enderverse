@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T05:49:46.190057Z",
-      "summary": "processed BMNR GOOGL COHR; live RQ counts H2q/H7w/H6d M3q/M25w/M22d L8q/L12w/L4d; verified writes 3/3; remaining active q+w 57; dark lanes same-session flow/dilution/mNAV/final awards"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T08:47:13.150863Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "success",
       "run_source": "scheduled",
@@ -6823,7 +6809,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T15:27:35.199682Z",
       "summary": "checked War/DOW contracts/releases latest Jun26 no Jun29 midday; DOT Jun29 TIFIA; DOE/NIST/Commerce/DIU/NASA/NSF/DHS/EXIM/DFC/Treasury/IRS searches; verified rows 1 DOT watch-ignore; direct public 0; research new 0 existing 9; Signal Log new 0 existing 30; Notion n/a no workflow row; dark DOW Jun29 contracts until 5pm and SAM/USAspending not needed; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T15:45:53.342443Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T15:51:27.640778Z",
+      "summary": "Chrome checked Macro FlashInsights Jun29 11:07 and Crypto FlashInsights Jun29 10:10; Gmail checked 0 because full web cards visible; rows landed 5, web suppressed 0 low-value/discovery; validation passed; dashboard refreshed; daytime alert sent 3 (SPY gamma/gap, BTC funding-source risk, STRC preferred recheck), duplicates 3, alert-suppressed 146; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; dark Social Watch; blockers none"
     }
   ],
-  "updated_at": "2026-06-29T15:27:35.199682Z"
+  "updated_at": "2026-06-29T15:51:27.640778Z"
 }

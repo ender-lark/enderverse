@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T14:52:08Z",
+  "generated_at": "2026-06-29T15:48:36Z",
   "entries": [
     {
       "source_id": "fundstrat-gmail-19edd2922449bcdc-dal",
@@ -668,6 +668,57 @@
       "source_id": "fundstrat-web-crypto-flashinsights-2026-06-22-1114-et-mstr-btc",
       "title": "Crypto FlashInsights: MSTR/BTC reserve watch",
       "ingested_at": "2026-06-22T16:13:15.669562+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-crypto-flashinsights-2026-06-29-1010-et-btc-funding-source-risk",
+      "title": "Crypto FlashInsights 10:10 ET: BTC funding-source risk",
+      "ingested_at": "2026-06-29T15:48:36.290960+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-crypto-flashinsights-2026-06-29-1010-et-mstr-8k-common-neutral",
+      "title": "Crypto FlashInsights 10:10 ET: MSTR 8-K common neutral",
+      "ingested_at": "2026-06-29T15:48:36.290960+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-crypto-flashinsights-2026-06-29-1010-et-strc-preferred-support",
+      "title": "Crypto FlashInsights 10:10 ET: STRC preferred support recheck",
+      "ingested_at": "2026-06-29T15:48:36.290960+00:00",
       "total_sections": 2,
       "sections": [
         {
@@ -1382,6 +1433,40 @@
       "source_id": "fundstrat-web-flashinsights-2026-06-26-1712-et-qqq-tech-relative-sell",
       "title": "FlashInsights 5:12 ET: Technology relative sell signal",
       "ingested_at": "2026-06-26T21:30:00-04:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-flashinsights-2026-06-29-1107-et-spy-gamma-volatility",
+      "title": "FlashInsights 11:07 ET: SPX gamma volatility risk",
+      "ingested_at": "2026-06-29T15:48:36.290960+00:00",
+      "total_sections": 2,
+      "sections": [
+        {
+          "name": "full body",
+          "status": "distilled"
+        },
+        {
+          "name": "decision-call extraction",
+          "status": "distilled"
+        }
+      ],
+      "skipped_count": 0
+    },
+    {
+      "source_id": "fundstrat-web-flashinsights-2026-06-29-1107-et-spy-gap-resistance",
+      "title": "FlashInsights 11:07 ET: SPX bounce fade and gap resistance",
+      "ingested_at": "2026-06-29T15:48:36.290960+00:00",
       "total_sections": 2,
       "sections": [
         {
