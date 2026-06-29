@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T01:26:46.923414Z",
-      "summary": "checked cockpit/queue/holdings, SEC active universe, UW bounded proof, Guardian/Fortune Hormuz, Kalshi/Polymarket public markets, HOOD SEC+UW; candidates 2; routed Event Risk 1 + Signal Log 2; Notion Signal Log verified 2/2; SEC no post-Jun20 filings; Social Watch dark; UW MARKET_MOVERS 403, SECTOR_TIDE unsupported, TNX/RYF flow empty, PortWatch direct export not_checked"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T05:45:54.964027Z",
-      "summary": "off-hours worker started"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
@@ -6823,7 +6809,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T14:54:56.190068Z",
       "summary": "Chrome checked Macro Flash latest Jun26 17:12, Crypto Flash latest Jun22 11:14, Latest Research listing plus Jun29 US Policy and First to Market detail pages; Gmail checked 0; rows landed 1 TLT SCOTUS/Fed-governor risk update; suppressed First to Market barbell/margin broad context plus listing/discovery-only and stale/duplicate FlashInsights; validation passed; dashboard refreshed; alert sent 1 TLT; dark/stale Macro Jun26 Crypto Jun22 Social Watch not_checked; blockers none; Notion not used"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T15:23:25.175942Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T15:27:35.199682Z",
+      "summary": "checked War/DOW contracts/releases latest Jun26 no Jun29 midday; DOT Jun29 TIFIA; DOE/NIST/Commerce/DIU/NASA/NSF/DHS/EXIM/DFC/Treasury/IRS searches; verified rows 1 DOT watch-ignore; direct public 0; research new 0 existing 9; Signal Log new 0 existing 30; Notion n/a no workflow row; dark DOW Jun29 contracts until 5pm and SAM/USAspending not needed; blockers none"
     }
   ],
-  "updated_at": "2026-06-29T14:54:56.190068Z"
+  "updated_at": "2026-06-29T15:27:35.199682Z"
 }

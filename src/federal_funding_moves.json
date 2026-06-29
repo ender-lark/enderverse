@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-26T21:55:00Z",
-  "as_of": "2026-06-26",
+  "generated_at": "2026-06-29T15:27:12Z",
+  "as_of": "2026-06-29",
   "scan_status": "has_data",
   "rows": [
     {
@@ -928,10 +928,35 @@
         "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/"
       ],
       "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-29",
+      "priority": "low",
+      "agency": "U.S. Department of Transportation / Build America Bureau",
+      "program": "Transportation Infrastructure Finance and Innovation Act loan / Hampton Roads Express Lanes Network 2026 Project",
+      "recipient": "Hampton Roads Transportation Accountability Commission",
+      "title": "Hampton Roads Transportation Accountability Commission",
+      "award_text": "$310.2M TIFIA loan to finance Hampton Roads Express Lanes Network 2026 Project segments, including I-64/I-464 improvements and open-road tolling; no public-company contractor or equity beneficiary named in the official announcement.",
+      "award_value_usd": 310200000,
+      "tickers": [],
+      "directness": "watch_only",
+      "actionability": "ignore",
+      "investing_angle": "Same-day federal infrastructure financing supports Hampton Roads freight, port, evacuation, and defense-mobility context, but it does not name a clean public-company beneficiary and should not affect Investing OS posture without contractor-level linkage.",
+      "risks": [
+        "public-sector borrower",
+        "no named public-company beneficiary",
+        "project execution through June 2030",
+        "contractor and toll-system economics not disclosed"
+      ],
+      "next_trigger": "Only recheck if DOT/HRTAC/VDOT names a public contractor, material task order, toll-system award, or public-company revenue linkage.",
+      "source_urls": [
+        "https://www.transportation.gov/briefing-room/trumps-transportation-secretary-sean-p-duffy-announces-3102-million-loan-eliminate"
+      ],
+      "source_quality": "primary"
     }
   ],
   "summary": {
-    "stored": 34,
+    "stored": 35,
     "high": 6,
     "direct_public": 11,
     "research_candidates": 9,
