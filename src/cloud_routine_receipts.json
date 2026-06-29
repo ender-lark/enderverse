@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T19:48:58.753286Z",
-      "summary": "checked Chrome Macro FlashInsights latest Jun18 3:02PM ET and Crypto FlashInsights latest Jun8 9:32AM ET; Gmail 0 not needed; rows landed 0; suppressed 0 low-value/discovery-only rows; validation passed; daytime alert quiet 0 candidates 12 duplicates 62 stale; trigger guard fired 0 not_checked 4; dark/stale no Jun19 full-content evidence"
-    },
-    {
-      "routine_id": "work-os-weekly-review",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T20:02:58.255531Z",
-      "summary": "work-os-weekly-review started"
-    },
-    {
       "routine_id": "work-os-weekly-review",
       "status": "success",
       "run_source": "scheduled",
@@ -6727,7 +6713,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T11:53:57.487664Z",
       "summary": "Chrome checked Macro Flash latest Jun26 5:12 and Crypto Flash stale Jun22 plus First Word/Intraday/DTS/US Policy/Fed Watch/Crypto listings/detail coverage; Gmail checked 2 full bodies from Jun27-28; rows landed 2 Sunday Snapshot SPY/SMH compact calls; suppressed Saturday Signal From Noise research context plus duplicate/cached Jun26 web rows and listing/video-only surfaces; validation passed and dashboard refreshed; Notion not used; dark/stale Crypto Flash Jun22, Social Watch not_checked, post-open evidence gate failed latest"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:02:15.102599Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T12:02:25.613315Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T11:53:57.487664Z"
+  "updated_at": "2026-06-29T12:02:25.613315Z"
 }
