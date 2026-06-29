@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-19T17:49:09.046202Z",
-      "summary": "checked Chrome Macro FlashInsights latest Jun18 15:02 ET, Crypto FlashInsights latest Jun8 09:32 ET; Gmail 0 not needed; rows landed 0; suppressed stale/duplicate/discovery-only web rows and alert stale 62 duplicates 12; validation passed; Fundstrat alert quiet 0 candidates; trigger guard sent GOOGL date trigger, 4 quote triggers not_checked; dashboard skipped; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T18:46:52.251667Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-19T18:49:09.500472Z",
       "summary": "web Macro/Crypto FlashInsights checked; Gmail 0 not needed; rows landed 0; new low-value/discovery-only suppressed 0; validation passed; alert quiet 0 candidates 62 stale/dupe suppressed; trigger guard fired 0 with 4 quote lanes not_checked; stale Macro Jun18 15:02 ET Crypto Jun8 09:32 ET; blockers none"
     },
@@ -6710,7 +6696,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T08:50:40.784608Z",
       "summary": "queued H3/M5/L7 live Notion REST; processed Med v0 checkpoint and AI labor Findings with write/readback 2/2; statuses kept Queued; remaining 15 queued (High operator/code/full-article blocked; CBRS worker-updated; other Med/Low prior-reviewed or need fresh source/operator/current-flow/account/options evidence); dark MCP SQL/Notion plan gate, live pilot rows, same-session flow/options/account/margin; no trades"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T11:33:19.319068Z",
+      "summary": "life-os-daily-briefing started"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T11:33:27.274702Z",
+      "summary": "Life OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "life_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/life_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-29T08:50:40.784608Z"
+  "updated_at": "2026-06-29T11:33:27.274702Z"
 }
