@@ -2,115 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T22:01:08.002082Z",
-      "summary": "weekly pilot run started"
-    },
-    {
-      "routine_id": "investing-os-weekly-pilot-run",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T22:04:50.816731Z",
-      "summary": "weekly pilot checked status/calibration/debt/options/gamma/insider/13F; Notion rows not_checked; 2 debt warnings",
-      "details": {
-        "checked_at": "2026-06-21T18:05:00-04:00",
-        "pilot_status": {
-          "notion_page_fetch": "checked",
-          "notion_rows": "not_checked",
-          "notion_row_blocker": "Notion data-source query unavailable: Enterprise/Notion AI entitlement required; schema fetch succeeded but row query failed."
-        },
-        "calibration_state": {
-          "source_rates_snapshot_date": "2026-06-19",
-          "status": "provisional_insufficient_data",
-          "evidence": "src/source_rates.json buckets remain INSUFFICIENT_DATA or NOT_SCORED; no scored hit-rate upgrade made."
-        },
-        "integration_debt": {
-          "status": "warn",
-          "warning_count": 2,
-          "finding_count": 17,
-          "warnings": [
-            "disconfirmation_registry.json carries ticker/candidate rows but has no decision-path reader, ownership feed_path, or non-surfacing allowlist entry",
-            "Notion queue rows were not supplied to this read-only sweep; repo-local queue state cannot prove live Notion status"
-          ],
-          "outputs": [
-            "docs/integration_debt_report.md",
-            "src/integration_debt_report.json"
-          ]
-        },
-        "cloud_status": {
-          "schedule_ready": true,
-          "core_scheduled_success": "14/14",
-          "support_scheduled_success": "17/20",
-          "fresh_boundary_proven": false,
-          "dark_lanes": [
-            "Social Watch optional/deferred dark lane"
-          ],
-          "stale_boundaries": [
-            "source_calls/fundstrat_daily/fundstrat_intake_summary",
-            "catalysts/event_risks"
-          ]
-        },
-        "options_exit": {
-          "portfolio_export": "src/account_positions.json",
-          "as_of": "2026-06-21",
-          "option_positions_scanned": 0,
-          "within_30_dte": 0,
-          "action_required_under_5_dte": 0,
-          "status": "checked_clean_for_available_export_only"
-        },
-        "gamma_pilot": {
-          "connector": "Unusual Whales get_greek_exposure_by_ticker",
-          "latest_market_date": "2026-06-18",
-          "SPY": "call_gamma 3883085.2696; put_gamma -4048158.4007; slightly net negative gamma",
-          "QQQ": "call_gamma 2213160.3439; put_gamma -2072076.1282; slightly net positive gamma",
-          "status": "checked_context_only_not_trade_signal"
-        },
-        "insider_pilot": {
-          "connector": "Unusual Whales get_insider_transactions",
-          "window": "2026-06-14 through 2026-06-21",
-          "filters": "common stock purchases, exclude 10b5-1, min value 500000",
-          "rows_returned": 10,
-          "notable_context": [
-            "EQPT co-founder CEO and president purchases",
-            "AVO multi-director purchases",
-            "FISV/LULU S&P 500 insider purchases"
-          ],
-          "repo_cache": "not_checked: src/insider_data.json missing, so pure scanner could not run from cache"
-        },
-        "thirteen_f_pilot": {
-          "schedule_check": "not within any 13F filing window on 2026-06-21",
-          "connector_snapshot": "BMNR institutional ownership checked via UW get_institutions; Q1 2026 filing-lagged context only",
-          "notable_context": [
-            "Citadel Advisors +5923450 BMNR shares",
-            "BlackRock +2028590 BMNR shares",
-            "Vanguard Capital Management new 20343583 BMNR shares"
-          ],
-          "status": "checked_context_only_no_delta_write"
-        },
-        "artifact_boundaries": [
-          {
-            "path": "src/cloud_routine_receipts.json",
-            "status": "changed",
-            "routine_owned": true
-          },
-          {
-            "path": "docs/integration_debt_report.md",
-            "status": "changed",
-            "routine_owned": true
-          },
-          {
-            "path": "src/integration_debt_report.json",
-            "status": "changed",
-            "routine_owned": true
-          }
-        ],
-        "trade_execution": "none; review-only scheduled pilot"
-      },
-      "boundary_outcome": "stale_boundary"
-    },
-    {
       "routine_id": "investing-os-top-prospects-auto-research",
       "status": "started",
       "run_source": "scheduled",
@@ -6758,7 +6649,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T16:51:20.642501Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0; rows landed 0; suppressed duplicate Macro 12:32 Fed/SCOTUS card, duplicate Crypto 10:10 MSTR/STRC/BTC card, and discovery-only/previously handled listings; validation passed; alert quiet candidates 0 duplicates 6 suppressed 146; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; no Notion writes"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T17:46:16.510467Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T17:50:19.351473Z",
+      "summary": "fundstrat daytime watch success: Chrome checked Macro FlashInsights latest Jun29 12:32 ET L. Thomas Block Fed/SCOTUS duplicate/non-distinct and Crypto FlashInsights latest Jun29 10:10 ET MSTR/STRC/BTC duplicate; Latest Research/category discovery exposed nav only/no checked article detail; Gmail checked 0 because web full-content FlashInsights available; rows landed 0; suppressed duplicate/low-value/discovery-only web surfaces; validation passed; daytime alert quiet candidates=0 duplicates=6 suppressed=146; trigger_check fired=0 not_checked=4 EWRE/ASTS/RKLB/MU quote lanes; Notion not used; blockers none"
     }
   ],
-  "updated_at": "2026-06-29T16:51:20.642501Z"
+  "updated_at": "2026-06-29T17:50:19.351473Z"
 }
