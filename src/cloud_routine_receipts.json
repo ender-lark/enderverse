@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-19T14:51:01.506617Z",
-      "summary": "checked Chrome Macro FlashInsights stale Jun18, Crypto FlashInsights stale Jun8, Latest Research discovery no Jun19; Gmail search Jun19 0 messages read 0; rows landed 0; discovery/stale suppressed; validation passed; alert sent 5 existing duplicate-unsent action-changing rows, quiet 62 suppressed 7 duplicates; Notion not used; no blockers"
-    },
-    {
       "routine_id": "investing-os-federal-funding-midday-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -6655,7 +6648,14 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T01:24:01.901607Z",
+      "summary": "checked cockpit/RQ/positions/event risk; SEC no fresh filings since Jun27; UW proof inconclusive; routed Hormuz Event Risk repo + Signal Log Notion/repo; Notion Signal Log verified 1/1; suppressed MSFT/UUUU/BMNR/HOOD duplicates; Social/PortWatch dark; War.gov direct 403 latest Jun26 by search; UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing"
     }
   ],
-  "updated_at": "2026-06-29T01:16:33.700127Z"
+  "updated_at": "2026-06-29T01:24:01.901607Z"
 }

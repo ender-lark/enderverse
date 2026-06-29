@@ -249,6 +249,45 @@
     "direction": "risk_watch"
   },
   {
+    "date": "2026-06-29",
+    "title": "Hormuz weekend violence resets oil/rates gate before Monday",
+    "severity": "high",
+    "horizon": "next cash session through Jun30/Jul7/Jul31",
+    "channels": [
+      "oil",
+      "rates",
+      "shipping",
+      "volatility",
+      "energy",
+      "growth",
+      "AI"
+    ],
+    "tickers": [
+      "USO",
+      "XOP",
+      "XLE",
+      "TNX",
+      "XLF",
+      "SMH",
+      "MAGS",
+      "GOOGL",
+      "MSFT",
+      "LEU",
+      "UUUU"
+    ],
+    "affected": [
+      "new-buy timing",
+      "energy exposure",
+      "high-duration growth",
+      "AI add timing",
+      "nuclear and critical minerals"
+    ],
+    "source": "Guardian Jun 28 2026; Polymarket Gamma/Kalshi public APIs checked 2026-06-29T01:20Z; UW proof checked 2026-06-29T01:17Z",
+    "summary": "Renewed US-Iran strikes and Iran attacks on Bahrain/Kuwait undermine the prior easing read while Polymarket prices normal Hormuz traffic at 0.85% by Jun30, 7.5% by Jul7, and 40.5% by Jul31. Decision impact: keep Monday oil/rates event-risk gating active before new AI/growth buys and funded GOOGL/MSFT/AMZN adds; this is not a trade or sizing signal.",
+    "trigger": "Clear only if direct IMF PortWatch 7DMA exceeds 60 and WTI/TNX plus shipping/insurance reports confirm durable normalization; re-escalate if talks fail, odds fall further, traffic drops, or oil/rates spike.",
+    "direction": "risk_watch"
+  },
+  {
     "date": "2026-06-03",
     "title": "Financials breakdown and crypto-linked weakness weigh on tape breadth",
     "severity": "medium",
