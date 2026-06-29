@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:06:22.976073Z",
-      "summary": "pre-market source intake started"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:06:49.897324Z",
-      "summary": "investing-os-broker-position-intake started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "scheduled",
@@ -6624,7 +6610,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T20:37:36.860651Z",
+      "summary": "FS inbox catch-up postclose started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T20:40:07.413735Z",
+      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/29/2026 10:55 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-06-29T20:34:19.007585Z"
+  "updated_at": "2026-06-29T20:40:07.413735Z"
 }
