@@ -2,85 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T08:53:46.129124Z",
-      "summary": "processed MP; live RQ H2q/H7w M3q/M25w L7q/L13w; verified Notion 1/1; blocked high rows operator-review/code-only; dark price/flow/exposure",
-      "details": {
-        "queue_read": {
-          "live_source": "notion_rest_data_sources_query",
-          "data_source": "collection://cab89576-0933-40b0-ad2e-6f9a6188e804",
-          "initial_counts_after_worker": {
-            "High": {
-              "Queued": 2,
-              "Working": 7
-            },
-            "Med": {
-              "Queued": 3,
-              "Working": 25
-            },
-            "Low": {
-              "Queued": 8,
-              "Working": 12
-            }
-          },
-          "remaining_counts_after_buffer": {
-            "High": {
-              "Queued": 2,
-              "Working": 7
-            },
-            "Med": {
-              "Queued": 3,
-              "Working": 25
-            },
-            "Low": {
-              "Queued": 7,
-              "Working": 13
-            }
-          },
-          "active_remaining_q_plus_w": 57,
-          "fallback_mirror": "src/research_queue.json stale generated_at 2026-06-19T15:25:50Z; not used for live counts"
-        },
-        "processed": [
-          {
-            "page_id": "372c5031-4bb6-8144-8e1c-dc1eee386234",
-            "topic": "MP: mixed insider signal - COO buy vs CEO selling",
-            "priority": "Low",
-            "status_before": "Queued",
-            "status_after": "Working",
-            "write_verification": "live fetch verified Findings and Status",
-            "decision_effect": "mixed/supportive monitor input only; no promotion, no ACT_NOW, no buy path"
-          }
-        ],
-        "skipped_or_blocked": [
-          "High queued full-book rebalance requires explicit operator review/disposition; no trade execution or sizing from routine",
-          "High queued MU parabolic trigger requires code/framework wiring; this routine was instructed not to ship code/framework changes",
-          "Med queued rows already recently updated or require operator/system review rather than fresh research output",
-          "Remaining Low queued rows mostly have recent 2026-06-19/20 buffer findings or are system-lane items"
-        ],
-        "dark_or_stale_lanes": [
-          "same-session price/flow/options for MP not_checked",
-          "current account exposure not_checked",
-          "Q2 MP margins/backlog and China rare-earth policy tape not_checked",
-          "semantic MCP search not exhaustive; REST data-source query used for counts"
-        ],
-        "sources_checked": [
-          "SEC submissions/Form 4 feed for MP CIK 0001801368 and reporting owners",
-          "MP Materials Q1 2026 official results",
-          "MP Materials DoD partnership official release"
-        ]
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-deep-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-21T17:01:29.465589Z",
-      "summary": "deep synthesis started"
-    },
-    {
       "routine_id": "investing-os-deep-synthesis",
       "status": "success",
       "run_source": "scheduled",
@@ -6823,7 +6744,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T15:51:27.640778Z",
       "summary": "Chrome checked Macro FlashInsights Jun29 11:07 and Crypto FlashInsights Jun29 10:10; Gmail checked 0 because full web cards visible; rows landed 5, web suppressed 0 low-value/discovery; validation passed; dashboard refreshed; daytime alert sent 3 (SPY gamma/gap, BTC funding-source risk, STRC preferred recheck), duplicates 3, alert-suppressed 146; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; dark Social Watch; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T16:32:16.153644Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T16:40:58.457280Z",
+      "summary": "FS inbox catch-up midday ingested 2 entries through [06/29/2026 10:55 ET]; Source Call Log rows 2 fetch-verified; marker advanced; repo cache added 1 barbell row; flags barbell leverage/cash context low-confidence, TLT/Fed-risk lowered by SCOTUS Cook decision, Hormuz one-week watch; no trades, broker access, timing-gate mutation, or decision-card mutation; verify_standard passed 1888/6"
     }
   ],
-  "updated_at": "2026-06-29T15:51:27.640778Z"
+  "updated_at": "2026-06-29T16:40:58.457280Z"
 }

@@ -3479,5 +3479,33 @@
     "use_case": "crypto_sleeve",
     "decision_usefulness": "medium",
     "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
+  },
+  {
+    "source": "kent fung",
+    "source_select": "Other",
+    "ticker": "SPY",
+    "tier": "D",
+    "confidence_in_tier": "LOW",
+    "verbatim_quote": "Margin debt is 54% higher year over year at a record $1.4 trillion while cash reserves are near a record $7.9 trillion; Fundstrat frames aggregate investor allocation as a barbell, with financials, healthcare, and consumer discretionary possibly undervalued versus AI/high-risk plus money-market cash.",
+    "falsification_condition": "Unfalsifiable narrative ? DO NOT SCORE; track for hit-rate denominator transparency only",
+    "date": "2026-06-29",
+    "window_end": "2026-08-28",
+    "window_days": 60,
+    "outcome": "Pending",
+    "backfill": false,
+    "classified_at": "2026-06-29",
+    "call_summary": "Kent Fung - barbell/margin-debt context; middle sectors possibly undervalued",
+    "tickers_touched": "SPY; Financials; Healthcare; Consumer Discretionary",
+    "position_tickers_affected": "None directly; sector-rotation and leverage/risk context only",
+    "outcome_notes": "Shelf life: about 60 days / until next margin-debt and cash-reserve refresh. Source entry: [06/29/2026 09:25 ET] First to Market. Decision relevance: leverage/cash barbell risk posture and middle-sector research context; no trade, sizing, or gate mutation.",
+    "fundstrat_lane": "general",
+    "source_domain": "fundstrat_general",
+    "source_weight_note": "Fundstrat context; classify manually if it becomes action-relevant.",
+    "confidence_policy": "Treat as context until lane, catalyst, and current validation are clear.",
+    "publication_type": "general_context",
+    "capture_policy": "audit_only",
+    "use_case": "context",
+    "decision_usefulness": "low",
+    "capture_reason": "No ticker-level or portfolio-posture change detected."
   }
 ]
