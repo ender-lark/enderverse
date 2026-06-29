@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T05:50:18.987895Z",
-      "summary": "query blocked by Notion AI plan; live search/fetch used; processed Low AMD/ANET/CRS with Notion writes/readbacks verified 3/3; High BMNR/GOOGL/PowerPolicy already Working, MU/system and operator-review remain blocked; fallback mirror stale; backlog counts dark/not_checked"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-20T08:46:37.300465Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "success",
       "run_source": "scheduled",
@@ -6846,7 +6832,45 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:31:26.690863Z",
+      "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-29T14:31:30.788567Z",
+      "summary": "full cockpit build failed",
+      "details": {
+        "returncode": 1,
+        "command": [
+          "python",
+          "src\\live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "6d75766b481d7358ca9e67a43f8d132b6878589536a24aaa2920ee346f0bbb43",
+            "as_of": "2026-06-29T13:44:40.973657+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "6d75766b481d7358ca9e67a43f8d132b6878589536a24aaa2920ee346f0bbb43",
+            "changed": false
+          }
+        ]
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-29T14:07:50.733703Z"
+  "updated_at": "2026-06-29T14:31:30.788567Z"
 }
