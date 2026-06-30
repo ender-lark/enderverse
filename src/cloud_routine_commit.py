@@ -45,6 +45,7 @@ DEFAULT_ALLOWED_PATHS = [
     "src/source_call_candidates.json",
     "src/source_call_cache_summary.json",
     "src/open_opportunities.json",
+    "src/options_decay_audit.json",
     "src/options_shadow_log.jsonl",
     "src/positions.json",
     "src/account_positions.json",

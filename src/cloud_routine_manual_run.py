@@ -190,6 +190,25 @@ def default_routines(repo: Path = ROOT) -> list[Routine]:
             [Step("early live dashboard refresh", _python("src/live_dashboard_refresh.py"))],
         ),
         Routine(
+            "investing-os-options-decay-audit",
+            "options decay audit manual run completed without sending alerts",
+            [
+                Step("options decay audit self-test", _python("src/options_decay_audit.py", "--self-test")),
+                Step(
+                    "options decay audit dry-run",
+                    _python(
+                        "src/options_decay_audit.py",
+                        "--send",
+                        "--dry-run",
+                        "--out",
+                        "tmp/options_decay_audit.manual.json",
+                        "--format",
+                        "text",
+                    ),
+                ),
+            ],
+        ),
+        Routine(
             "investing-os-daily-synthesis",
             "daily synthesis manual run completed from current cockpit feed evidence",
             [

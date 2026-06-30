@@ -296,7 +296,7 @@ the **Python** stack only; a card-field/rail-string change there forces a matchi
 
 ### 12.4 · Routine + registration
 
-* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, `prediction_signals.json`, `uw_endpoint_results.json`, `source_rates.json`, and `options_shadow_log.jsonl` to be committed by scheduled routines.
+* `cloud_routine_commit.DEFAULT_ALLOWED_PATHS` now allows `dispositions.jsonl`, `timing_gates.json`, `prediction_signals.json`, `uw_endpoint_results.json`, `source_rates.json`, `options_decay_audit.json`, and `options_shadow_log.jsonl` to be committed by scheduled routines.
 * `state_ownership_map.json` registers `dispositions` and `prediction_signals` alongside the existing `timing_gates` entry.
 * The 9:40 ET Post-Open Evidence Gate routine flows: load gates → `evaluate_all_gates(price_fn=…, writer=file_writer(…))` → on any change, the writer rewrites `timing_gates.json` and the L5 wrapper appends a receipt. The QQQ confirm / re-red flow is now mechanized end-to-end.
 * The 8:35 ET Morning Scan routine flows: `run_morning_scan(...)` returns a JSON-serialisable payload containing pattern lanes + guard application + an honesty footer. The L5 wrapper persists the result as a routine receipt and the cockpit folds the cards into TODAY—DECIDE.
@@ -308,6 +308,11 @@ the **Python** stack only; a card-field/rail-string change there forces a matchi
 * The options shadow ledger is idempotent by dated near-miss identity. Full
   dashboard refreshes run multiple build passes, but they should append a given
   `as_of`/ticker/filter row only once.
+* `options_decay_audit.py` is a routine-side risk monitor outside the pure feed
+  engine. It reads `account_positions.json` plus optional fresh
+  `options_chain_cache.json`, writes review-only `options_decay_audit.json`,
+  may send Pushover review prompts, and keeps stale/missing chain coverage
+  `not_checked`.
 
 ---
 

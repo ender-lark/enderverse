@@ -291,6 +291,40 @@
       "no_input_behavior": "Do not mark the options lane checked clear; a missing or partial chain bundle leaves feed.options_expression omitted (additive) and is reported as not checked, never as 'no options expression'."
     },
     {
+      "id": "options_decay_audit",
+      "title": "Options Decay Audit",
+      "status": "active",
+      "cadence": "daily_0855_et_after_broker_position_intake",
+      "doc": "src/codex_routines/options_decay_audit.md",
+      "separation_group": "market_data_refresh",
+      "input_boundaries": [
+        "Promoted broker account-position book at src/account_positions.json",
+        "Optional fresh options chain cache at src/options_chain_cache.json; stale or missing chain data remains not_checked, not clear",
+        "Pushover environment variables only for review alerts"
+      ],
+      "owns": ["src/options_decay_audit.json"],
+      "commands": [
+        {
+          "id": "audit_dry_run",
+          "command": "python src/options_decay_audit.py --out src/options_decay_audit.json --format text"
+        },
+        {
+          "id": "run_with_receipts",
+          "command": "python src/cloud_routine_runner.py --run-source scheduled --routine-id investing-os-options-decay-audit --owns-artifacts src/options_decay_audit.json --success-summary \"options decay audit succeeded\" --failure-summary \"options decay audit failed\" -- python src/options_decay_audit.py --send --out src/options_decay_audit.json --format text"
+        },
+        {
+          "id": "self_test",
+          "command": "python src/options_decay_audit.py --self-test"
+        },
+        {
+          "id": "safe_writeback",
+          "command": "python src/cloud_routine_commit.py --message \"Options decay audit scheduled run\" --push --format text"
+        }
+      ],
+      "verification": "python src/options_decay_audit.py --self-test && python -m pytest src/test_options_decay_audit.py -q",
+      "no_input_behavior": "Missing account positions fails with account_positions_not_checked; missing or stale options-chain data remains not checked while broker-marked option premium still triggers review; no open option positions writes a quiet success instead of an alert."
+    },
+    {
       "id": "daily_synthesis_intake",
       "title": "Daily Synthesis Intake",
       "status": "active_safe_intake",

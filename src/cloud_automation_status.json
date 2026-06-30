@@ -1,11 +1,12 @@
 {
   "schema_version": 2,
   "verified_at": "2026-06-25T16:59:45-04:00",
-  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, created the six Life/Work OS Codex app automations on 2026-06-17, created the two Federal Funding Moves Codex app automations on 2026-06-18, registered Dossier Keeper as a direct-commit support routine on 2026-06-19, moved stale cwd-based routines to a clean current-main automation checkout on 2026-06-24 after the June 17 checkout diverged from origin/main, added automation_health_watchdog.py to keep key automation workspace failures alertable and safely repairable, and on 2026-06-25 verified the read-only readiness fix, the SnapTrade runtime-profile repair, fresh broker-book promotion, orphan triage, options shadow-log idempotency, safe-helper allowlist update, and the upgraded twice-daily Automation Guardian app prompt.",
+  "verification_source": "Manual 2026-06-12 recovery restored the local SnapTrade profile for Broker Position Intake, verified a scheduled-path broker refresh, registered FS Inbox Catch-up as four paired weekday schedules, added the Positions Sync post-close expected schedule, created the six Life/Work OS Codex app automations on 2026-06-17, created the two Federal Funding Moves Codex app automations on 2026-06-18, registered Dossier Keeper as a direct-commit support routine on 2026-06-19, moved stale cwd-based routines to a clean current-main automation checkout on 2026-06-24 after the June 17 checkout diverged from origin/main, added automation_health_watchdog.py to keep key automation workspace failures alertable and safely repairable, on 2026-06-25 verified the read-only readiness fix, the SnapTrade runtime-profile repair, fresh broker-book promotion, orphan triage, options shadow-log idempotency, safe-helper allowlist update, and the upgraded twice-daily Automation Guardian app prompt, and on 2026-06-30 added the daily Options Decay Audit review-only routine.",
   "notes": [
     "The previous generic daily refresh automation and older source-specific local cron jobs are paused and superseded by this receipt-tracked split routine stack.",
     "On 2026-06-12, the temporary usage-conservation pauses were lifted for the current Fundstrat web routines and heavy off-hours routines; only the superseded legacy jobs remain paused.",
     "Broker Position Intake is active again at 8:20 AM ET as the SnapTrade-first read-only account refresh. It promotes positions only after strict validation; failed SnapTrade pulls keep account positions stale/not_checked.",
+    "Options Decay Audit is active daily at 8:55 AM ET after Broker Position Intake. It reads src/account_positions.json, optionally enriches from a fresh src/options_chain_cache.json, writes src/options_decay_audit.json, sends Pushover only for material same-day option review, and keeps stale/missing chain data not_checked.",
     "Positions Sync is expected at 4:45 PM ET as a post-close SnapTrade-first read-only wrapper around the existing broker-position refresh. It promotes only after strict validation, reruns orphan triage after successful promotion, and mirrors a one-paragraph Latest Portfolio summary when Notion is available; failed SnapTrade pulls keep account positions stale/not_checked.",
     "Missing connector/source pulls must remain dark/not_checked in the dashboard, never checked clear.",
     "Each scheduled routine should append cloud_routine_receipts.json receipts with run_source=scheduled; manual rehearsal receipts do not prove cloud live-run execution.",
@@ -116,6 +117,18 @@
       "role": "early_cockpit_build",
       "schedule": "market weekdays 8:50 AM ET",
       "expected_since": "2026-06-08T00:00:00-04:00"
+    },
+    {
+      "automation_id": "investing-os-options-decay-audit",
+      "automation_name": "Investing OS Options Decay Audit",
+      "status": "ACTIVE",
+      "role": "options_decay_audit",
+      "schedule": "daily 8:55 AM ET",
+      "expected_since": "2026-07-01T00:00:00-04:00",
+      "prompt": "src/codex_routines/options_decay_audit.md",
+      "writes_to": "src/options_decay_audit.json, src/cloud_routine_receipts.json",
+      "model": "gpt-5.5",
+      "reasoning_effort": "high"
     },
     {
       "automation_id": "investing-os-daily-synthesis",

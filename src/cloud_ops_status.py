@@ -86,6 +86,16 @@ DEFAULT_EXPECTED_AUTOMATIONS = [
         "expected_since": "2026-06-08T00:00:00-04:00",
     },
     {
+        "automation_id": "investing-os-options-decay-audit",
+        "automation_name": "Investing OS Options Decay Audit",
+        "role": "options_decay_audit",
+        "schedule": "daily 8:55 AM ET",
+        "days": [0, 1, 2, 3, 4, 5, 6],
+        "hour": 8,
+        "minute": 55,
+        "expected_since": "2026-07-01T00:00:00-04:00",
+    },
+    {
         "automation_id": "investing-os-daily-synthesis",
         "automation_name": "Investing OS Daily Synthesis",
         "role": "daily_synthesis",

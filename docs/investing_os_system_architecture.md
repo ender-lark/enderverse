@@ -199,6 +199,13 @@ The system synthesizes only from explicit source or repo evidence:
     group options by ticker plus option series/description, not ticker alone,
     so common shares and separate option contracts do not collapse into one
     misleading row.
+  - `options_decay_audit.py` is a daily review-only risk monitor for owned
+    options. It reads account-level option rows from `src/account_positions.json`,
+    optionally enriches from a fresh `src/options_chain_cache.json`, writes
+    `src/options_decay_audit.json`, and can send Pushover review prompts for
+    material premium, near expiry, mostly extrinsic value, or meaningful theta.
+    Stale/missing chain data stays `not_checked`; no open options is a quiet
+    success, not an alert.
   - `src/snaptrade_profiles.local.json` is local-only and ignored. It holds
     account-owner overrides for labels such as `Parents` and `SKB`.
   - `src/snaptrade_profiles.example.json` documents the shape that can be
@@ -468,6 +475,7 @@ opportunity/risk caches, dashboard publication, and post-close account refresh.
 | `investing-os-broker-position-intake` | SnapTrade-first read-only broker position refresh | Market weekdays 8:20 AM ET |
 | `investing-os-morning-scan` | Morning Signal Log / macro scan validation | Market weekdays 8:35 AM ET |
 | `investing-os-early-cockpit-build` | Earliest useful cockpit using overnight, pre-market, Morning Scan, and cached source state; later lanes remain visibly pending/stale when not run yet | Market weekdays 8:50 AM ET |
+| `investing-os-options-decay-audit` | Daily review-only audit for owned option premium/theta/DTE decay risk | Daily 8:55 AM ET |
 | `investing-os-daily-synthesis` | Daily Synthesis after the Morning Scan | Market weekdays 9:30 AM ET |
 | `investing-os-post-open-evidence-gate` | Same-session UW endpoint proof from the current action runbook; inconclusive proof stays blocking | Market weekdays 9:40 AM ET |
 | `investing-os-fundstrat-daytime-watch` | Hourly daytime Fundstrat watch; lands only action-relevant compact rows and pushes only urgent/action-changing alerts | Market weekdays hourly 9:45 AM-3:45 PM ET |
@@ -748,6 +756,7 @@ Important owned outputs include:
 - `tmp/dashboard_parity_feed.json`
 - `src/heartbeat.json`
 - `src/daily_synthesis.json`
+- `src/options_decay_audit.json`
 - `src/source_call_candidates.json`
 - `src/source_rates.json`
 - `src/uw_endpoint_results.json`
