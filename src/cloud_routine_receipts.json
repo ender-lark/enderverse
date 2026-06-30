@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T17:49:12.797321Z",
-      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail 0 not needed; rows landed 0; suppressed duplicate/prior FlashInsights and older listing discovery; validation passed; alert quiet 0 new, 4 duplicates, 76 suppressed; trigger quotes EWRE/ASTS/RKLB/MU not_checked; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T18:46:39.551800Z",
@@ -5983,7 +5976,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:47:27.140073Z",
       "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-full-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:47:49.647618Z",
+      "summary": "full cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "ef400f5be8aed6499d98460c0da765980d77cbb3d05fc73b427fd14e18adcc72",
+            "as_of": "2026-06-30T19:47:33.543694+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "7fc3aa1483bb9aa9711cce7fb2d4280d871d6fa75508aa4463e2ccc7e2d74b33",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-30T19:47:27.140073Z"
+  "updated_at": "2026-06-30T19:47:49.647618Z"
 }
