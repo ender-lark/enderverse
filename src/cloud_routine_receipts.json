@@ -2,117 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:07:57.910061Z",
-      "summary": "fundstrat pre-market safety sweep manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: 1 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 76, 'alert_candidates': 1, 'duplicates': 0, 'suppressed': 75}\n- ALERT SMH: research/re-check | Semis broke to new highs; stick with trend while above 595, breakout pivot 642.77, resistance 710-714, watch failure risk.\n  why: Fundstrat item may change research priority or an existing action assumption.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          }
-        ]
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:07:57.933887Z",
-      "summary": "investing-os-broker-position-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:08:01.647298Z",
-      "summary": "processed UUUU monitor update; Notion query_data_sources blocked by plan so counts search/fallback only; verified writes 1/1; remaining backlog not exhaustively counted; dark lanes same-session price/flow/options/loan terms/offtake/social"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:08:25.790647Z",
-      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
-      "details": {
-        "boundary_artifact": "src\\uw_endpoint_results.json",
-        "boundary_artifact_committed": true,
-        "no_fresh_boundary_data": false,
-        "feed_built_from_committed_proof": true,
-        "dashboard_refresh_status": "success",
-        "redaction_valid": true,
-        "redaction_problems": [],
-        "proof_generated_at": "2026-06-22T16:07:28.931667+00:00",
-        "proof_count": 13,
-        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-22 12:07 ET.",
-        "proof_newest_checked_at": "2026-06-22T16:07:28.931667+00:00",
-        "proof_interpretation_counts": {
-          "supports": 0,
-          "contradicts": 0,
-          "inconclusive": 10,
-          "missing": 3
-        },
-        "proof_blockers": [
-          "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked"
-        ],
-        "boundary_commit": {
-          "valid": true,
-          "committed": true,
-          "commit": "3e2d07c",
-          "reason": "committed",
-          "selected_paths": [
-            "src/uw_endpoint_results.json"
-          ]
-        },
-        "dashboard_refresh_returncode": 0,
-        "feed_uw_proof_newest_checked_at": "2026-06-22T16:07:28.931667+00:00",
-        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-22 12:07 ET."
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6582,7 +6471,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-29T23:32:40.134680Z",
       "summary": "off-hours research queue not_checked: Drive drop folder missing; cache not refreshed; existing cache pending=15 done=0 act_now=0 skipped=0"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-deep-crawl",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T00:40:45.821814Z",
+      "summary": "fundstrat deep crawl started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T00:47:00.206152Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T00:47:14.200658Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T00:47:42.087665Z",
+      "summary": "dry-run selected 0; queued none; Research Queue write/readback not_checked no created rows; remaining unqueued 2 RYF/XOP QUIET BUILDING; source pulls/social/portwatch not_checked; no blockers"
     }
   ],
-  "updated_at": "2026-06-29T23:32:40.134680Z"
+  "updated_at": "2026-06-30T00:47:42.087665Z"
 }
