@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:32:48.956384Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T20:33:37.852252Z",
@@ -6007,7 +6000,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:51:37.842048Z",
       "summary": "Chrome web lane not_checked: Fundstrat blocked by browser policy before page access; Gmail fallback searched 12 fresh hits after Jun29 and read 5 full bodies; landed 1 compact Jun30 TLT/rates-inflation recheck row; suppressed duplicate Jun29 crypto/DTS/Flash rows plus shareholder notices/webinar/listing-only noise; source-call merge valid, Fundstrat validation passed, focused tests 85 passed, verify_standard passed 1888/6; dashboard artifacts refreshed by concurrent routine commits; Notion not used; dark/stale blockers: Chrome web lane not_checked, Social Watch not_checked, unrelated post-open evidence gate failed-latest"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:53:26.550155Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, 7 high-decay research listings, and Jun30 First-to-Market detail; Gmail 0 not needed; rows landed 4 compact flashinsights_feed (SMH/SMH/QQQ/CRCL); suppressed stale/duplicate FlashInsights, listing-only research cards, and broad/duplicate FTM detail; validation passed; dashboard refreshed; alerts sent 5 (T/TLT/QQQ/SMH/CRCL); trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; Social Watch dark; blockers none"
     }
   ],
-  "updated_at": "2026-06-30T19:51:37.842048Z"
+  "updated_at": "2026-06-30T19:53:26.550155Z"
 }
