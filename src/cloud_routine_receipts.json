@@ -2,58 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:09:01.980422Z",
-      "summary": "morning scan manual run completed; Signal Log remains watch-only",
-      "details": {
-        "steps": [
-          {
-            "label": "signal log validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/signal_log_intake.py",
-              "--validate",
-              "src/signal_log.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 67\n}",
-            "stderr": ""
-          },
-          {
-            "label": "macro cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/macro_pulse_scan.py",
-              "--validate",
-              "src/macro_state.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"\",\n  \"written\": false,\n  \"snapshot_date\": \"2026-06-04\",\n  \"rates\": [\n    \"10Y\",\n    \"2Y\",\n    \"30Y\"\n  ],\n  \"levels\": [\n    \"DXY\",\n    \"VIX\"\n  ],\n  \"alerts\": 0,\n  \"implications\": 2\n}",
-            "stderr": ""
-          }
-        ]
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:09:02.024438Z",
-      "summary": "investing-os-early-cockpit-build manual run started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:09:06.518898Z",
-      "summary": "investing-os-uw-opportunity-cache started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "failed",
       "run_source": "scheduled",
@@ -6395,7 +6343,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T01:29:52.449179Z",
       "summary": "alt-data scout success: SEC/UW/Notion checked; routed BMNR RQ update, AVAV RQ recheck, AVGO Signal Log; Notion verified 3/3; repo caches validated; UW proof 21 inconclusive/missing; Social/PortWatch dark; MSTR duplicate suppressed"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:17:28.760456Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:17:48.876362Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:18:23.876634Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 0,
+        "captured_count": 0,
+        "skipped_duplicate_count": 0,
+        "skipped_stale_count": 0,
+        "target_verification": "nothing_written"
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-30T01:29:52.449179Z"
+  "updated_at": "2026-06-30T02:18:23.876634Z"
 }
