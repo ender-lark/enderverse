@@ -2,133 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:49.472491Z",
-      "summary": "morning scan logged 4 Signal Log rows; repo cache 71 rows; Notion verified 4/4; UW sectors/flow checked, same-day dark pool empty; Notion query unsupported"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:49.956539Z",
-      "summary": "Fundstrat full-body/detail checked; rows landed 2 plus Event Risk 1; position cache untouched no broker input; dark/stale lanes UW 429, Catalyst Notion SQL blocked, no Notion writes"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:59.693279Z",
-      "summary": "processed Low FS-ingest findings; live RQ H2q/H7w M3q/M25w L7q/L13w; verified Notion 1/1; high blocked operator/code; worker success dark",
-      "details": {
-        "queue_read": {
-          "live_source": "notion_rest_data_sources_query",
-          "data_source": "collection://cab89576-0933-40b0-ad2e-6f9a6188e804",
-          "mcp_query_data_sources": "blocked: Notion AI Enterprise plan required",
-          "fallback_mirror": "src/research_queue.json generated_at 2026-06-19T15:25:50Z; stale fallback evidence only, not used for live counts",
-          "worker_completion_proof": "dark: latest local receipt for investing-os-off-hours-worker during this run was started-only at 2026-06-22T16:05:30Z; last scheduled success remained 2026-06-21T05:49:46Z"
-        },
-        "counts_after_worker_window": {
-          "High": {
-            "Queued": 2,
-            "Working": 7
-          },
-          "Med": {
-            "Queued": 3,
-            "Working": 25
-          },
-          "Low": {
-            "Queued": 7,
-            "Working": 13
-          },
-          "active_remaining_q_plus_w": 57,
-          "queued_total": 12
-        },
-        "processed": [
-          {
-            "page_id": "37cc5031-4bb6-8159-b1ca-d5976287326b",
-            "topic": "Push-based FS note ingest (event-driven, not polled) - parked v2",
-            "priority": "Low",
-            "status_before": "Queued",
-            "status_after": "Queued",
-            "write_verification": "Notion content insert and Findings property fetch-back verified",
-            "decision_effect": "defer/system-review only; no code, trade, status completion, or posture change"
-          }
-        ],
-        "remaining_backlog": {
-          "queued_remaining": 12,
-          "note": "processed row remains queued by design because no implementation or operator decision was completed",
-          "high_blockers": [
-            "Full-book rebalance requires operator review/disposition",
-            "MU parabolic trigger is code/system wiring; framework/code changes disallowed by this routine"
-          ],
-          "med_blockers": [
-            "AI labor-disruption thesis already has 2026-06-20 buffer finding and needs operator choice of beneficiary deep dive vs trigger-watch",
-            "v0 threshold row already has 2026-06-19 buffer finding and needs pilot/operator threshold decision",
-            "staging doctrine row already has 2026-06-18 buffer finding and needs doctrine/outcome review"
-          ],
-          "low_note": "remaining low rows mostly already have verified buffer findings or need implementation/operator evidence before status completion"
-        },
-        "write_verification": "Notion write/readback verified 1/1; no status changes",
-        "dark_stale_lanes": [
-          "MCP notion_query_data_sources blocked by Notion AI plan; REST read succeeded",
-          "worker-completion proof for 2026-06-22 stayed dark/started-only at closeout",
-          "fallback src/research_queue.json stale mirror only",
-          "current missed-Fundstrat-note log not_checked",
-          "webhook reliability, GitHub Actions secret wiring, pipeline ownership, and alert-to-dashboard latency not_checked",
-          "current account exposure/funding/leverage/flow not_checked for this system row"
-        ],
-        "temporary_cap": "none; processed the only safe not-yet-structured queued row after high/med blockers were classified"
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:11:15.475300Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "db2020a80ec6fa73894ade37801ee7e29b4a77c0de4787255226a1786d97cb62",
-            "as_of": "2026-06-22T16:11:07.339872+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "593d682a3c7f43e95660a5491501859b360d46594ae673089f6509bdaca10f5b",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:11:15.706632Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:11:36.564458Z",
-      "summary": "investing-os-broker-position-intake started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6060,7 +5933,63 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:42:34.899751Z",
       "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:15.103088Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:17.052698Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:42.360970Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:51.436613Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:53.177279Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:43:59.298179Z",
+      "summary": "post-open evidence gate started"
     }
   ],
-  "updated_at": "2026-06-30T19:42:34.899751Z"
+  "updated_at": "2026-06-30T19:43:59.298179Z"
 }
