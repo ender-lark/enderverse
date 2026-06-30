@@ -41,11 +41,11 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | BMNR | $13 | $161 | -91.7% | $56,271 | Notion Working MONITOR, SEC 8-K/Ex.99.1 via off-hours alt-data scout 2026-06-29, repo research queue Working | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
-| LEU | $166 | $464 | -64.3% | $86,188 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
-| KTOS | $50 | $134 | -63.0% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
-| AVAV | $167 | $418 | -60.0% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, repo research queue Queued | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
-| ELF | $74 | $151 | -51.0% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
-| UUUU | $14 | $28 | -48.3% | $32,622 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
+| LEU | $166 | $464 | -64.2% | $86,188 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
+| KTOS | $50 | $134 | -62.9% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
+| AVAV | $168 | $418 | -59.8% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, repo research queue Queued | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
+| ELF | $74 | $151 | -51.1% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
+| UUUU | $14 | $28 | -48.4% | $32,622 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
 | SOFI | $18 | $33 | -44.8% | $910 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
 | MP | $56 | $100 | -44.1% | $15,940 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
 | HOOD | $101 | $154 | -34.5% | $2,886 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
@@ -58,8 +58,8 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | FN | $567 | $749 | -24.3% | $7,052 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
 | AVGO | $379 | $495 | -23.4% | $44,658 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
 | NVDA | $199 | $237 | -15.8% | $242,460 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
-| AMZN | $239 | $279 | -14.4% | $21,289 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
-| VRT | $333 | $380 | -12.2% | $13,666 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
+| AMZN | $238 | $279 | -14.5% | $21,289 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
+| VRT | $334 | $380 | -12.2% | $13,666 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
 
 ## Full Watchlist Screen
 - Screened rows with chart data: 128.
