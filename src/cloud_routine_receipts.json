@@ -2,37 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:33:37.852252Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "65cb6780c0ceb48aa38a434b8cd1e7952e05c56ce8306fb3a2fa4132862194fd",
-            "as_of": "2026-06-22T20:33:29.533622+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "34c1faec6a5be4de12146cf2829f0ff4190113c15b801c94eec7df93e6c622d2",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5976,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:53:26.550155Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, 7 high-decay research listings, and Jun30 First-to-Market detail; Gmail 0 not needed; rows landed 4 compact flashinsights_feed (SMH/SMH/QQQ/CRCL); suppressed stale/duplicate FlashInsights, listing-only research cards, and broad/duplicate FTM detail; validation passed; dashboard refreshed; alerts sent 5 (T/TLT/QQQ/SMH/CRCL); trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; Social Watch dark; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:55:00.103292Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, latest-research listing, and Jun30 First-to-Market detail; Gmail checked 0 not needed; rows landed 0; suppressed duplicate full-content items 5 plus discovery/older listing items 7; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=9 suppressed=158; trigger guard fired=0 quote-not_checked=4; Notion writes 0; blockers none"
     }
   ],
-  "updated_at": "2026-06-30T19:53:26.550155Z"
+  "updated_at": "2026-06-30T19:55:00.103292Z"
 }
