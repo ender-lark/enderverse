@@ -2,38 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:09:14.675838Z",
-      "summary": "uw opportunity cache failed",
-      "details": {
-        "returncode": 3,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/uw_opportunity_signals.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "b36e745fee9f44619ecdf46d19368ddb1223982ac6dd750fd820dbacb9a43411",
-            "as_of": "2026-06-19T14:03:07.598707+00:00",
-            "fresh": false,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "b36e745fee9f44619ecdf46d19368ddb1223982ac6dd750fd820dbacb9a43411",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "success",
       "run_source": "scheduled",
@@ -6373,7 +6341,14 @@
         "target_verification": "nothing_written"
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:19:56.723481Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32 coverage=25/25 current action/material fresh discipline=clean dark/not_checked blockers: remaining missing dossiers=32; CPER/DAL same-session flow/social not_checked; options chains not pulled; news absence is not no-news"
     }
   ],
-  "updated_at": "2026-06-30T02:18:23.876634Z"
+  "updated_at": "2026-06-30T02:19:56.723481Z"
 }
