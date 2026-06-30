@@ -2,105 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:03.503304Z",
-      "summary": "full cockpit build failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "593d682a3c7f43e95660a5491501859b360d46594ae673089f6509bdaca10f5b",
-            "as_of": "2026-06-22T16:09:46.365776+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "6f54ce836b0515bf40bef237a33c0cd222d1e716fa2b38d2c11a9813d04f58c0",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:10:03.613706Z",
-      "summary": "fundstrat daytime watch manual support run validated intake and alert plumbing without sending",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "fundstrat alert dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_daytime_alert.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Fundstrat daytime watch: 2 new urgent/action-changing alert(s).\npolicy: Push only when a compact full-body-derived Fundstrat item changes act, wait, re-check, research, trim, hedge, or size posture. Fluff/context updates stay quiet.\ncounts: {'calls_seen': 78, 'alert_candidates': 2, 'duplicates': 0, 'suppressed': 76}\n- ALERT SMH: research/re-check | Semis broke to new highs; stick with trend while above 595, breakout pivot 642.77, resistance 710-714, watch failure risk.\n  why: Fundstrat item may change research priority or an existing action assumption.\n- ALERT SPY: hedge/re-check | Newton treats early equity weakness as a support test: SPX 7465-7450 is the key same-session zone, with TNX/oil context worth rechecking before adding beta.\n  why: Fundstrat content points to a fast-moving macro/tape issue that can change sizing, hedging, or timing.\n- quiet RYF: not_fresh_enough_for_intraday_alert\n- quiet TNX: not_fresh_enough_for_intraday_alert\n- quiet XOP: not_fresh_enough_for_intraday_alert\n- quiet GOOGL: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet RSP: not_fresh_enough_for_intraday_alert\n- quiet SOX: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert\n- quiet GOLD: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet QQQ: not_fresh_enough_for_intraday_alert\n- quiet MSTR: not_fresh_enough_for_intraday_alert",
-            "stderr": ""
-          },
-          {
-            "label": "pushover config self-test",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/pushover_notify.py",
-              "--self-test",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Pushover configured: True\nDry run: True\nSent: False\nConfig env: token=PUSHOVER_APP_TOKEN | user=PUSHOVER_USER_KEY",
-            "stderr": ""
-          },
-          {
-            "label": "trigger check dry-run",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/trigger_check.py",
-              "--dry-run",
-              "--format",
-              "text"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "Trigger check: fired=0; not_checked=4; armed=4; expired=0.\nNot checked:\n- EWRE ewre-weekly-close-above-38-2026-06: quote not checked\n- ASTS asts-reentry-zone-65-70: quote not checked\n- RKLB rklb-reentry-zone-85-90: quote not checked\n- MU parabolic-accel-mu: quote not checked",
-            "stderr": ""
-          }
-        ]
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "manual",
@@ -6223,7 +6124,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T08:47:16.980802Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T08:50:05.878368Z",
+      "summary": "live RQ H3q/H15w M5q/M28w L7q/L13w; skipped no safe advance; selected none; remaining 15 queued blocked/prior-reviewed: High operator/code/full-article, Med worker/yesterday updates or operator/pilot/doctrine, Low prior-reviewed/defer; writes not_attempted; dark MCP SQL plan gate, source-flow/options/account/margin/full-article; no trades"
     }
   ],
-  "updated_at": "2026-06-30T06:32:30.915517Z"
+  "updated_at": "2026-06-30T08:50:05.878368Z"
 }
