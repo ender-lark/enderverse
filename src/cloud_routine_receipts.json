@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T01:17:02.992659Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T01:25:44.483117Z",
-      "summary": "checked cockpit/RQ/holdings; SEC active universe, UW proof, Polymarket/Kalshi, Guardian/MarketWatch/NYPost, Social Watch; candidates BMNR AVAV Hormuz; Notion Signal Log 2 written+verified, repo Signal Log +2 Event Risk +1; suppressed LEU/NVDA/SOFI routine forms and duplicate Hormuz Notion; dark Social Watch/PortWatch odds, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow empty"
-    },
-    {
       "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T23:15:08.113991Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research, Intraday Word, First Word, DTS, LTSA, US Policy/Fed Watch, Crypto Research, Macro Minute, Latest Videos; opened Jun30 Upticks, Jun30 First-to-Market, Jun29 Crypto Comments detail; videos checked 1 MSTR/STRC/BTC Vimeo transcript surface; transcript vault entries written/pushed 1 vault 75cdbcc; Gmail checked 0 Chrome full content available; daily/source rows landed 0; suppressed duplicate compact rows 9 plus stale/listing-only categories and Jun30 Upticks stock-list add/delete as deep-crawl context not daily-call; validations passed transcript-index/email-intake/source-merge/26 focused tests; dashboard refresh skipped no new rows; Notion not used; dark/not_checked Social Watch and no Gmail fallback; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T23:32:24.387774Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T23:32:43.874982Z",
+      "summary": "Research Queue not_checked: drop path missing; no export supplied; cache_refreshed=false; pending/done/ACT_NOW/skipped not_checked"
     }
   ],
-  "updated_at": "2026-06-30T23:15:08.113991Z"
+  "updated_at": "2026-06-30T23:32:43.874982Z"
 }
