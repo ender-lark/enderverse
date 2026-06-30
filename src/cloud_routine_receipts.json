@@ -2,61 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.296454Z",
-      "summary": "investing-os-pre-market-source-intake manual run started"
-    },
-    {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:43.530113Z",
-      "summary": "pre-market source intake manual run completed; missing account/meridian inputs remain dark",
-      "details": {
-        "steps": [
-          {
-            "label": "fundstrat cache validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/fundstrat_email_intake.py",
-              "--validate",
-              "src"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          },
-          {
-            "label": "event risk validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/event_risk_intake.py",
-              "--validate",
-              "src/event_risks.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"rows\": 3\n}",
-            "stderr": ""
-          },
-          {
-            "label": "catalyst cache validate",
-            "returncode": 0,
-            "optional": false,
-            "check": {
-              "valid": true,
-              "rows": 8,
-              "valid_rows": 8,
-              "problem": ""
-            }
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "started",
       "run_source": "manual",
@@ -7076,7 +7021,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:14:49.541542Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:14:49.710983Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-06-30T19:43:41.521247Z"
+  "updated_at": "2026-06-30T20:14:49.710983Z"
 }
