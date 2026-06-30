@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:15:44.040902Z",
-      "summary": "Chrome web checked Macro FlashInsights Jun22 11:11 ET, Crypto FlashInsights Jun22 11:14/11:13 ET, and US Policy detail text; Gmail 0 not needed; compact rows checked 4, ETH/BTC source-call candidate added/current on main; low-value/discovery-only suppressed 0, duplicates deduped; validation passed; dashboard refreshed; Pushover alert sent 3 (SMH, ETH, SPY); trigger guard fired 0, EWRE/ASTS/RKLB/MU quote not_checked; Social Watch dark"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -5870,7 +5863,49 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:45:35.779484Z",
       "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "failed",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:46:01.985463Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=failed",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": false,
+        "dashboard_refresh_status": "failed",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-06-30T19:43:59.330752+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-30 15:43 ET.",
+        "proof_newest_checked_at": "2026-06-30T19:43:59.330752+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "da306ab",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 1,
+        "error": "RuntimeError: dashboard refresh failed with return code 1"
+      },
+      "boundary_outcome": "failed"
     }
   ],
-  "updated_at": "2026-06-30T19:45:35.779484Z"
+  "updated_at": "2026-06-30T19:46:01.985463Z"
 }
