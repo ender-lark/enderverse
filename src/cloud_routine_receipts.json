@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:12:25.660335Z",
-      "summary": "ingested 2 FS inbox entries through 2026-06-22 10:55 ET; logged 1 Source Call Log row; marker advanced; no timing-gate mutation"
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -5990,7 +5983,14 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:45:07.727192Z",
+      "summary": "fundstrat daytime watch started"
     }
   ],
-  "updated_at": "2026-06-30T19:44:49.904808Z"
+  "updated_at": "2026-06-30T19:45:07.727192Z"
 }

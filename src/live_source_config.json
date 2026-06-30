@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "verified_at": "2026-06-29T10:02:46-04:00",
+  "verified_at": "2026-06-30T15:45:06-04:00",
   "connectors": {
     "unusual_whales": {
       "available": true,
-      "verified_at": "2026-06-29T10:02:46-04:00",
+      "verified_at": "2026-06-30T15:45:06-04:00",
       "verified_by": "Codex app Unusual Whales connector",
-      "verification": "get_market_state returned market-wide daily options snapshot for 2026-06-29; get_market_tide returned market-wide rows through 2026-06-29T10:00:00-04:00",
+      "verification": "get_market_state returned market-wide daily options snapshot for 2026-06-30; get_market_tide returned market-wide rows through 2026-06-30T15:40:00-04:00",
       "notes": [
         "No API key or secret is stored in this file.",
         "This proves connector availability, not that a specific cache was freshly rebuilt."
       ],
-      "market_state_date": "2026-06-29",
-      "market_tide_latest_timestamp": "2026-06-29T10:00:00-04:00"
+      "market_state_date": "2026-06-30",
+      "market_tide_latest_timestamp": "2026-06-30T15:40:00-04:00"
     }
   }
 }
