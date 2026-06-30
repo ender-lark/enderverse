@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T18:46:39.551800Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-22T18:49:06.518547Z",
@@ -6007,7 +6000,14 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:48:50.681679Z",
+      "summary": "FS inbox catch-up midday nothing new; marker checked through [06/30/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-06-30T19:47:49.647618Z"
+  "updated_at": "2026-06-30T19:48:50.681679Z"
 }
