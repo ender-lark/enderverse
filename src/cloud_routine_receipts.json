@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-positions-sync",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:46:59.438324Z",
-      "summary": "positions sync started"
-    },
-    {
-      "routine_id": "investing-os-positions-sync",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:51:07.427110Z",
-      "summary": "positions sync succeeded: 2026-06-22; 11 accounts; 276 rows; diffs VALUE_CHANGE 88; share changes 0; orphan 76; warnings 2; dashboard ok; Notion verified"
-    },
-    {
       "routine_id": "investing-os-fundstrat-after-hours-catch-up",
       "status": "started",
       "run_source": "scheduled",
@@ -5983,7 +5969,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:59:33.306049Z",
       "summary": "federal funding midday watch success: checked War.gov Today/Releases/Jun29 contracts plus service/DARPA/DIU/OSC, Commerce/CHIPS/NIST, DOE/NNSA/LPO/OCED/EERE, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows=4; direct_public=2 LHX/NOC; research rows=2; Signal Log rows=3; Notion RQ write/readback 2/2 verified; Jun30 War.gov contracts dark before 5pm ET; USAspending/SAM and same-session tape not_checked; unrelated Post-Open Evidence Gate failed-latest remains visible"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:33:17.080751Z",
+      "summary": "investing-os-post-close-refresh started"
+    },
+    {
+      "routine_id": "investing-os-post-close-refresh",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:35:15.532276Z",
+      "summary": "post-close refresh succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "1de2da202d27c0fc3ce462e1f452e779c79358ac0a9b3097d9aa386cfeaa01b0",
+            "as_of": "2026-06-30T20:35:06.525137+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "e4039f90ea062158b448d07d765cd77f15345bfe8095a538122972a35ae05d85",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-30T19:59:33.306049Z"
+  "updated_at": "2026-06-30T20:35:15.532276Z"
 }
