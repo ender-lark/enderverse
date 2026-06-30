@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:10:08.613912Z",
-      "summary": "investing-os-full-cockpit-build manual run failed",
-      "details": {
-        "steps": [
-          {
-            "label": "live dashboard refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/live_dashboard_refresh.py"
-            ],
-            "returncode": 1,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 4,\n    \"stale\": 1\n  }\n}\n\n== refresh_decision_dossier_dynamic_reads ==\n+ C:\\Python314\\python.exe src/decision_dossier_refresh.py --in src\\decision_dossiers.json --out src\\decision_dossiers.json --uw-prices src\\uw_closes.json --uw-opportunity src\\uw_opportunity_signals.json --feed src\\latest_cockpit_feed.json --live-source-config src\\live_source_config.json\n{\n  \"valid\": true,\n  \"generated_at\": \"2026-06-22\",\n  \"as_of\": \"2026-06-22\",\n  \"updated_dossiers\": 0,\n  \"rows\": [\n    {\n      \"ticker\": \"AVGO\",\n      \"updated_reads\": [],\n      \"price_evidence\": false,\n      \"timing_evidence\": false\n    }\n  ],\n  \"written\": true,\n  \"out\": \"src\\\\decision_dossiers.json\"\n}\n\n== refresh_source_rates ==\n+ C:\\Python314\\python.exe src/source_call_tracker.py --hit-rates --calls src\\source_calls.json --out src\\source_rates.json\nsource_rates written to src\\source_rates.json (78 calls processed)\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish",
-            "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1337, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1272, in main\n    feed = build_full_feed_from_files(\n        src_dir=args.src_dir,\n    ...<5 lines>...\n        generated_at=args.generated_at,\n    )\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1151, in build_full_feed_from_files\n    raise FullBuildError(\"; \".join(boundary_artifact_problems))\nFullBuildError: UW endpoint proof boundary artifact is dirty/uncommitted: M src/uw_endpoint_results.json; commit src/uw_endpoint_results.json before building the cockpit feed from it."
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:26.803308Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:10:33.810216Z",
-      "summary": "Chrome checked Macro FlashInsights Jun22 11:11 ET, Crypto FlashInsights Jun22 11:14 ET, latest research list plus US Policy/First to Market details; Gmail 0 not needed; rows landed 2, suppressed 2 article details broad/context; validation passed; Notion not used; dashboard refresh blocked by dirty src/uw_endpoint_results.json",
-      "boundary_outcome": "failed"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6060,7 +6022,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:42:14.048460Z",
       "summary": "life-os-daily-briefing started"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:42:20.898681Z",
+      "summary": "Life OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "life_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/life_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:42:31.052535Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:42:34.899751Z",
+      "summary": "morning scan started"
     }
   ],
-  "updated_at": "2026-06-30T19:42:14.048460Z"
+  "updated_at": "2026-06-30T19:42:34.899751Z"
 }
