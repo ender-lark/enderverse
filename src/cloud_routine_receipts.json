@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T23:32:18.107739Z",
-      "summary": "off-hours research queue started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T23:33:04.766395Z",
-      "summary": "Research Queue not_checked: drop folder missing; pending 5 done 0 ACT_NOW none skipped 0; cache not refreshed; existing cache 2026-06-19T15:25:50Z"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T20:40:03.671075Z",
       "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/30/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:47:35.477364Z",
+      "summary": "positions sync started"
+    },
+    {
+      "routine_id": "investing-os-positions-sync",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:54:31.966085Z",
+      "summary": "positions sync succeeded: 2026-06-30; 11 accounts/277 rows; VALUE_CHANGE 83/0 share changes; 10 warnings; dashboard regenerated; tests passed"
     }
   ],
-  "updated_at": "2026-06-30T20:40:03.671075Z"
+  "updated_at": "2026-06-30T20:54:31.966085Z"
 }
