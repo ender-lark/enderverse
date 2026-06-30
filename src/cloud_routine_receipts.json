@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T00:45:54.774857Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T00:47:19.898872Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
       "routine_id": "investing-os-top-prospects-auto-research",
       "status": "success",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T20:54:31.966085Z",
       "summary": "positions sync succeeded: 2026-06-30; 11 accounts/277 rows; VALUE_CHANGE 83/0 share changes; 10 warnings; dashboard regenerated; tests passed"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T21:36:07.245739Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T21:39:55.397711Z",
+      "summary": "federal funding post-close success: checked War.gov Jun29 contracts, no War.gov Jun30 contract page found, NNSA/AWS Jun30 cloud launch, DOT TIFIA Jun29, plus Commerce/CHIPS DOE/DARPA/DIU/AF/SF/Navy/Army/NASA/NSF/Treasury/EXIM/DFC spot checks; verified rows 5 in payload/41 cache; direct public research rows LHX,NOC already repo+Notion readback verified; Signal Log cache 123 valid; Research Queue 18 pending valid; Notion writes 0 duplicate-avoided, readback 2/2; dark/not_checked: War.gov Jun30 daily contracts unavailable, SAM/USAspending not needed, market reaction/flow not checked, Post-Open Evidence Gate failed-latest unrelated"
     }
   ],
-  "updated_at": "2026-06-30T20:54:31.966085Z"
+  "updated_at": "2026-06-30T21:39:55.397711Z"
 }
