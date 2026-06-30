@@ -2,66 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:08:43.961974Z",
-      "summary": "broker position intake succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/snaptrade_book_refresh.py",
-          "--refresh-dashboard"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "d8f8c9eb6d5155556ceba471175cb389d997ad6a95ba7d13e395ebf8a1ad5264",
-            "as_of": "2026-06-22",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "87a6f043afb030761edad15979a15045525af4aa091bb4964b35311a752c963c",
-            "changed": true
-          },
-          {
-            "path": "src/account_positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "0f1963602023295c4fa85c2196e133a4d48083f01402a04730f0afda684dfcf2",
-            "as_of": "2026-06-22",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "9efcc395c56bce3df23e471d63f3d2bf8647b838e454b828062fe5bdf11229f4",
-            "changed": true
-          },
-          {
-            "path": "src/position_reconciliation.json",
-            "as_of_field": "current_snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "8b5e318919eecbf58ea909530e55ace317bbcd86f81b0502f7633c83f9a20eb6",
-            "as_of": "2026-06-22",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "28a7c7cde836f51d39929bce406aec1b026534902b9369cd9dc789a25a0bebfc",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -6475,7 +6415,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T00:54:31.487927Z",
       "summary": "FS inbox catch-up evening ingested 3 entries through [06/29/2026 18:40 ET]; Source Call Log rows 9 fetch-verified; marker advanced; repo cache added Telecom row; flags SPX/QQQ negative-gamma/range recheck, Tech rotation unresolved, MSTR/STRC preferred support vs BTC funding-source risk; no trades, broker, timing-gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-deep-crawl",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T00:58:55.189696Z",
+      "summary": "deep crawl success: checked Macro/Crypto Flash, latest research listing, stock lists, Upticks partial, sector allocation, top ideas, crypto strategy; not_checked latest videos transcript/captions and Upticks historical timeout; rows/diffs landed 0; overlaps QQQ/MAGS/SMH/MSTR/MU/AMD/ANET/UUUU/BTC/ETH/SOL context only; validations passed; Social Watch dark"
     }
   ],
-  "updated_at": "2026-06-30T00:54:31.487927Z"
+  "updated_at": "2026-06-30T00:58:55.189696Z"
 }
