@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:09:17.225519Z",
-      "summary": "parabolic cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/parabolic_setups.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "c249d18c63cb056011d8fb6f916f24ca52b8e508ae488c0b0ee4ec98c121d43a",
-            "as_of": "2026-06-22T16:09:16.737758+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "c489993223f2cc30a55c8bf7e6a199d14982ecd956ce53b40b591abcacc612ba",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:09:20.884362Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "manual",
@@ -6348,7 +6309,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T02:19:56.723481Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32 coverage=25/25 current action/material fresh discipline=clean dark/not_checked blockers: remaining missing dossiers=32; CPER/DAL same-session flow/social not_checked; options chains not pulled; news absence is not no-news"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:45:48.553949Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T02:57:19.333087Z",
+      "summary": "Chrome checked 12 Fundstrat surfaces after 7pm focus; post-cutoff MSTR/STRC/BTC article detail Jun29 22:32 ET checked; rows landed 3; videos checked Latest Videos/DTS/Macro Minute with no visible transcript/captions for new MSTR embed so transcript vault entries 0; Gmail checked 0 not needed; suppressed pre-cutoff/stale/discovery-only items incl Macro Flash 12:32, Crypto Flash 10:10, DTS 18:20, Macro Minute Jun25, Intraday stale 2025, Live Technical Jun4, US Policy 10:42, Fed Watch Jun17; validations passed; dashboard refreshed; dark/not_checked Social Watch and video transcript lane for MSTR captions"
     }
   ],
-  "updated_at": "2026-06-30T02:19:56.723481Z"
+  "updated_at": "2026-06-30T02:57:19.333087Z"
 }
