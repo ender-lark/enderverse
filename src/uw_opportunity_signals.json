@@ -1,18 +1,18 @@
 {
-  "as_of": "2026-06-29",
-  "generated_at": "2026-06-29T14:03:00.392031+00:00",
+  "as_of": "2026-06-30",
+  "generated_at": "2026-06-30T19:46:14.280093+00:00",
   "source": "uw_opportunity_scan",
   "signals": [
     {
       "ticker": "BMNR",
       "signal_type": "sweep",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "moderate",
-      "evidence": "ask-side put sweeps $0.8M, 1:1 c/p",
+      "evidence": "ask-side call sweeps $1.1M, 2:1 c/p",
       "detail": {
-        "premium": 815570.0,
+        "premium": 1089318.0,
         "side": "ask",
-        "call_put_ratio": 1.19
+        "call_put_ratio": 1.86
       }
     },
     {
@@ -20,11 +20,11 @@
       "signal_type": "oi_build",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "call OI +4700% at 14.5/14/13.5 strikes",
+      "evidence": "call OI +11300% at 20/14/13.5 strikes",
       "detail": {
-        "oi_change_pct": 4700.0,
+        "oi_change_pct": 11300.0,
         "strikes": [
-          14.5,
+          20,
           14,
           13.5
         ]
@@ -34,21 +34,21 @@
       "ticker": "BMNR",
       "signal_type": "dark_pool_accum",
       "direction": "bullish",
-      "strength": "weak",
-      "evidence": "dark-pool blocks $1M net buy, 1 sessions",
+      "strength": "moderate",
+      "evidence": "dark-pool blocks $3M net buy, 1 sessions",
       "detail": {
-        "notional": 737904.4297000003,
+        "notional": 3426307.866100001,
         "sessions": 1
       }
     },
     {
       "ticker": "GRNJ",
       "signal_type": "dark_pool_accum",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "weak",
-      "evidence": "dark-pool blocks $0M net sell, 1 sessions",
+      "evidence": "dark-pool blocks $0M net buy, 1 sessions",
       "detail": {
-        "notional": -116391.72,
+        "notional": 271509.72959999996,
         "sessions": 1
       }
     },
@@ -59,9 +59,9 @@
       "strength": "moderate",
       "evidence": "ask-side call sweeps $1.6M, 16:1 c/p",
       "detail": {
-        "premium": 1598850.0,
+        "premium": 1580850.0,
         "side": "ask",
-        "call_put_ratio": 15.61
+        "call_put_ratio": 15.53
       }
     },
     {
@@ -69,13 +69,13 @@
       "signal_type": "oi_build",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "call OI +80% at 27/29/27 strikes",
+      "evidence": "call OI +517% at 29/28/31 strikes",
       "detail": {
-        "oi_change_pct": 80.0,
+        "oi_change_pct": 516.6666666666667,
         "strikes": [
-          27,
           29,
-          27
+          28,
+          31
         ]
       }
     },
@@ -83,10 +83,10 @@
       "ticker": "GRNY",
       "signal_type": "dark_pool_accum",
       "direction": "bearish",
-      "strength": "weak",
-      "evidence": "dark-pool blocks $1M net sell, 1 sessions",
+      "strength": "moderate",
+      "evidence": "dark-pool blocks $4M net sell, 1 sessions",
       "detail": {
-        "notional": -902977.1675,
+        "notional": -3915755.907799999,
         "sessions": 1
       }
     },
@@ -95,11 +95,11 @@
       "signal_type": "sweep",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "ask-side call sweeps $2.1M, 3:1 c/p",
+      "evidence": "ask-side call sweeps $2.1M, 6:1 c/p",
       "detail": {
-        "premium": 2066269.0,
+        "premium": 2055416.0,
         "side": "ask",
-        "call_put_ratio": 2.73
+        "call_put_ratio": 5.96
       }
     },
     {
@@ -107,13 +107,13 @@
       "signal_type": "oi_build",
       "direction": "bearish",
       "strength": "strong",
-      "evidence": "put OI +3000% at 70/80/80 strikes",
+      "evidence": "put OI +3700% at 85/90/89 strikes",
       "detail": {
-        "oi_change_pct": 3000.0,
+        "oi_change_pct": 3700.0,
         "strikes": [
-          70,
-          80,
-          80
+          85,
+          90,
+          89
         ]
       }
     },
@@ -122,9 +122,9 @@
       "signal_type": "dark_pool_accum",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "dark-pool blocks $17M net buy, 1 sessions",
+      "evidence": "dark-pool blocks $203M net buy, 1 sessions",
       "detail": {
-        "notional": 17395488.504700005,
+        "notional": 202822893.66919994,
         "sessions": 1
       }
     },
@@ -144,12 +144,12 @@
       "signal_type": "oi_build",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "call OI +50% at 38/40 strikes",
+      "evidence": "call OI +214% at 38/41 strikes",
       "detail": {
-        "oi_change_pct": 50.0,
+        "oi_change_pct": 214.28571428571428,
         "strikes": [
           38,
-          40
+          41
         ]
       }
     },
@@ -158,9 +158,9 @@
       "signal_type": "dark_pool_accum",
       "direction": "bullish",
       "strength": "weak",
-      "evidence": "dark-pool blocks $0M net buy, 1 sessions",
+      "evidence": "dark-pool blocks $3M net buy, 1 sessions",
       "detail": {
-        "notional": 284109.0,
+        "notional": 2885651.7302,
         "sessions": 1
       }
     },
@@ -171,34 +171,34 @@
       "strength": "moderate",
       "evidence": "ask-side put sweeps $1.6M, 2:1 c/p",
       "detail": {
-        "premium": 1554350.0,
+        "premium": 1555370.0,
         "side": "ask",
-        "call_put_ratio": 1.67
+        "call_put_ratio": 1.77
       }
     },
     {
       "ticker": "LEU",
       "signal_type": "oi_build",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "strong",
-      "evidence": "put OI +100% at 90/140/150 strikes",
+      "evidence": "call OI +1000% at 200/230/290 strikes",
       "detail": {
-        "oi_change_pct": 100.0,
+        "oi_change_pct": 1000.0,
         "strikes": [
-          90,
-          140,
-          150
+          200,
+          230,
+          290
         ]
       }
     },
     {
       "ticker": "LEU",
       "signal_type": "dark_pool_accum",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "weak",
-      "evidence": "dark-pool blocks $1M net sell, 1 sessions",
+      "evidence": "dark-pool blocks $1M net buy, 1 sessions",
       "detail": {
-        "notional": -1172094.5935,
+        "notional": 1485564.5718999999,
         "sessions": 1
       }
     },
@@ -207,11 +207,11 @@
       "signal_type": "sweep",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "ask-side call sweeps $4.4M, 6:1 c/p",
+      "evidence": "ask-side call sweeps $3.2M, 11:1 c/p",
       "detail": {
-        "premium": 4398943.0,
+        "premium": 3235858.0,
         "side": "ask",
-        "call_put_ratio": 5.59
+        "call_put_ratio": 11.27
       }
     },
     {
@@ -219,127 +219,127 @@
       "signal_type": "oi_build",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "call OI +4900% at 65/65/63 strikes",
+      "evidence": "call OI +12129% at 65/64/70 strikes",
       "detail": {
-        "oi_change_pct": 4900.0,
+        "oi_change_pct": 12128.57142857143,
         "strikes": [
           65,
-          65,
-          63
+          64,
+          70
         ]
       }
     },
     {
       "ticker": "MAGS",
+      "signal_type": "dark_pool_accum",
+      "direction": "bullish",
+      "strength": "strong",
+      "evidence": "dark-pool blocks $13M net buy, 1 sessions",
+      "detail": {
+        "notional": 13472430.8618,
+        "sessions": 1
+      }
+    },
+    {
+      "ticker": "MP",
+      "signal_type": "sweep",
+      "direction": "bullish",
+      "strength": "moderate",
+      "evidence": "ask-side call sweeps $1.6M, 1:1 c/p",
+      "detail": {
+        "premium": 1644593.0,
+        "side": "ask",
+        "call_put_ratio": 1.37
+      }
+    },
+    {
+      "ticker": "MP",
+      "signal_type": "oi_build",
+      "direction": "bearish",
+      "strength": "strong",
+      "evidence": "put OI +4292% at 50/45/48 strikes",
+      "detail": {
+        "oi_change_pct": 4291.666666666666,
+        "strikes": [
+          50,
+          45,
+          48
+        ]
+      }
+    },
+    {
+      "ticker": "MP",
+      "signal_type": "dark_pool_accum",
+      "direction": "bearish",
+      "strength": "moderate",
+      "evidence": "dark-pool blocks $6M net sell, 1 sessions",
+      "detail": {
+        "notional": -6454919.075699999,
+        "sessions": 1
+      }
+    },
+    {
+      "ticker": "MU",
+      "signal_type": "sweep",
+      "direction": "bullish",
+      "strength": "strong",
+      "evidence": "ask-side call sweeps $20.5M, 1:1 c/p",
+      "detail": {
+        "premium": 20521547.0,
+        "side": "ask",
+        "call_put_ratio": 1.31
+      }
+    },
+    {
+      "ticker": "MU",
+      "signal_type": "oi_build",
+      "direction": "bearish",
+      "strength": "strong",
+      "evidence": "put OI +14325% at 150/1000/950 strikes",
+      "detail": {
+        "oi_change_pct": 14325.0,
+        "strikes": [
+          150,
+          1000,
+          950
+        ]
+      }
+    },
+    {
+      "ticker": "MU",
       "signal_type": "dark_pool_accum",
       "direction": "bullish",
       "strength": "moderate",
-      "evidence": "dark-pool blocks $7M net buy, 1 sessions",
+      "evidence": "dark-pool blocks $8M net buy, 1 sessions",
       "detail": {
-        "notional": 7391265.8878,
-        "sessions": 1
-      }
-    },
-    {
-      "ticker": "MP",
-      "signal_type": "sweep",
-      "direction": "bullish",
-      "strength": "moderate",
-      "evidence": "ask-side call sweeps $1.5M, 2:1 c/p",
-      "detail": {
-        "premium": 1504102.0,
-        "side": "ask",
-        "call_put_ratio": 1.53
-      }
-    },
-    {
-      "ticker": "MP",
-      "signal_type": "oi_build",
-      "direction": "bearish",
-      "strength": "strong",
-      "evidence": "put OI +22071% at 46/52/55 strikes",
-      "detail": {
-        "oi_change_pct": 22071.428571428572,
-        "strikes": [
-          46,
-          52,
-          55
-        ]
-      }
-    },
-    {
-      "ticker": "MP",
-      "signal_type": "dark_pool_accum",
-      "direction": "bullish",
-      "strength": "weak",
-      "evidence": "dark-pool blocks $0M net buy, 1 sessions",
-      "detail": {
-        "notional": 485778.7171999999,
-        "sessions": 1
-      }
-    },
-    {
-      "ticker": "MU",
-      "signal_type": "sweep",
-      "direction": "bullish",
-      "strength": "strong",
-      "evidence": "ask-side call sweeps $10.2M, 1:1 c/p",
-      "detail": {
-        "premium": 10219439.0,
-        "side": "ask",
-        "call_put_ratio": 1.39
-      }
-    },
-    {
-      "ticker": "MU",
-      "signal_type": "oi_build",
-      "direction": "bearish",
-      "strength": "strong",
-      "evidence": "put OI +970300% at 650/135/140 strikes",
-      "detail": {
-        "oi_change_pct": 970300.0,
-        "strikes": [
-          650,
-          135,
-          140
-        ]
-      }
-    },
-    {
-      "ticker": "MU",
-      "signal_type": "dark_pool_accum",
-      "direction": "bearish",
-      "strength": "strong",
-      "evidence": "dark-pool blocks $13M net sell, 1 sessions",
-      "detail": {
-        "notional": -13295022.010199998,
+        "notional": 7662017.727600008,
         "sessions": 1
       }
     },
     {
       "ticker": "NVDA",
       "signal_type": "sweep",
-      "direction": "bullish",
+      "direction": "bearish",
       "strength": "strong",
-      "evidence": "ask-side call sweeps $17.7M, 3:1 c/p",
+      "evidence": "ask-side put sweeps $7.6M, 2:1 c/p",
       "detail": {
-        "premium": 17726020.0,
+        "premium": 7584723.0,
         "side": "ask",
-        "call_put_ratio": 3.36
+        "call_put_ratio": 1.64
       }
     },
     {
       "ticker": "NVDA",
       "signal_type": "oi_build",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "strong",
-      "evidence": "put OI +6585% at 170/95/187.5 strikes",
+      "evidence": "call OI +251% at 200/202.5/200 strikes",
       "detail": {
-        "oi_change_pct": 6584.780578898226,
+        "oi_change_pct": 250.87319665907364,
         "strikes": [
-          170,
-          95,
-          187.5
+          200,
+          202.5,
+          200
         ]
       }
     },
@@ -348,9 +348,9 @@
       "signal_type": "dark_pool_accum",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "dark-pool blocks $14M net buy, 1 sessions",
+      "evidence": "dark-pool blocks $25M net buy, 1 sessions",
       "detail": {
-        "notional": 14427093.458399998,
+        "notional": 25402567.794999987,
         "sessions": 1
       }
     },
@@ -359,11 +359,11 @@
       "signal_type": "sweep",
       "direction": "bearish",
       "strength": "strong",
-      "evidence": "ask-side put sweeps $2.7M, c/p 0.50",
+      "evidence": "ask-side put sweeps $6.6M, c/p 0.47",
       "detail": {
-        "premium": 2660737.0,
+        "premium": 6560018.0,
         "side": "ask",
-        "call_put_ratio": 0.5
+        "call_put_ratio": 0.47
       }
     },
     {
@@ -371,24 +371,24 @@
       "signal_type": "oi_build",
       "direction": "bearish",
       "strength": "strong",
-      "evidence": "put OI +87900% at 600/540/560 strikes",
+      "evidence": "put OI +14400% at 450/520/470 strikes",
       "detail": {
-        "oi_change_pct": 87900.0,
+        "oi_change_pct": 14400.0,
         "strikes": [
-          600,
-          540,
-          560
+          450,
+          520,
+          470
         ]
       }
     },
     {
       "ticker": "SMH",
       "signal_type": "dark_pool_accum",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "strong",
-      "evidence": "dark-pool blocks $34M net sell, 1 sessions",
+      "evidence": "dark-pool blocks $26M net buy, 1 sessions",
       "detail": {
-        "notional": -33761183.134,
+        "notional": 25906804.754599996,
         "sessions": 1
       }
     },
@@ -397,24 +397,24 @@
       "signal_type": "sweep",
       "direction": "bullish",
       "strength": "moderate",
-      "evidence": "ask-side call sweeps $1.9M, 7:1 c/p",
+      "evidence": "ask-side call sweeps $1.9M, 10:1 c/p",
       "detail": {
-        "premium": 1905310.0,
+        "premium": 1857498.0,
         "side": "ask",
-        "call_put_ratio": 7.33
+        "call_put_ratio": 10.29
       }
     },
     {
       "ticker": "UUUU",
       "signal_type": "oi_build",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "strong",
-      "evidence": "put OI +8750% at 8/9/15 strikes",
+      "evidence": "call OI +2200% at 15.5/16/15 strikes",
       "detail": {
-        "oi_change_pct": 8750.0,
+        "oi_change_pct": 2200.0,
         "strikes": [
-          8,
-          9,
+          15.5,
+          16,
           15
         ]
       }
@@ -426,7 +426,7 @@
       "strength": "weak",
       "evidence": "dark-pool blocks $1M net sell, 1 sessions",
       "detail": {
-        "notional": -1279750.5,
+        "notional": -615077.53,
         "sessions": 1
       }
     },
@@ -446,22 +446,23 @@
       "signal_type": "oi_build",
       "direction": "bullish",
       "strength": "strong",
-      "evidence": "call OI +100% at 42 strikes",
+      "evidence": "call OI +32% at 42/38 strikes",
       "detail": {
-        "oi_change_pct": 100.0,
+        "oi_change_pct": 32.20338983050847,
         "strikes": [
-          42
+          42,
+          38
         ]
       }
     },
     {
       "ticker": "VOLT",
       "signal_type": "dark_pool_accum",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "weak",
-      "evidence": "dark-pool blocks $0M net sell, 1 sessions",
+      "evidence": "dark-pool blocks $1M net buy, 1 sessions",
       "detail": {
-        "notional": -261923.185,
+        "notional": 832542.9187999999,
         "sessions": 1
       }
     },
@@ -470,36 +471,36 @@
       "signal_type": "sweep",
       "direction": "bullish",
       "strength": "moderate",
-      "evidence": "ask-side call sweeps $1.0M, 2:1 c/p",
+      "evidence": "ask-side call sweeps $1.4M, 2:1 c/p",
       "detail": {
-        "premium": 1023948.0,
+        "premium": 1351099.0,
         "side": "ask",
-        "call_put_ratio": 2.24
+        "call_put_ratio": 2.49
       }
     },
     {
       "ticker": "XLF",
       "signal_type": "oi_build",
-      "direction": "bearish",
+      "direction": "bullish",
       "strength": "strong",
-      "evidence": "put OI +3781% at 49/50/51 strikes",
+      "evidence": "call OI +3693% at 54/54/54.5 strikes",
       "detail": {
-        "oi_change_pct": 3780.7692307692305,
+        "oi_change_pct": 3693.333333333333,
         "strikes": [
-          49,
-          50,
-          51
+          54,
+          54,
+          54.5
         ]
       }
     },
     {
       "ticker": "XLF",
       "signal_type": "dark_pool_accum",
-      "direction": "bearish",
-      "strength": "weak",
-      "evidence": "dark-pool blocks $1M net sell, 1 sessions",
+      "direction": "bullish",
+      "strength": "moderate",
+      "evidence": "dark-pool blocks $7M net buy, 1 sessions",
       "detail": {
-        "notional": -1389661.025,
+        "notional": 6537366.006300004,
         "sessions": 1
       }
     }

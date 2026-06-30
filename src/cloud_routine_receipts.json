@@ -2,27 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:31:12.337916Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:33:57.106770Z",
-      "summary": "FS inbox catch-up midday nothing new; marker checked through [06/22/2026 10:55 ET]; Notion marker fetch-verified"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:46:03.453553Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -5905,7 +5884,106 @@
         "error": "RuntimeError: dashboard refresh failed with return code 1"
       },
       "boundary_outcome": "failed"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:46:06.512069Z",
+      "summary": "investing-os-uw-opportunity-cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:46:14.586113Z",
+      "summary": "uw opportunity cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_opportunity_signals.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "d3ce328fbd99cf4ca374a23205329b56b0ec7ddbfe7b5ebb21d77d10b6efa837",
+            "as_of": "2026-06-30T19:46:14.280093+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "c8df48d702cd173a6e2308a45fb59b7bdeaef7d0828dc6f5d16e7584af2becf0",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:46:23.800435Z",
+      "summary": "broker position intake succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "af356236527eb40343a505a65db431f63944925665984f391fa231ccab65cd6c",
+            "as_of": "2026-06-30",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "b0ce3b38306f84682807ec4fc3dc90c4500df73708dac59afab635ffbc64c806",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "96ff50e938026988c0304b7696bc1b06a299cf8559db038085d7d9e76b1beff2",
+            "as_of": "2026-06-30",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "c7acef931f81dab28214a1776bb0af42c1d1c534e9b280fd0224058975aba9db",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "930638f9e77cce32577ce3494bc13d289e45b0bff7e515f755367138759b7a62",
+            "as_of": "2026-06-30",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "a1b6cb6e9e35d9ae877aa322887163e6af114eabec350bef37749dcb3784f0e2",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-30T19:46:01.985463Z"
+  "updated_at": "2026-06-30T19:46:23.800435Z"
 }
