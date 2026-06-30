@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T23:08:20.853592+00:00",
+  "generated_at": "2026-06-30T23:14:06.717595+00:00",
   "policy": "Full Fundstrat transcripts are stored only in the private source vault.",
   "items": [
     {
@@ -381,6 +381,25 @@
       "short_synthesis": "Newton keeps US equities range-bound rather than broken: respect SPX negative-gamma volatility and 7,300 support, avoid pressing Tech/QQQ beta before confirmation, and watch selective non-Tech rotation without overstating defensiveness.",
       "extract_count": 3,
       "compact_row_count": 3
+    },
+    {
+      "transcript_id": "fundstrat-2026-06-29-farrell-mstr-increases-reserve-to-17-4-months-of-dividends-formally-make",
+      "title": "MSTR Increases Reserve to 17.4 Months of Dividends, Formally Makes BTC a Funding Source (This is Overall a Net Positive)",
+      "analyst": "Sean Farrell",
+      "source_url": "https://fundstratdirect.com/crypto-research/crypto-comments/2026/06/29/mstr-increases-reserve-to-17-4-months-of-dividends-formally-makes-btc-a-fun/?type=portal",
+      "source_date": "2026-06-29",
+      "published_at": "2026-06-29T22:32:00-04:00",
+      "captured_at": "2026-06-30T23:14:06.601954+00:00",
+      "capture_method": "chrome_visible_transcript_and_player_caption_track",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat detail page showed full article text, a Vimeo Transcript control, and CC/subtitles. Captured complete player-exposed English auto-generated VTT caption track from Vimeo video 1205646991 after verifying controls in Chrome; 121 de-duplicated cues.",
+      "transcript_chars": 7444,
+      "transcript_sha256": "56139296a39f4b3446199b6990bd7c94696d0637dfa5dfff84c4b02f57c6091a",
+      "voice_lane": "crypto_strategy",
+      "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-29-farrell-mstr-increases-reserve-to-17-4-months-of-dividends-formally-make",
+      "short_synthesis": "Farrell frames Strategy's reserve rebuild and 12-month reserve policy as a net positive for the preferred complex, while common equity is roughly neutral, BTC has a possible funding-source overhang, and broader crypto may trade better if the Strategy-specific risk is neutralized.",
+      "extract_count": 4,
+      "compact_row_count": 2
     }
   ]
 }

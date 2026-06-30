@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T00:48:01.426008Z",
-      "summary": "dry-run selected 0; queued none; cache verified 19/21 already queued, remaining unqueued RYF/XOP QUIET; Notion write/readback not_checked no live writes; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T00:55:36.630449Z",
-      "summary": "Decision-relevant flags logged only: GOOGL 340 support/recheck, QQQ/MAGS/MSFT support levels, SPX 7465-7450, TNX 4.50-4.52 to 4.40; ingested 3 FS inbox entries through 2026-06-22 18:10 ET; Source Call Log rows 8 verified; marker advanced; Notion SQL query blocked"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T21:39:55.397711Z",
       "summary": "federal funding post-close success: checked War.gov Jun29 contracts, no War.gov Jun30 contract page found, NNSA/AWS Jun30 cloud launch, DOT TIFIA Jun29, plus Commerce/CHIPS DOE/DARPA/DIU/AF/SF/Navy/Army/NASA/NSF/Treasury/EXIM/DFC spot checks; verified rows 5 in payload/41 cache; direct public research rows LHX,NOC already repo+Notion readback verified; Signal Log cache 123 valid; Research Queue 18 pending valid; Notion writes 0 duplicate-avoided, readback 2/2; dark/not_checked: War.gov Jun30 daily contracts unavailable, SAM/USAspending not needed, market reaction/flow not checked, Post-Open Evidence Gate failed-latest unrelated"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T23:02:29.179470Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T23:15:08.113991Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research, Intraday Word, First Word, DTS, LTSA, US Policy/Fed Watch, Crypto Research, Macro Minute, Latest Videos; opened Jun30 Upticks, Jun30 First-to-Market, Jun29 Crypto Comments detail; videos checked 1 MSTR/STRC/BTC Vimeo transcript surface; transcript vault entries written/pushed 1 vault 75cdbcc; Gmail checked 0 Chrome full content available; daily/source rows landed 0; suppressed duplicate compact rows 9 plus stale/listing-only categories and Jun30 Upticks stock-list add/delete as deep-crawl context not daily-call; validations passed transcript-index/email-intake/source-merge/26 focused tests; dashboard refresh skipped no new rows; Notion not used; dark/not_checked Social Watch and no Gmail fallback; blockers none"
     }
   ],
-  "updated_at": "2026-06-30T21:39:55.397711Z"
+  "updated_at": "2026-06-30T23:15:08.113991Z"
 }
