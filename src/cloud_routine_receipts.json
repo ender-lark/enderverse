@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:37:19.510128Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T20:39:26.921324Z",
-      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/22/2026 10:55 ET]; Notion marker fetch-verified"
-    },
-    {
       "routine_id": "investing-os-positions-sync",
       "status": "started",
       "run_source": "scheduled",
@@ -5983,7 +5969,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:55:00.103292Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, latest-research listing, and Jun30 First-to-Market detail; Gmail checked 0 not needed; rows landed 0; suppressed duplicate full-content items 5 plus discovery/older listing items 7; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0 duplicates=9 suppressed=158; trigger guard fired=0 quote-not_checked=4; Notion writes 0; blockers none"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:58:31.814334Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:59:33.306049Z",
+      "summary": "federal funding midday watch success: checked War.gov Today/Releases/Jun29 contracts plus service/DARPA/DIU/OSC, Commerce/CHIPS/NIST, DOE/NNSA/LPO/OCED/EERE, DHS/CBP, NASA, NSF TIP, Treasury/IRS, DOT, EXIM/DFC; verified rows=4; direct_public=2 LHX/NOC; research rows=2; Signal Log rows=3; Notion RQ write/readback 2/2 verified; Jun30 War.gov contracts dark before 5pm ET; USAspending/SAM and same-session tape not_checked; unrelated Post-Open Evidence Gate failed-latest remains visible"
     }
   ],
-  "updated_at": "2026-06-30T19:55:00.103292Z"
+  "updated_at": "2026-06-30T19:59:33.306049Z"
 }

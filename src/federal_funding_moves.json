@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-06-29T21:41:21Z",
-  "as_of": "2026-06-29",
+  "generated_at": "2026-06-30T19:59:06Z",
+  "as_of": "2026-06-30",
   "scan_status": "has_data",
   "rows": [
     {
@@ -200,6 +200,60 @@
       "source_urls": [
         "https://www.war.gov/News/Contracts/Contract/Article/4528154/contracts-for-june-26-2026/",
         "https://usantimony.com/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-29",
+      "priority": "high",
+      "agency": "Department of War / U.S. Special Operations Command",
+      "program": "Tactical Airborne Multi-Sensor Platform / Suite of Integrated Radio Frequency Countermeasures contractor logistics support",
+      "recipient": "L3Harris Technologies Integrated Mission Systems",
+      "title": "L3Harris Technologies Integrated Mission Systems",
+      "award_text": "$613.974M indefinite-delivery/indefinite-quantity contract for USSOCOM contractor logistics support services; task-order funding by order through June 2031.",
+      "award_value_usd": 613974000,
+      "tickers": [
+        "LHX"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Large direct SOCOM electronic-warfare sustainment award reinforces LHX defense backlog and EW theme exposure, but needs task-order funding, margin, and tape confirmation before it can affect capital posture.",
+      "risks": [
+        "IDIQ ceiling is not guaranteed revenue",
+        "funding occurs by task order",
+        "logistics support rather than new platform win",
+        "defense-prime backlog may already be priced"
+      ],
+      "next_trigger": "Check first task-order obligations, LHX backlog/margin commentary, relative tape versus ITA/NOC/LMT, and whether SOCOM EW demand expands beyond sustainment.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4529481/contracts-for-june-29-2026/"
+      ],
+      "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-29",
+      "priority": "high",
+      "agency": "Department of War / Navy / Naval Sea Systems Command",
+      "program": "AN/SLQ-32(V)7 Surface Electronic Warfare Improvement Program Block 3",
+      "recipient": "Northrop Grumman Systems Corp.",
+      "title": "Northrop Grumman Systems Corp.",
+      "award_text": "$312M fixed-price-incentive modification exercising options for SEWIP Block 3 systems, spares, hardware, and support; full $312M obligated at award.",
+      "award_value_usd": 312000000,
+      "tickers": [
+        "NOC"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Fully obligated EW option supports NOC naval-electronic-warfare backlog and merits fresh defense-prime review, though it remains an option exercise under an existing program rather than a new buy signal.",
+      "risks": [
+        "option exercise under existing contract",
+        "delivery stretches through 2031",
+        "ship-installation schedule risk",
+        "defense-prime valuation and budget-cycle risk"
+      ],
+      "next_trigger": "Check NOC same-session/next-session relative strength, backlog commentary, SEWIP margin/schedule disclosures, and whether this confirms broader EW budget acceleration.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4529481/contracts-for-june-29-2026/"
       ],
       "source_quality": "primary"
     },
@@ -754,6 +808,33 @@
       "source_quality": "primary"
     },
     {
+      "date": "2026-06-30",
+      "priority": "medium",
+      "agency": "Department of Energy / National Nuclear Security Administration",
+      "program": "Secret/Restricted Data Enterprise Cloud and Genesis Mission AI workloads",
+      "recipient": "Amazon Web Services",
+      "title": "Amazon Web Services",
+      "award_text": "NNSA launched its first enterprise-authorized Secret/Restricted Data cloud environment in collaboration with AWS; no contract value or incremental task-order dollars disclosed.",
+      "award_value_usd": null,
+      "tickers": [
+        "AMZN"
+      ],
+      "directness": "contract_backlog",
+      "actionability": "watch",
+      "investing_angle": "Official AWS classified-cloud adoption by NNSA supports the federal AI/secure-cloud moat read-through for AMZN, but the absence of dollars keeps this watch-only context.",
+      "risks": [
+        "no disclosed award value",
+        "may reflect existing cloud relationship",
+        "revenue materiality unproven",
+        "classified workload timing and security constraints"
+      ],
+      "next_trigger": "Watch for task-order or budget disclosure, AWS public-sector backlog commentary, Genesis Mission workload expansion, or similar classified-cloud wins.",
+      "source_urls": [
+        "https://www.energy.gov/nnsa/articles/nnsa-launches-secretrestricted-data-enterprise-cloud"
+      ],
+      "source_quality": "primary"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -1012,13 +1093,46 @@
         "https://www.transportation.gov/briefing-room/trumps-transportation-secretary-sean-p-duffy-announces-3102-million-loan-eliminate"
       ],
       "source_quality": "primary"
+    },
+    {
+      "date": "2026-06-29",
+      "priority": "low",
+      "agency": "Department of War / Air Force Life Cycle Management Center",
+      "program": "KC-46 aircraft consumable and depot-level repairable parts multiple-award IDIQ",
+      "recipient": "KC-46 parts supplier pool including Boeing Distribution Services, Collins Aerospace, Honeywell, Eaton, AAR Government Services, AerSale, and TAT Technologies",
+      "title": "KC-46 parts supplier pool including Boeing Distribution Services, Collins Aerospace, Honeywell, Eaton, AAR Government Services, AerSale, and TAT Technologies",
+      "award_text": "$470.979M ceiling multiple-award IDIQ for KC-46 consumable and depot-level repairable parts; only $500 minimum obligated per awardee at award.",
+      "award_value_usd": 470979000,
+      "tickers": [
+        "BA",
+        "RTX",
+        "HON",
+        "ETN",
+        "AIR",
+        "ASLE",
+        "TATT"
+      ],
+      "directness": "public_read_through",
+      "actionability": "ignore",
+      "investing_angle": "Real sustainment pool supports aerospace/defense aftermarket demand, but the shared ceiling and tiny minimum obligations make it cache-only context rather than a Signal Log or Research Queue item.",
+      "risks": [
+        "shared ceiling across many awardees",
+        "no per-company allocation",
+        "minimum obligation only",
+        "long-dated sustainment work through 2031"
+      ],
+      "next_trigger": "Only graduate if a named public supplier receives material task orders or discloses revenue/backlog impact.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4529481/contracts-for-june-29-2026/"
+      ],
+      "source_quality": "primary"
     }
   ],
   "summary": {
-    "stored": 37,
-    "high": 7,
-    "direct_public": 13,
-    "research_candidates": 11,
+    "stored": 41,
+    "high": 9,
+    "direct_public": 15,
+    "research_candidates": 13,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }

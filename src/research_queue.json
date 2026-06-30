@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T01:28:39Z",
+  "generated_at": "2026-06-30T19:59:06Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -128,16 +128,32 @@
       "ticker": "AVAV",
       "notes": "Off-hours alt-data scout 2026-06-29 21:35 ET: AVAV Q4 FY26 release/presentation and 10-K checked. Q4 revenue $641.6M, FY revenue $1.9768B, Q4 organic revenue +31%, FY organic +26%, bookings $2.7B, book-to-bill 1.4, funded backlog $1.2B, FY27 revenue guide $2.125B-$2.225B, adjusted EBITDA guide $305M-$325M. Conviction effect mixed/supportive: earnings/backlog/guidance de-risk the Jun29 trigger, but SCAR removed $1.5B of previously reported unfunded backlog and 10-K flags BlueHalo material-weakness remediation plus U.S. government/DoD concentration. Missing: same-session post-print price/flow, valuation, analyst reaction, and reconciliation with Fundstrat bottom-list conflict. Route: Research Queue High/Queued recheck, no trade/sizing. Notion verified page 38fc5031-4bb6-8176-89f1-e4a1162e4de6. Sources: https://www.sec.gov/Archives/edgar/data/1368622/000110465926078824/avav-20260629xex99d1.htm ; https://www.sec.gov/Archives/edgar/data/1368622/000110465926078824/avav-20260629xex99d2.htm",
       "source": "SEC 8-K/10-K via off-hours alt-data scout 2026-06-29"
+    },
+    {
+      "r": "LHX - federal funding catalyst review: L3Harris Technologies Integrated Mission Systems ($613.974M indefinite-delivery/indefinite-quantity contract for USSOCOM contractor logistics support services; task-order funding by order through June 2031.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "LHX",
+      "notes": "L3Harris Technologies Integrated Mission Systems: $613.974M indefinite-delivery/indefinite-quantity contract for USSOCOM contractor logistics support services; task-order funding by order through June 2031.. Agency/program: Department of War / U.S. Special Operations Command / Tactical Airborne Multi-Sensor Platform / Suite of Integrated Radio Frequency Countermeasures contractor logistics support. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check first task-order obligations, LHX backlog/margin commentary, relative tape versus ITA/NOC/LMT, and whether SOCOM EW demand expands beyond sustainment.. Risks: IDIQ ceiling is not guaranteed revenue; funding occurs by task order; logistics support rather than new platform win; defense-prime backlog may already be priced.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "NOC - federal funding catalyst review: Northrop Grumman Systems Corp. ($312M fixed-price-incentive modification exercising options for SEWIP Block 3 systems, spares, hardware, and support; full $312M obligated at award.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "NOC",
+      "notes": "Northrop Grumman Systems Corp.: $312M fixed-price-incentive modification exercising options for SEWIP Block 3 systems, spares, hardware, and support; full $312M obligated at award.. Agency/program: Department of War / Navy / Naval Sea Systems Command / AN/SLQ-32(V)7 Surface Electronic Warfare Improvement Program Block 3. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check NOC same-session/next-session relative strength, backlog commentary, SEWIP margin/schedule disclosures, and whether this confirms broader EW budget acceleration.. Risks: option exercise under existing contract; delivery stretches through 2031; ship-installation schedule risk; defense-prime valuation and budget-cycle risk.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 1,
-    "pending": 1,
+    "input_rows": 13,
+    "pending": 13,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 16,
+    "stored_pending": 18,
     "stored_done": 0
   }
 }
