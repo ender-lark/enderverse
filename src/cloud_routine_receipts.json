@@ -2,68 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:08:55.709402Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:08:59.868342Z",
-      "summary": "full cockpit build failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "69933930f42f2d0adf43b9f60539e708ad321da085f28cb3db068f09f895aef3",
-            "as_of": "2026-06-22T16:08:35.198554+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "69933930f42f2d0adf43b9f60539e708ad321da085f28cb3db068f09f895aef3",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "failed",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:09:01.679694Z",
-      "summary": "investing-os-broker-position-intake manual run failed",
-      "details": {
-        "steps": [
-          {
-            "label": "snaptrade book refresh",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/snaptrade_book_refresh.py",
-              "--refresh-dashboard"
-            ],
-            "returncode": 1,
-            "optional": false,
-            "stdout": "== heartbeat_pre_synthesis ==\n+ C:\\Python314\\python.exe src/heartbeat_status.py --src-dir src --out src\\heartbeat.json --summary src\\heartbeat_summary.json\n{\n  \"valid\": true,\n  \"problems\": [],\n  \"out\": \"src\\\\heartbeat.json\",\n  \"written\": true,\n  \"rows\": 6,\n  \"counts\": {\n    \"down\": 1,\n    \"ok\": 4,\n    \"stale\": 1\n  }\n}\n\n== refresh_decision_dossier_dynamic_reads ==\n+ C:\\Python314\\python.exe src/decision_dossier_refresh.py --in src\\decision_dossiers.json --out src\\decision_dossiers.json --uw-prices src\\uw_closes.json --uw-opportunity src\\uw_opportunity_signals.json --feed src\\latest_cockpit_feed.json --live-source-config src\\live_source_config.json\n{\n  \"valid\": true,\n  \"generated_at\": \"2026-06-22\",\n  \"as_of\": \"2026-06-22\",\n  \"updated_dossiers\": 0,\n  \"rows\": [\n    {\n      \"ticker\": \"AVGO\",\n      \"updated_reads\": [],\n      \"price_evidence\": false,\n      \"timing_evidence\": false\n    }\n  ],\n  \"written\": true,\n  \"out\": \"src\\\\decision_dossiers.json\"\n}\n\n== refresh_source_rates ==\n+ C:\\Python314\\python.exe src/source_call_tracker.py --hit-rates --calls src\\source_calls.json --out src\\source_rates.json\nsource_rates written to src\\source_rates.json (76 calls processed)\n\n== build_publish_pre_synthesis ==\n+ C:\\Python314\\python.exe src/full_build_runner.py --src-dir src --feed-out src\\latest_cockpit_feed.json --publish\n{\n  \"valid\": false,\n  \"promoted\": true,\n  \"profiles\": 1,\n  \"accounts\": 11,\n  \"raw_positions\": 276,\n  \"snapshot_date\": \"2026-06-22\",\n  \"prior_snapshot_date\": \"2026-06-22\",\n  \"sleeve_value\": 1922054,\n  \"thesis_positions\": 13,\n  \"account_rows\": 276,\n  \"position_diff_counts\": {\n    \"VALUE_CHANGE\": 46\n  },\n  \"share_change_count\": 0,\n  \"warnings\": [\n    \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,321.82 vs broker stated $1,343.89 (delta -22.07, tolerance $6.72)\"\n  ],\n  \"stated_balance_findings\": [\n    {\n      \"account\": \"Robinhood Crypto 8794\",\n      \"source_file\": \"snaptrade://SKB/Robinhood/3ca9adee-3f45-47a1-84ea-1f5e0268d43e\",\n      \"computed_total\": 1321.82,\n      \"reported_total\": 1343.89,\n      \"delta\": -22.07,\n      \"tolerance\": 6.72,\n      \"computed_total_basis\": \"non-cash positions + cash\",\n      \"line\": \"Robinhood Crypto 8794: stated-balance mismatch non-cash positions + cash $1,321.82 vs broker stated $1,343.89 (delta -22.07, tolerance $6.72)\",\n      \"missing_tickers\": [],\n      \"new_tickers\": []\n    }\n  ],\n  \"written\": {\n    \"raw\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_raw.json\",\n    \"combined\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_combined.json\",\n    \"staged_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_positions.staged.json\",\n    \"staged_account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_account_positions.staged.json\",\n    \"staged_position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\tmp\\\\snaptrade_position_reconciliation.staged.json\",\n    \"positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\positions.json\",\n    \"account_positions\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\account_positions.json\",\n    \"position_reconciliation\": \"C:\\\\Users\\\\suraj\\\\Documents\\\\Codex\\\\2026-06-04\\\\confirm-you-can-access-my-github\\\\work\\\\enderverse-held-decisions-strip\\\\src\\\\position_reconciliation.json\"\n  },\n  \"dashboard_refresh_returncode\": 1\n}",
-            "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1337, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1272, in main\n    feed = build_full_feed_from_files(\n        src_dir=args.src_dir,\n    ...<5 lines>...\n        generated_at=args.generated_at,\n    )\n  File \"C:\\Users\\suraj\\Documents\\Codex\\2026-06-04\\confirm-you-can-access-my-github\\work\\enderverse-held-decisions-strip\\src\\full_build_runner.py\", line 1151, in build_full_feed_from_files\n    raise FullBuildError(\"; \".join(boundary_artifact_problems))\nFullBuildError: UW endpoint proof boundary artifact is dirty/uncommitted: M src/uw_endpoint_results.json; commit src/uw_endpoint_results.json before building the cockpit feed from it."
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "manual",
@@ -6422,7 +6360,42 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T00:58:55.189696Z",
       "summary": "deep crawl success: checked Macro/Crypto Flash, latest research listing, stock lists, Upticks partial, sector allocation, top ideas, crypto strategy; not_checked latest videos transcript/captions and Upticks historical timeout; rows/diffs landed 0; overlaps QQQ/MAGS/SMH/MSTR/MU/AMD/ANET/UUUU/BTC/ETH/SOL context only; validations passed; Social Watch dark"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T01:16:53.114966Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T01:17:03.040959Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T01:17:05.046853Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-06-30T00:58:55.189696Z"
+  "updated_at": "2026-06-30T01:17:05.046853Z"
 }
