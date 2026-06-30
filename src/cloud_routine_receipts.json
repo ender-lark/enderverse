@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-22T16:09:01.719724Z",
-      "summary": "investing-os-morning-scan manual run started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "manual",
       "recorded_at": "2026-06-22T16:09:01.980422Z",
@@ -6395,7 +6388,14 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T01:29:52.449179Z",
+      "summary": "alt-data scout success: SEC/UW/Notion checked; routed BMNR RQ update, AVAV RQ recheck, AVGO Signal Log; Notion verified 3/3; repo caches validated; UW proof 21 inconclusive/missing; Social/PortWatch dark; MSTR duplicate suppressed"
     }
   ],
-  "updated_at": "2026-06-30T01:17:05.046853Z"
+  "updated_at": "2026-06-30T01:29:52.449179Z"
 }

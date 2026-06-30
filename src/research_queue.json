@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29T21:41:21Z",
+  "generated_at": "2026-06-30T01:28:39Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -12,10 +12,10 @@
     {
       "r": "BMNR - verify June preferred financing impact on mNAV and ETH-per-share flywheel",
       "pr": "high",
-      "status": "Queued",
+      "status": "Working",
       "ticker": "BMNR",
-      "notes": "Fresh BMNR 424B5/FWP/8-K filings describe 9.50% Series A preferred financing, estimated net proceeds about $273.8M, and potential use for ETH/digital assets plus staking/validator infrastructure. Check mNAV, ETH-per-share, preferred dividend coverage, and whether issuance is accretive before any conviction/add posture.",
-      "source": "SEC filings via manual off-hours alt-data scout 2026-06-09"
+      "notes": "Off-hours alt-data scout 2026-06-29 21:35 ET: SEC 8-K/Ex.99.1 accepted 2026-06-29 08:45Z updates the active BMNR MONITOR sleeve. Bitmine reports 5,700,040 ETH at $1,569/ETH, 206 BTC, $555M cash/marketable securities, $74M ORBS stake, $180M Beast stake, total crypto+cash+moonshots $9.8B, and Russell 1000 addition. 4,879,157 ETH is staked; 7-day staking yield 2.75% annualized; stated annualized staking revenue now $211M. Conviction effect mixed: supports scale/staking and sponsor thesis, but dollar asset value/cash are lower than the prior queue read and mNAV, ETH/share, BMNP dividend coverage, current diluted share count, same-session flow, and ETH tape remain not_checked. Route: keep Working/MONITOR; no alternate buy path without defined-risk MONITOR-RE-ENTRY fields. Notion verified page 37ac5031-4bb6-81c0-9354-df955c2e491d. Source: https://www.sec.gov/Archives/edgar/data/1829311/000149315226030428/ex99-1.htm",
+      "source": "SEC 8-K/Ex.99.1 via off-hours alt-data scout 2026-06-29"
     },
     {
       "r": "GOOGL - re-check AI infrastructure financing, ATM, and Berkshire placement implications",
@@ -120,16 +120,24 @@
       "ticker": "VVX",
       "notes": "Vertex Aerospace LLC: $500M ceiling firm-fixed-price IDIQ for contractor logistics support services for the Air Force C-12 aircraft fleet; only minimal funds obligated at award. Agency/program: Department of War / Air Force / Air Force C-12 aircraft fleet contractor logistics support. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Track task-order conversion, management backlog commentary, margin profile, and whether VVX reaction confirms materiality.. Risks: IDIQ ceiling not guaranteed revenue; only about $250K obligated at award; foreign military sales and global support execution; margin and task-order cadence not checked; same-session price and flow not checked.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "AVAV - post-earnings de-risking trigger recheck vs bottom-list conflict",
+      "pr": "high",
+      "status": "Queued",
+      "ticker": "AVAV",
+      "notes": "Off-hours alt-data scout 2026-06-29 21:35 ET: AVAV Q4 FY26 release/presentation and 10-K checked. Q4 revenue $641.6M, FY revenue $1.9768B, Q4 organic revenue +31%, FY organic +26%, bookings $2.7B, book-to-bill 1.4, funded backlog $1.2B, FY27 revenue guide $2.125B-$2.225B, adjusted EBITDA guide $305M-$325M. Conviction effect mixed/supportive: earnings/backlog/guidance de-risk the Jun29 trigger, but SCAR removed $1.5B of previously reported unfunded backlog and 10-K flags BlueHalo material-weakness remediation plus U.S. government/DoD concentration. Missing: same-session post-print price/flow, valuation, analyst reaction, and reconciliation with Fundstrat bottom-list conflict. Route: Research Queue High/Queued recheck, no trade/sizing. Notion verified page 38fc5031-4bb6-8176-89f1-e4a1162e4de6. Sources: https://www.sec.gov/Archives/edgar/data/1368622/000110465926078824/avav-20260629xex99d1.htm ; https://www.sec.gov/Archives/edgar/data/1368622/000110465926078824/avav-20260629xex99d2.htm",
+      "source": "SEC 8-K/10-K via off-hours alt-data scout 2026-06-29"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 11,
-    "pending": 11,
+    "input_rows": 1,
+    "pending": 1,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 15,
+    "stored_pending": 16,
     "stored_done": 0
   }
 }
