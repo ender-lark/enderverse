@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T19:44:08.646587+00:00",
+  "generated_at": "2026-06-30T19:44:12.432197+00:00",
   "staleness": {
     "stamp": "sourced: portfolio 06-30 \u00b7 uw_price 06-30 \u00b7 uw_macro 06-30 \u00b7 fundstrat_bible 06-11 \u00b7 fundstrat_daily 06-30",
     "entries": [
@@ -13,7 +13,7 @@
       },
       {
         "source": "uw_price",
-        "date": "2026-06-30T15:44:08.646587-04:00",
+        "date": "2026-06-30T15:44:12.432197-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -21,7 +21,7 @@
       },
       {
         "source": "uw_macro",
-        "date": "2026-06-30T15:44:08.646587-04:00",
+        "date": "2026-06-30T15:44:12.432197-04:00",
         "age_days": 0,
         "cadence": "daily",
         "stale": false,
@@ -4368,43 +4368,43 @@
     {
       "layer": "Required Inputs",
       "status": "ok",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
       "note": "positions/theses convention inputs present and fresh"
     },
     {
       "layer": "Minimum Market Data",
       "status": "ok",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
       "note": "UW price and macro caches present"
     },
     {
       "layer": "Publish Gate",
       "status": "ok",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
       "note": "publish-gate checks passed"
     },
     {
       "layer": "Optional Source Lanes",
       "status": "ok",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
       "note": "deferred optional lanes: social_watch | visible as not checked; not a no-signal read"
     },
     {
       "layer": "Daily Full Build",
       "status": "ok",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
       "note": "rehearsal build can run"
     },
     {
       "layer": "Cloud Routine Receipts",
       "status": "stale",
-      "last_run": "2026-06-30T19:44:08.085603+00:00",
-      "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json; +3 more"
+      "last_run": "2026-06-30T19:44:11.740267+00:00",
+      "note": "boundary stale: Investing OS Pre-Market Source Intake: src/catalysts.json; +5 more"
     }
   ],
   "synthesis": {
     "source": "Repo Evidence Synthesis",
-    "date": "2026-06-29",
+    "date": "2026-06-30",
     "state_of_play": "Repo evidence read: 13 lane(s) have data and 1 optional lane(s) are not checked. Top action is Sell-fast review (act_now, high confidence, source top_prospects:sell_fast). Primary event-risk watch is Middle East oil/rates shock can affect new-buy timing; trigger evidence: WTI approaches 99-101, 10Y yield approaches roughly 4.55-4.59, or Strait/ceasefire headlines change abruptly.",
     "delta": "Latest Fundstrat Daily compact calls in radar: EWY avoid, XHS add, RSPT avoid. Target drift: 11 sizing gap(s) vs AI working model (0 under, 2 over, 9 missing); GRNY oversized 7.0% vs 3.0%; MU oversized 4.1% vs 3.0%; GOOGL missing vs 8.0% target; AVGO missing vs 6.0% target; MSFT missing vs 5.0% target; AMZN missing vs 4.0% target; +5 more",
     "hanging": [
@@ -6184,7 +6184,7 @@
   },
   "watch_interest": {
     "schema_version": 1,
-    "generated_at": "2026-06-30T19:44:08.646587+00:00",
+    "generated_at": "2026-06-30T19:44:12.432197+00:00",
     "source": "watch_interest_index",
     "status": "has_data",
     "manual_interest_count": 1,
@@ -18802,7 +18802,7 @@
       "due_waiting_count": 0,
       "routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-30T15:44:08.646587-04:00",
+        "now": "2026-06-30T15:44:12.432197-04:00",
         "grace_minutes": 30,
         "overdue_count": 11,
         "due_waiting_count": 0,
@@ -19877,7 +19877,7 @@
       },
       "support_routine_receipt_due": {
         "activated_at": "2026-06-25T16:59:45-04:00",
-        "now": "2026-06-30T15:44:08.646587-04:00",
+        "now": "2026-06-30T15:44:12.432197-04:00",
         "grace_minutes": 30,
         "overdue_count": 3,
         "due_waiting_count": 0,
@@ -34567,7 +34567,7 @@
   "open_opportunities": {
     "schema_version": "1.0",
     "as_of": "2026-06-30",
-    "generated_at": "2026-06-30T19:44:07.092293+00:00",
+    "generated_at": "2026-06-30T19:44:11.642687+00:00",
     "opportunities": [
       {
         "ticker": "MSFT",
@@ -34985,7 +34985,7 @@
     "status": "has_data",
     "count": 3,
     "as_of": "2026-06-30",
-    "generated_at": "2026-06-30T19:44:08.646587+00:00",
+    "generated_at": "2026-06-30T19:44:12.432197+00:00",
     "line": "3 options idea(s) ready to act now; 9 names checked. these ideas use ~3.4% of your ~10% options budget.",
     "rows": [
       {
@@ -44391,7 +44391,7 @@
     },
     "congruence": {
       "status": "ok",
-      "total_value": 1810320.0,
+      "total_value": 1841630.0,
       "flag_threshold_named_pct": 1.0,
       "rows": [
         {
@@ -44400,21 +44400,21 @@
           "belief_strength": 80,
           "stale": false,
           "named_held": {
-            "GEV": 2203.0,
-            "BE": 16885.34,
-            "STRL": 8904.8,
-            "VOLT": 79945.15
+            "GEV": 2334.74,
+            "BE": 18425.67,
+            "STRL": 9117.07,
+            "VOLT": 81379.03
           },
-          "named_value": 107938.29,
-          "named_pct": 5.96,
+          "named_value": 111256.51,
+          "named_pct": 6.04,
           "adjacent_held": {
-            "LEU": 86499.12,
-            "UUUU": 32755.3,
-            "PWR": 8255.82,
-            "VRT": 12585.25
+            "LEU": 86187.56,
+            "UUUU": 32621.62,
+            "PWR": 8574.83,
+            "VRT": 13665.8
           },
-          "adjacent_value": 140095.49,
-          "adjacent_pct": 7.74,
+          "adjacent_value": 141049.81,
+          "adjacent_pct": 7.66,
           "combined_pct": 13.7,
           "watch_held": {},
           "watch_value": 0,
@@ -44423,7 +44423,7 @@
           ],
           "flagged": false,
           "flag_note": "",
-          "line": "named $107,938 (5.96%) \u00e2\u20ac\u201d BE \u00c2\u00b7 GEV \u00c2\u00b7 STRL \u00c2\u00b7 VOLT  \u00c2\u00b7  +adjacent $140,095 (7.74%): LEU \u00c2\u00b7 PWR \u00c2\u00b7 UUUU \u00c2\u00b7 VRT \u00e2\u2020\u2019 13.70% combined"
+          "line": "named $111,257 (6.04%) \u00e2\u20ac\u201d BE \u00c2\u00b7 GEV \u00c2\u00b7 STRL \u00c2\u00b7 VOLT  \u00c2\u00b7  +adjacent $141,050 (7.66%): LEU \u00c2\u00b7 PWR \u00c2\u00b7 UUUU \u00c2\u00b7 VRT \u00e2\u2020\u2019 13.70% combined"
         },
         {
           "insight_id": "INSIGHT-002",
@@ -44431,20 +44431,20 @@
           "belief_strength": 92,
           "stale": false,
           "named_held": {
-            "TSM": 13106.76
+            "TSM": 13779.02
           },
-          "named_value": 13106.76,
-          "named_pct": 0.72,
+          "named_value": 13779.02,
+          "named_pct": 0.75,
           "adjacent_held": {},
           "adjacent_value": 0,
           "adjacent_pct": 0.0,
-          "combined_pct": 0.72,
+          "combined_pct": 0.75,
           "watch_held": {},
           "watch_value": 0,
           "missing_named": [],
           "flagged": true,
           "flag_note": "STRONGEST BELIEF \u00c2\u00b7 SMALLEST EXPOSURE \u00e2\u20ac\u201d informs once, never forces",
-          "line": "named $13,107 (0.72%) \u00e2\u20ac\u201d TSM"
+          "line": "named $13,779 (0.75%) \u00e2\u20ac\u201d TSM"
         }
       ],
       "flagged_ids": [
@@ -44455,7 +44455,7 @@
     "options": {
       "source": "options_surface",
       "as_of": "2026-06-30",
-      "generated_at": "2026-06-30T19:44:08.646587+00:00",
+      "generated_at": "2026-06-30T19:44:12.432197+00:00",
       "ideas": [
         {
           "schema_version": "1.0",

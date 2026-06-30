@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:12:05.081203Z",
-      "summary": "full cockpit build succeeded after recovery",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "48e6cd0c77306963b0c99892eddd340ef9a18151978e3fd8d4e8f77096846e60",
-            "as_of": "2026-06-22T16:11:56.655097+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "db2020a80ec6fa73894ade37801ee7e29b4a77c0de4787255226a1786d97cb62",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:12:19.174979Z",
-      "summary": "Chrome checked Macro FlashInsights Jun22 11:11 ET and Crypto FlashInsights Jun22 11:14 ET; latest research list plus US Policy/First to Market detail pages checked; Gmail 0 not needed; rows landed 2, suppressed 2 broad/context article details; validation passed 85 focused tests; Notion not used; dashboard refreshed after UW boundary blocker cleared; dark lanes heartbeat stale/options shadow unrelated"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "success",
       "run_source": "scheduled",
@@ -5989,7 +5951,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:43:59.298179Z",
       "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:44:37.557666Z",
+      "summary": "investing-os-parabolic-cache started"
+    },
+    {
+      "routine_id": "investing-os-parabolic-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:44:49.904808Z",
+      "summary": "parabolic cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/parabolic_setups.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "480e82b93c4923bea16f318736886e7c9d2139196be0f96138ccf3030bc26d62",
+            "as_of": "2026-06-30T19:44:49.324653+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "32ff122873db1e1408f2c091ee17b78b42998952399099a0d9061852c5baf5c1",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-06-30T19:43:59.298179Z"
+  "updated_at": "2026-06-30T19:44:49.904808Z"
 }
