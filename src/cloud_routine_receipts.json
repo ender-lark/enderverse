@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:51:16.094036Z",
-      "summary": "Chrome checked Macro/Crypto FlashInsights plus latest-research listing; Gmail 0 not needed; rows landed 1 GOOGL from 2 complete Macro feed cards; suppressed Crypto duplicate/current cards and listing discovery-only; validation passed; dashboard refreshed; Pushover sent 1 GOOGL alert; dark Social Watch; no Notion writes"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T17:46:33.112890Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-22T17:49:12.797321Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail 0 not needed; rows landed 0; suppressed duplicate/prior FlashInsights and older listing discovery; validation passed; alert quiet 0 new, 4 duplicates, 76 suppressed; trigger quotes EWRE/ASTS/RKLB/MU not_checked; blockers none"
     },
@@ -5983,7 +5969,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:47:18.261380Z",
+      "summary": "FS inbox catch-up preopen ingested 2 entries through [06/30/2026 09:25 ET]; Source Call Log rows 2 fetch-verified; marker advanced; 6/29 MSTR/STRC/BTC duplicate rows suppressed; flags rates/inflation H2 recheck and Healthcare AI-downstream research context; no trade, broker, repo gate, or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:47:27.140073Z",
+      "summary": "fundstrat daytime watch started"
     }
   ],
-  "updated_at": "2026-06-30T19:46:23.800435Z"
+  "updated_at": "2026-06-30T19:47:27.140073Z"
 }
