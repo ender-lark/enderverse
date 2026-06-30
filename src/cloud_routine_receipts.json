@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T23:01:38.980734Z",
-      "summary": "fundstrat after-hours catch-up started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T23:13:09.964925Z",
-      "summary": "Chrome checked Macro/Crypto FlashInsights, 11 research/video listings, 1 DTS detail plus Vimeo transcript; Gmail 0; rows landed 2 QQQ/MAGS; transcript vault 1 pack/122 cues pushed; suppressed discovery/prior/stale surfaces 13; validation passed 90 tests; Notion not used; dark social_watch, heartbeat stale; blockers none"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:37:39.560846Z",
+      "summary": "FS inbox catch-up postclose started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T20:40:03.671075Z",
+      "summary": "FS inbox catch-up postclose nothing new; marker checked through [06/30/2026 09:25 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-06-30T20:35:15.532276Z"
+  "updated_at": "2026-06-30T20:40:03.671075Z"
 }
