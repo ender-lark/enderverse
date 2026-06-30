@@ -2,58 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:14:54.527103Z",
-      "summary": "investing-os-post-open-evidence-gate started"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-22T16:15:42.667015Z",
-      "summary": "post-open evidence gate succeeded after recovery",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/uw_endpoint_results.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "8ac2a7ac34b6476a1b760ffcda64a6be1ae5e88ac70ea6da80fe388f28aeee14",
-            "as_of": "2026-06-22T16:09:54.504345+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "8ac2a7ac34b6476a1b760ffcda64a6be1ae5e88ac70ea6da80fe388f28aeee14",
-            "changed": false
-          },
-          {
-            "path": "src/timing_gates.json",
-            "as_of_field": "updated",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "6c7b0fa3eb49f200e1f72272fe1a2e4af52dc4019fb73d90da3c34a8e0a69f69",
-            "as_of": "2026-06-12",
-            "fresh": false,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "6c7b0fa3eb49f200e1f72272fe1a2e4af52dc4019fb73d90da3c34a8e0a69f69",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "stale_boundary"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -5908,7 +5856,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-06-30T19:45:29.248438Z",
       "summary": "investing-os-full-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:45:33.587989Z",
+      "summary": "pre-market source intake success: Gmail full-body checked 5 candidates, landed 3 compact Fundstrat rows (TLT price-passthrough recheck, PPH healthcare rotation research, MSTR preferred-risk confirmation); broker position cache unchanged no supplied upload; UW bounded checks MSTR/TLT/PPH dark-pool empty, MSTR/TLT options recheck-only, PPH options empty; Notion not used; Social/PortWatch dark"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-06-30T19:45:35.779484Z",
+      "summary": "FS inbox catch-up midday started"
     }
   ],
-  "updated_at": "2026-06-30T19:45:29.248438Z"
+  "updated_at": "2026-06-30T19:45:35.779484Z"
 }
