@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-23T17:52:12.081354Z",
-      "summary": "Chrome checked Macro FlashInsights new Jun23 1:15 ET SPY rebalance/dip card, Crypto FlashInsights Jun22 prior/stale, Latest Research top cards prior/discovery-only; Gmail checked 0; rows landed 1; low-value/stale/discovery suppressed incl alert gate 82 suppressed + 14 duplicates; validation passed; dashboard refreshed; Pushover alert sent 1 SPY macro/tape candidate; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T18:46:44.881943Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-23T18:52:14.967135Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail checked 0; landed 1 SLV silver watch row from complete Macro FlashInsights feed card; suppressed 1 CNBC promo plus prior/duplicate/discovery-only web items; validation passed; dashboard refreshed; alert quiet no Pushover; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote inputs not_checked; Social Watch dark; blockers none"
     },
@@ -5951,7 +5937,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:32:07.752465Z",
+      "summary": "daily synthesis started"
+    },
+    {
+      "routine_id": "investing-os-daily-synthesis",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:36:22.337226Z",
+      "summary": "daily synthesis success: repo cache refreshed/validated from cockpit feed; Notion page 390c5031-4bb6-8184-bf47-d63b4a8e65dd written/readback verified; top item HOOD sell-fast review; target drift 11 gaps; Social Watch not_checked; Post-Open Evidence Gate remains failed-latest"
     }
   ],
-  "updated_at": "2026-07-01T13:16:53.462956Z"
+  "updated_at": "2026-07-01T13:36:22.337226Z"
 }
