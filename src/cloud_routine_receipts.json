@@ -2,54 +2,6 @@
   "schema_version": 1,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.591061Z",
-      "summary": "investing-os-daily-synthesis manual run started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "success",
-      "run_source": "manual",
-      "recorded_at": "2026-06-08T05:41:46.752664Z",
-      "summary": "daily synthesis manual run completed from current cockpit feed evidence",
-      "details": {
-        "steps": [
-          {
-            "label": "daily synthesis from feed",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_from_feed.py",
-              "--feed",
-              "src/latest_cockpit_feed.json",
-              "--out",
-              "src/daily_synthesis.json",
-              "--summary",
-              "src/daily_synthesis_intake_summary.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": [],\n  \"source\": \"Repo Evidence Synthesis\",\n  \"out\": \"src/daily_synthesis.json\",\n  \"feed\": \"src/latest_cockpit_feed.json\",\n  \"written\": true,\n  \"hanging_count\": 2,\n  \"action_count\": 0\n}",
-            "stderr": ""
-          },
-          {
-            "label": "daily synthesis validate",
-            "command": [
-              "C:\\Python314\\python.exe",
-              "src/daily_synthesis_intake.py",
-              "--validate",
-              "src/daily_synthesis.json"
-            ],
-            "returncode": 0,
-            "optional": false,
-            "stdout": "{\n  \"valid\": true,\n  \"problems\": []\n}",
-            "stderr": ""
-          }
-        ]
-      }
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "manual",
@@ -6996,7 +6948,34 @@
           "text"
         ]
       }
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:16:12.876797Z",
+      "summary": "investing-os-trump-trade-watch started"
+    },
+    {
+      "routine_id": "investing-os-trump-trade-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:16:13.245701Z",
+      "summary": "trump trade watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/political_trade_watch.py",
+          "--input",
+          "tmp/trump_trade_watch_uw.json",
+          "--out",
+          "src/political_trade_watch.json",
+          "--format",
+          "text"
+        ]
+      }
     }
   ],
-  "updated_at": "2026-07-01T14:15:34.472030Z"
+  "updated_at": "2026-07-01T16:16:13.245701Z"
 }
