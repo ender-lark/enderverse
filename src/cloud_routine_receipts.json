@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T15:54:37.242857Z",
-      "summary": "Chrome checked Macro FlashInsights new Jun23 10:52 SMH and 10:51 MU, Crypto FlashInsights latest Jun22 prior, Latest Research category metadata; Gmail messages checked 0; rows landed 2; low/discovery/prior suppressed incl crypto prior/listing-only plus alert quiet 82 and duplicates 13; validation passed; dashboard refreshed; Pushover alert sent 1 SMH, MU quiet; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark; no Notion writes; blockers none except quote inputs not_checked"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T16:30:47.355405Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "success",
       "run_source": "scheduled",
@@ -5884,7 +5870,45 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T12:40:29.153995Z",
       "summary": "morning scan success: Notion Signal Log rows 3/3 fetch-verified; repo Signal Log cache 127 rows; UW options split QQQ hedge vs NVDA/MU calls; July1 held dark-pool blocks empty under filters; macro cache stale not refreshed; dark Social Watch and complete macro/quote preflight not_checked"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:53:27.889959Z",
+      "summary": "investing-os-early-cockpit-build started"
+    },
+    {
+      "routine_id": "investing-os-early-cockpit-build",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:55:18.115102Z",
+      "summary": "early cockpit build succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/live_dashboard_refresh.py"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/latest_cockpit_feed.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "afb9fc32fa8c28a2709692ca84ced50d9666416ce676c4729672e0575b7ffa18",
+            "as_of": "2026-07-01T12:55:10.526582+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "b98034c7f0885d5d5d51f3d67661a1edf81f58073531e58197d07a5dad1ccdae",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-07-01T12:40:29.153995Z"
+  "updated_at": "2026-07-01T12:55:18.115102Z"
 }
