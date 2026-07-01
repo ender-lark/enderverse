@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-23T16:50:45.008008Z",
-      "summary": "Chrome checked Macro FlashInsights Jun23 10:52 tech/memory dip, 10:51 semis/MU rebound, 10:38 SPY support: all duplicate/prior cached; Crypto FlashInsights latest Jun22 MSTR/ETH duplicate/prior; Gmail 0 fallback not used because Chrome full-content feed available; rows landed 0; suppressed duplicate/prior 5 plus listing/nav discovery-only; validation passed; dashboard skipped no new rows; alert quiet candidates=0 duplicates=14 suppressed=82; Notion not used; article_detail/video lanes not_checked absent discovery; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T17:46:16.396447Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-23T17:52:12.081354Z",
       "summary": "Chrome checked Macro FlashInsights new Jun23 1:15 ET SPY rebalance/dip card, Crypto FlashInsights Jun22 prior/stale, Latest Research top cards prior/discovery-only; Gmail checked 0; rows landed 1; low-value/stale/discovery suppressed incl alert gate 82 suppressed + 14 duplicates; validation passed; dashboard refreshed; Pushover alert sent 1 SPY macro/tape candidate; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     },
@@ -5937,7 +5923,35 @@
         ]
       },
       "boundary_outcome": "stale_boundary"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:16:51.688723Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:16:53.462956Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-01T12:56:30.272954Z"
+  "updated_at": "2026-07-01T13:16:53.462956Z"
 }
