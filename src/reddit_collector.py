@@ -217,7 +217,7 @@ REDDIT_SOURCE_GROUPS = {
             "must come from UW political disclosures, not Reddit."
         ),
         "role": SOURCE_ROLE_SPECIALIZED_RESEARCH,
-        "subreddits": ["unusual_whales", "stocks", "StockMarket", "investing"],
+        "subreddits": ["unusual_whales", "TrumpsTrades", "stocks", "StockMarket", "investing"],
         "tickers": sorted(DEFAULT_TICKERS | TRUMP_TRADE_TICKERS),
     },
 }

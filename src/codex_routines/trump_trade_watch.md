@@ -9,7 +9,8 @@ research lane. It never creates BUY, SELL, sizing, leverage, or execution cards.
 
 Primary source is Unusual Whales political-disclosure data. Reddit is only a
 secondary scout for discussion around the disclosures, especially
-`r/unusual_whales`; Reddit never substitutes for a UW/OGE filing row.
+`r/unusual_whales` and `r/TrumpsTrades`; Reddit never substitutes for a UW/OGE
+filing row.
 
 ## Start Of Run
 
@@ -48,8 +49,9 @@ Manual/Chrome-visible snapshot command:
 
 `python src/reddit_collector.py --source-group trump_trade_watch --input <manual-snapshot.json> --out tmp/trump_trade_social_watch.json --report-out tmp/trump_trade_reddit_scout.md --snapshot-history tmp/reddit_history/trump_trade_watch.jsonl --format text`
 
-The configured source group starts with `r/unusual_whales`, `r/stocks`,
-`r/StockMarket`, and `r/investing`. It is secondary, staged, and watch-only.
+The configured source group starts with `r/unusual_whales`, `r/TrumpsTrades`,
+`r/stocks`, `r/StockMarket`, and `r/investing`. It is secondary, staged, and
+watch-only.
 
 ## Confirmation And Routing
 

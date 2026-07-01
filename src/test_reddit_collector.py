@@ -437,6 +437,37 @@ def test_trump_trade_watch_reddit_group_tracks_unusual_whales_as_secondary_scout
     assert cache["research_queue_candidates"] == []
 
 
+def test_trump_trade_watch_source_group_includes_trumps_trades_micron_scout():
+    config = source_group_config("trump_trade_watch")
+    payload = [
+        {
+            "subreddit": "TrumpsTrades",
+            "title": "Trump + MU",
+            "snippet": "Micron announces a Trump Accounts investment; needs primary-source verification.",
+            "visible_time": "1 hr. ago",
+            "score": 72,
+            "comments": 46,
+        }
+    ]
+
+    cache = build_cache(
+        [payload],
+        subreddits=config["subreddits"],
+        source_group="trump_trade_watch",
+        generated_at=datetime(2026, 7, 1, 19, 30, tzinfo=ZoneInfo("America/New_York")),
+    )
+    row = cache["rows"][0]
+
+    assert "TrumpsTrades" in config["subreddits"]
+    assert row["tickers"] == ["MU"]
+    assert row["source_group"] == "trump_trade_watch"
+    assert row["subreddits"] == ["TrumpsTrades"]
+    assert row["escalation"] == "Quiet Watch"
+    assert "primary-source verification" in row["why_it_matters"]
+    assert "Reddit is not a trade trigger" in row["blocker_before_action"]
+    assert cache["research_queue_candidates"] == []
+
+
 def test_weekly_pattern_report_surfaces_louder_fading_cross_subreddit_and_noise():
     early = build_cache(
         [[

@@ -27,9 +27,10 @@ until the core logic is stable; Notion sync comes later.
     surfaces it as `political_trade_watch`. It is watch-only and can create
     Research Queue candidates, not trade cards.
   - Reddit is secondary for this topic. The `trump_trade_watch` Reddit source
-    group starts with `r/unusual_whales`, `r/stocks`, `r/StockMarket`, and
-    `r/investing`; use it only with Chrome/manual snapshots and keep UW/OGE
-    filing rows as the primary trade-capture evidence.
+    group starts with `r/unusual_whales`, `r/TrumpsTrades`, `r/stocks`,
+    `r/StockMarket`, and `r/investing`; use it only with Chrome/manual
+    snapshots and keep UW/OGE filing rows as the primary trade-capture
+    evidence.
   - `critical_minerals_nuclear` is a detachable Reddit source group for
     `r/criticalmineralstocks` + `r/UraniumSqueeze`.
   - `retail_risk_wsb` is a separate detachable WSB-only group for retail
@@ -50,6 +51,15 @@ until the core logic is stable; Notion sync comes later.
     2026-06-16. Do not use Reddit API/public `.json`/`--fetch-live`; use the
     Codex Chrome extension/current Chrome session to create compact manual
     snapshots, then run the collector with `--input` and `--snapshot-history`.
+  - 2026-07-01 wiring audit: the active `investing-os-trump-trade-watch`
+    automation is working for UW-backed political-disclosure capture, but its
+    Reddit scout has been skipped whenever no fresh Chrome/manual snapshot is
+    supplied. The cockpit consumer side already renders `feed.social_watch`,
+    but it stays dark without `src/social_watch.json`. Recommended next slice:
+    add a compliant OAuth or Chrome-visible snapshot producer that writes
+    compact short-retention `src/social_watch.json` / staged
+    `tmp/trump_trade_social_watch.json`, then let the existing full build
+    consume it as watch-only research prompts.
   - Keep output in `tmp/` or supplied cache files until the main build accepts
     it; missing/blocked social data remains `not_checked`.
   - Read `docs/reddit_critical_minerals_prototype_plan.md` before changing,
