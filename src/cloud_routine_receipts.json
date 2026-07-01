@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:22:05.141812Z",
-      "summary": "FS inbox catch-up preopen started"
-    },
-    {
       "routine_id": "investing-os-broker-position-intake",
       "status": "success",
       "run_source": "scheduled",
@@ -5994,7 +5987,14 @@
         "target_verification": "nothing_written"
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T02:19:11.111600Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32 coverage=26/26 current action/material fresh discipline=clean dark_not_checked=remaining missing dossiers 32; CRCL price/flow/adoption not_checked; MSTR BTC/mNAV/current flow not_checked; unrelated post-open evidence gate failed-latest remains dark"
     }
   ],
-  "updated_at": "2026-07-01T02:18:22.671954Z"
+  "updated_at": "2026-07-01T02:19:11.111600Z"
 }
