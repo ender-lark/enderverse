@@ -2,21 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:37:31.620459Z",
-      "summary": "morning scan started"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:41:20.816299Z",
-      "summary": "morning scan landed 3 Notion-verified Signal Log rows and repo cache rows=76; UW GOOGL/LEU dark pool empty; PortWatch/direct cash reaction not_checked; standard verify failed efficacy googl-tranche date-event test",
-      "boundary_outcome": "failed"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -5941,7 +5926,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T02:55:49.536795Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy/Fed Watch, crypto research, Macro Minute, Latest Videos, and Daily Technical Strategy videos; opened 3 fresh Jun30 post-7pm detail/video pages (Farrell crypto 10:02 ET, Lee Macro Minute 7:48 ET, Newton DTS 7:29 ET); transcript vault entries written/pushed 3 from visible Vimeo captions; Gmail messages checked 0 because Chrome full content/captions were available; compact rows landed 7 (CRCL avoid, BTC trim, MSTR watch, SPY macro watch, SPY range wait, QQQ range wait, KIE research); suppressed no fresh post-7pm Flash/article rows plus older/listing-only/webinar surfaces; transcript public index and Fundstrat intake validation passed; dashboard refreshed; dark/stale lanes Social Watch not_checked, post-open evidence gate failed-latest unrelated."
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T05:46:02.567287Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T05:49:38.898715Z",
+      "summary": "live RQ active H3q/H17w M6q/M28w L7q/L13w total74; selected NOC SEWIP, LHX SOCOM EW, GRNY/MU funding tax-location; Notion writes 3/3 fetch-verified; outputs drafted Findings+dossiers; remaining backlog blocked/prior-reviewed/operator-system; dark lanes cost-basis/lot-age/same-session flow/options/margin/task-order/backlog/commentary/MCP SQL plan gate; no trades"
     }
   ],
-  "updated_at": "2026-07-01T02:55:49.536795Z"
+  "updated_at": "2026-07-01T05:49:38.898715Z"
 }
