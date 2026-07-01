@@ -2,13 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T11:53:13.633234Z",
-      "summary": "Chrome checked Macro FlashInsights Jun22 12:28/12:27 GOOGL and 11:11 SPY/TNX plus Crypto FlashInsights Jun22 11:14 MSTR and 11:13 ETH; listings checked First Word, Intraday, Daily Technical, US Policy, Fed Watch, Crypto Research with no Jun23 premarket detail article opened; Gmail checked 7 search results and read 4 full bodies; rows landed 0, duplicate/prior rows already cached incl DTS/Macro Minute; low-value/discovery-only suppressed 7; validation email-intake/source-merge/transcript-index/tests passed; dashboard skipped no new rows; Notion not used; dark lanes article-detail for listing-only cards and video detail not rechecked"
-    },
-    {
       "routine_id": "investing-os-pre-market-source-intake",
       "status": "started",
       "run_source": "scheduled",
@@ -5985,7 +5978,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T01:16:59.978985Z",
       "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T01:27:21.509628Z",
+      "summary": "checked cockpit/RQ/positions/event risk; SEC active universe, UW proof, Notion RQ/Signal Log, Kalshi/Polymarket, Social Watch; routed 1 MU Signal Log row Notion+repo with readback verified 1/1; validations passed; suppressed NVDA annual vote, GS notes, routine/tiny ownership filings; dark Social Watch, clean Hormuz prediction endpoint not_checked, UW MARKET_MOVERS 403 SECTOR_TIDE unsupported TNX flow missing"
     }
   ],
-  "updated_at": "2026-07-01T01:16:59.978985Z"
+  "updated_at": "2026-07-01T01:27:21.509628Z"
 }
