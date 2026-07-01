@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:52:28.726968Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:54:02.257770Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "c6d10c424ee4cc2a9e80449b502de6713b537c2cb3df741f61405496d10a175c",
-            "as_of": "2026-06-23T12:53:55.329122+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "4b4ee2750ef39a914c2abc0cebd34ee15419ea793b7e022fbefa34273270c852",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "started",
       "run_source": "scheduled",
@@ -5940,7 +5902,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T05:49:38.898715Z",
       "summary": "live RQ active H3q/H17w M6q/M28w L7q/L13w total74; selected NOC SEWIP, LHX SOCOM EW, GRNY/MU funding tax-location; Notion writes 3/3 fetch-verified; outputs drafted Findings+dossiers; remaining backlog blocked/prior-reviewed/operator-system; dark lanes cost-basis/lot-age/same-session flow/options/margin/task-order/backlog/commentary/MCP SQL plan gate; no trades"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T06:32:36.742976Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T06:32:41.065958Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-01T05:49:38.898715Z"
+  "updated_at": "2026-07-01T06:32:41.065958Z"
 }
