@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:47:42.538098Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:55:13.436524Z",
-      "summary": "Chrome checked Macro FlashInsights Jun22 latest prior cards, Crypto FlashInsights Jun22 latest prior cards, Latest Research listing, and Jun23 09:01 ET First to Market AMD detail page with visible article text; Gmail checked 0 because authenticated web lane had checked content; rows landed 1 AMD watch/research row via article_detail; helper-suppressed 0, manual stale/discovery-only quiet 7 prior/listing/video items; validation fundstrat_email_intake valid and dashboard refresh success; alert delivery sent 2 Pushover batches to clear 9 qualifying duplicate-unsent rows, final alert check quiet; dark/stale lanes Social Watch not_checked, stale prior FlashInsights/listing items not treated clear; blockers none for source access, repo push still pending"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -5912,7 +5898,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T11:46:05.560080Z",
+      "summary": "fundstrat pre-market safety sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T11:53:02.694805Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, latest research listings, Jul1 First-to-Market detail, Jun30 Crypto Comments detail, Jun30 Daily Technical Strategy detail, and Jun30 Macro Minute companion page; Gmail checked 0 not needed; rows landed 3 (QQQ recheck, CRCL reduce, KIE add); suppressed 2 compact rows as low-value/context/watch-only plus video transcript not_checked for Macro Minute; validation passed and focused tests 21 passed; dashboard refreshed; Notion not used; Social Watch dark/not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T11:32:18.483533Z"
+  "updated_at": "2026-07-01T11:53:02.694805Z"
 }

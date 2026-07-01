@@ -1,4 +1,4 @@
-# Daily pullback packet - 2026-06-30
+# Daily pullback packet - 2026-07-01
 
 Candidate-only packet. No trades executed. No option contracts selected.
 
@@ -8,7 +8,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: has_data from 2026-06-30 on $1,842,605.
+- Positions: stale_or_dark from 2026-06-30 on $1,842,605.
 - UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
