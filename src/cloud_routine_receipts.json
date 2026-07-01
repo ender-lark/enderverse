@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-23T18:52:14.967135Z",
-      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail checked 0; landed 1 SLV silver watch row from complete Macro FlashInsights feed card; suppressed 1 CNBC promo plus prior/duplicate/discovery-only web items; validation passed; dashboard refreshed; alert quiet no Pushover; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote inputs not_checked; Social Watch dark; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T19:47:24.066879Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-23T19:52:35.741336Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0 (Chrome full-content available); landed 1 compact CPER copper-watch row from visible FlashInsights feed; suppressed prior/discovery-only or low-value items incl Jun22 Crypto, AMD listing, CNBC promo; validation passed; dashboard refreshed; alert quiet 0 candidates/15 duplicates/84 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark; blockers none"
     },
@@ -5951,7 +5937,57 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T13:36:22.337226Z",
       "summary": "daily synthesis success: repo cache refreshed/validated from cockpit feed; Notion page 390c5031-4bb6-8184-bf47-d63b4a8e65dd written/readback verified; top item HOOD sell-fast review; target drift 11 gaps; Social Watch not_checked; Post-Open Evidence Gate remains failed-latest"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:41:10.915891Z",
+      "summary": "post-open evidence gate started"
+    },
+    {
+      "routine_id": "investing-os-post-open-evidence-gate",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:43:21.170833Z",
+      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
+      "details": {
+        "boundary_artifact": "src\\uw_endpoint_results.json",
+        "boundary_artifact_committed": true,
+        "no_fresh_boundary_data": false,
+        "feed_built_from_committed_proof": true,
+        "dashboard_refresh_status": "success",
+        "redaction_valid": true,
+        "redaction_problems": [],
+        "proof_generated_at": "2026-07-01T13:41:10.937381+00:00",
+        "proof_count": 13,
+        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-07-01 09:41 ET.",
+        "proof_newest_checked_at": "2026-07-01T13:41:10.937381+00:00",
+        "proof_interpretation_counts": {
+          "supports": 0,
+          "contradicts": 0,
+          "inconclusive": 10,
+          "missing": 3
+        },
+        "proof_blockers": [
+          "inconclusive endpoint result(s) cannot promote related actions",
+          "missing/failed endpoint result(s) keep related actions blocked"
+        ],
+        "boundary_commit": {
+          "valid": true,
+          "committed": true,
+          "commit": "0e854a8",
+          "reason": "committed",
+          "selected_paths": [
+            "src/uw_endpoint_results.json"
+          ]
+        },
+        "dashboard_refresh_returncode": 0,
+        "feed_uw_proof_newest_checked_at": "2026-07-01T13:41:10.937381+00:00",
+        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-07-01 09:41 ET."
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-01T13:36:22.337226Z"
+  "updated_at": "2026-07-01T13:43:21.170833Z"
 }
