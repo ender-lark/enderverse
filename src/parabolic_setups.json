@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-06-30",
-  "generated_at": "2026-06-30T19:44:49.324653+00:00",
+  "as_of": "2026-07-01",
+  "generated_at": "2026-07-01T14:07:37.829326+00:00",
   "results": [
     {
       "ticker": "AEHR",
@@ -22,7 +22,7 @@
         "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM -7.3%\u2192-41.0% (-3369bps)",
         "  F4 fwdpe_growth = 0.0 | negative/zero EPS",
-        "  F5 price_base   = 0.5 | 54% of base <$25 (median $25)",
+        "  F5 price_base   = 0.5 | 53% of base <$25 (median $25)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
         "  F8 customer     = 1.0 | seeded"
@@ -47,9 +47,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY -50\u2192415\u2192-82% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: -100% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 20% (no streak)",
         "  F3 opmargin_exp = 1.0 | OM -15.2%\u219271.1% (+8631bps)",
-        "  F4 fwdpe_growth = 0.0 | negative/zero EPS",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 23.7x, CAGR negative",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $273)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
@@ -75,9 +75,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 329\u219230\u219213% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 20% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 13.4%\u219210.0% (-343bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 43x / CAGR 6% = PEG 7.35",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 43x / CAGR 6% = PEG 7.32",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $178)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
@@ -103,9 +103,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 323\u21928\u2192-1% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 7% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 25.9%\u219222.4% (-352bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 65x / CAGR 11% = PEG 5.84",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 62x / CAGR 11% = PEG 5.61",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $103)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
@@ -131,9 +131,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 395\u219240\u219240% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 4% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 9.4%\u21926.7% (-269bps)",
-        "  F4 fwdpe_growth = 1.0 | fwdPE 42x / CAGR 24% = PEG 1.78",
+        "  F4 fwdpe_growth = 1.0 | fwdPE 41x / CAGR 24% = PEG 1.73",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $278)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
@@ -144,14 +144,14 @@
     },
     {
       "ticker": "COHR",
-      "score": 3.25,
+      "score": 4.25,
       "surface_tier": "SKIP",
-      "phase": "Phase 1 (early)",
+      "phase": "Phase 1/2 (transition)",
       "features": {
         "revenue_accel": 0.0,
         "eps_streak": 0.0,
         "opmargin_exp": 0.0,
-        "fwdpe_vs_growth": 0.0,
+        "fwdpe_vs_growth": 1.0,
         "price_base": 0.0,
         "industry_conc": 0.5,
         "multi_node": 1.0,
@@ -159,22 +159,22 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 10\u219213\u2192-69% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 1% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 9.4%\u21928.2% (-122bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 70x / CAGR 17% = PEG 4.14",
+        "  F4 fwdpe_growth = 1.0 | fwdPE 26x / CAGR 17% = PEG 1.57",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $132)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
         "  F8 customer     = 0.5 | seeded"
       ],
       "error": null,
-      "weighted_total": 3.25
+      "weighted_total": 4.25
     },
     {
       "ticker": "FORM",
       "score": 6.5,
       "surface_tier": "WATCHLIST",
-      "phase": "Phase 1 (inflection)",
+      "phase": "Phase 1 (early)",
       "features": {
         "revenue_accel": 0.0,
         "eps_streak": 0.0,
@@ -187,9 +187,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 314\u219226\u219215% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 27% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 1.0 | OM 6.3%\u219220.8% (+1456bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 71x / CAGR 10% = PEG 6.87",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 69x / CAGR 10% = PEG 6.64",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $43)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
@@ -217,7 +217,7 @@
         "  F1 rev_accel    = 0.5 | YoY mild accel 9\u219227%",
         "  F2 eps_streak   = 0.0 | Latest: 24% (no streak)",
         "  F3 opmargin_exp = 1.0 | OM 17.3%\u219223.7% (+640bps)",
-        "  F4 fwdpe_growth = 0.5 | fwdPE 30x / CAGR 11% = PEG 2.80",
+        "  F4 fwdpe_growth = 0.5 | fwdPE 30x / CAGR 11% = PEG 2.74",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $167)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
@@ -243,9 +243,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 376\u219214\u21926% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 23% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.5 | OM 1.1%\u21922.1% (+102bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 77x / CAGR 11% = PEG 7.27",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 83x / CAGR 11% = PEG 7.82",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $77)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
@@ -271,9 +271,9 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 196\u2192100\u2192-50% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 289% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 21.7%\u21921.0% (-2064bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 39.5x, CAGR negative",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 40.4x, CAGR negative",
         "  F5 price_base   = 0.0 | only 0% of base <$25 (median $250)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
@@ -284,14 +284,14 @@
     },
     {
       "ticker": "LITE",
-      "score": 6.0,
+      "score": 6.5,
       "surface_tier": "WATCHLIST",
       "phase": "Phase 4 (distribution)",
       "features": {
         "revenue_accel": 0.0,
         "eps_streak": 0.0,
         "opmargin_exp": 1.0,
-        "fwdpe_vs_growth": 0.5,
+        "fwdpe_vs_growth": 1.0,
         "price_base": 0.0,
         "industry_conc": 0.5,
         "multi_node": 1.0,
@@ -299,16 +299,16 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 33\u219257\u2192-51% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 4% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 1.0 | OM -10.9%\u219221.6% (+3253bps)",
-        "  F4 fwdpe_growth = 0.5 | fwdPE 91x / CAGR 38% = PEG 2.40",
-        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $194)",
+        "  F4 fwdpe_growth = 1.0 | fwdPE 40x / CAGR 38% = PEG 1.06",
+        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $197)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
         "  F8 customer     = 1.0 | seeded"
       ],
       "error": null,
-      "weighted_total": 6.0
+      "weighted_total": 6.5
     },
     {
       "ticker": "MP",
@@ -357,8 +357,8 @@
         "  F1 rev_accel    = 0.0 | YoY 281\u21920\u219215% (no accel)",
         "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.5 | OM 12.7%\u219213.3% (+55bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 67x / CAGR 10% = PEG 6.66",
-        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $129)",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 63x / CAGR 10% = PEG 6.23",
+        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $130)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
         "  F8 customer     = 1.0 | seeded"
@@ -383,10 +383,10 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 333\u219226\u219216% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 45% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 5.8%\u21924.2% (-152bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 124x / CAGR 11% = PEG 11.40",
-        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $428)",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 119x / CAGR 11% = PEG 11.00",
+        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $429)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 0.0 | seeded",
         "  F8 customer     = 0.5 | seeded"
@@ -396,14 +396,14 @@
     },
     {
       "ticker": "VIAV",
-      "score": 8.5,
-      "surface_tier": "WATCHLIST",
-      "phase": "Phase 1 (inflection)",
+      "score": 9.0,
+      "surface_tier": "AUTOFIRE",
+      "phase": "Phase 1 (early)",
       "features": {
         "revenue_accel": 0.0,
         "eps_streak": 0.0,
         "opmargin_exp": 1.0,
-        "fwdpe_vs_growth": 0.5,
+        "fwdpe_vs_growth": 1.0,
         "price_base": 1.0,
         "industry_conc": 1.0,
         "multi_node": 1.0,
@@ -411,22 +411,22 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 10\u219230\u2192-62% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 17% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 1.0 | OM 6.5%\u219210.3% (+381bps)",
-        "  F4 fwdpe_growth = 0.5 | fwdPE 45x / CAGR 17% = PEG 2.64",
-        "  F5 price_base   = 1.0 | 90% of base <$25 (median $14)",
+        "  F4 fwdpe_growth = 1.0 | fwdPE 19x / CAGR 17% = PEG 1.10",
+        "  F5 price_base   = 1.0 | 89% of base <$25 (median $14)",
         "  F6 industry     = 1.0 | seeded",
         "  F7 multi_node   = 1.0 | seeded",
         "  F8 customer     = 1.0 | seeded"
       ],
       "error": null,
-      "weighted_total": 8.5
+      "weighted_total": 9.0
     },
     {
       "ticker": "VRT",
       "score": 3.25,
       "surface_tier": "SKIP",
-      "phase": "Phase 1 (early)",
+      "phase": "Phase 1/2 (transition)",
       "features": {
         "revenue_accel": 0.0,
         "eps_streak": 0.0,
@@ -439,10 +439,10 @@
       },
       "notes": [
         "  F1 rev_accel    = 0.0 | YoY 336\u219241\u21920% (no accel)",
-        "  F2 eps_streak   = 0.0 | Latest: 16% (no streak)",
+        "  F2 eps_streak   = 0.0 | Latest: 0% (no streak)",
         "  F3 opmargin_exp = 0.0 | OM 17.2%\u219216.6% (-56bps)",
-        "  F4 fwdpe_growth = 0.0 | fwdPE 71x / CAGR 12% = PEG 5.75",
-        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $165)",
+        "  F4 fwdpe_growth = 0.0 | fwdPE 68x / CAGR 12% = PEG 5.50",
+        "  F5 price_base   = 0.0 | only 0% of base <$25 (median $166)",
         "  F6 industry     = 0.5 | seeded",
         "  F7 multi_node   = 0.5 | seeded",
         "  F8 customer     = 1.0 | seeded"
@@ -452,8 +452,8 @@
     }
   ],
   "counts": {
-    "AUTOFIRE": 0,
-    "WATCHLIST": 4,
+    "AUTOFIRE": 1,
+    "WATCHLIST": 3,
     "SKIP": 12
   }
 }
