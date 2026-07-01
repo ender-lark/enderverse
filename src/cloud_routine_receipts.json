@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T08:52:10.975391Z",
-      "summary": "processed Med v0+staging; live RQ queued H2/M3/L7 working H9/M25/L13; Notion writes/readbacks verified 2/2 statuses kept Queued; high operator/code blocked; remaining queued 12 incl 10 unprocessed; dark MCP/Social/v0-calibration/buying-power lanes"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T11:47:19.959761Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T18:52:58.206284Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed cards were available; rows landed 1 SMH/EWY semis risk re-check; web-intake suppressed 0, duplicate/stale FlashInsights stayed quiet; validation passed and focused tests 85 passed; dashboard refreshed; Pushover sent 1 SMH alert, duplicates=25 suppressed=167; trigger_check fired=0 quote_not_checked=4; dark/stale lanes Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T19:46:55.206232Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T19:49:09.719569Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights full feed cards; Gmail checked 0 because Chrome full-content feed was available; rows landed 0; suppressed duplicate full cards Macro Jul1 14:13 EWY/semis and Crypto Jul1 11:29 STRC/MSTR plus alert duplicates=26 suppressed=167; validation passed; dashboard refresh skipped no new rows; alert quiet candidates=0; Fundstrat article/video/detail lanes not triggered; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T18:52:58.206284Z"
+  "updated_at": "2026-07-01T19:49:09.719569Z"
 }
