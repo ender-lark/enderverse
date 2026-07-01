@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T02:55:20.133766Z",
-      "summary": "Chrome checked FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy/Fed Watch, crypto research, Macro Minute, Latest Videos, DTS video surfaces; new post-7PM details checked Sean Farrell Crypto Comments 2026-06-23 21:34 ET and Tom Lee Macro Minute 2026-06-23 21:10 ET; transcript vault entries written 2 and pushed; Gmail checked 0 because Chrome full-content available; compact rows landed 4, suppressed 0 from accepted payload, stale/pre-window/discovery-only surfaces suppressed incl FlashInsights afternoon, DTS 18:17, old crypto/listings; validations transcript-index/email-intake passed; dashboard refreshed; Social Watch dark/not_checked; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T05:46:22.416870Z",
-      "summary": "off-hours worker started"
-    },
-    {
       "routine_id": "investing-os-off-hours-worker",
       "status": "success",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T16:52:14.609040Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, and high-decay latest-research listings; Gmail checked 0 because Chrome full-content feed/listing access was available; rows landed 0; suppressed duplicate/stale full-content FlashInsights plus discovery-only/no-post-boundary listing surfaces; validation passed; dashboard skipped no new rows; Pushover quiet candidates=0 duplicates=25 suppressed=167; trigger_check fired=0 quote_not_checked=4; dark/stale lanes Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T17:46:59.056223Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T17:51:29.979674Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, and Latest Research listings; Gmail checked 0 because Chrome full-content pages were available; rows landed 0; suppressed duplicate/stale full-content FlashInsights plus pre-cutoff/discovery-only listings; validation passed; dashboard skipped no new rows; Pushover quiet candidates=0 duplicates=25 suppressed=167; trigger_check fired=0 quote_not_checked=4; dark/stale lanes Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T16:52:14.609040Z"
+  "updated_at": "2026-07-01T17:51:29.979674Z"
 }
