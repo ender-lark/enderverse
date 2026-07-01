@@ -2,21 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:31:32.555662Z",
-      "summary": "daily synthesis started"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:35:11.593513Z",
-      "summary": "repo synthesis refreshed/validated; Notion page 388c5031-4bb6-815c-8142-c357d8d752f1 written/readback verified; HOOD review/event-risk recheck lead; Social Watch and row-level Notion lanes not_checked; verify_standard failed googl-tranche date-event efficacy test",
-      "boundary_outcome": "failed"
-    },
-    {
       "routine_id": "investing-os-post-open-evidence-gate",
       "status": "started",
       "run_source": "scheduled",
@@ -5932,7 +5917,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T08:47:31.703278Z",
+      "summary": "off-hours queue buffer started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-queue-buffer",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T08:51:19.412704Z",
+      "summary": "processed quote-only Low rows CRCL and PAAS/SIL; live RQ queued H3 M6 L7 active H20 M34 L20 total74; Notion Findings writes/readback 2/2 verified, statuses stayed Queued; remaining queued 16 blocked by operator/code/full-source/recent-worker or Low watch/defer evidence; dark lanes options, same-session flow, account tax/funding, MCP SQL plan gate; no trades"
     }
   ],
-  "updated_at": "2026-07-01T06:32:41.065958Z"
+  "updated_at": "2026-07-01T08:51:19.412704Z"
 }
