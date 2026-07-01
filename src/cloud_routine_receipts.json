@@ -2,52 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:07:27.626005Z",
-      "summary": "investing-os-parabolic-cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:07:35.876888Z",
-      "summary": "parabolic cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/parabolic_setups.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "34859651a48dee6414ce495ddde885552d9333c18dc71fc966514ec391eb8dcc",
-            "as_of": "2026-06-23T14:07:35.549659+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "62f74e1cfe436b1d41999c5831abf0d0842d803ee93bda58c98dea8c47f7203a",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:31:25.432110Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "failed",
       "run_source": "scheduled",
@@ -5904,7 +5858,28 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:12:38.639878Z",
+      "summary": "pre-market source intake started"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:15:41.435919Z",
+      "summary": "pre-market source intake success: Gmail full-body Fundstrat checked 10 recent IDs/threads; landed 8 compact Upticks rows DAL ALL IRM adds, ORCL GILD deletes, BABA CRWV ETHA watch/hold; source-call cache added 8; Drive drop empty; Chrome available but no new detail rows beyond already-landed Jul1 QQQ/Jun30 macro/KIE/gold; UW outside-regular dark pool checked empty for DAL/ALL/IRM/ORCL/GILD >; broker position cache unchanged because no valid upload supplied; Notion writes 0; dark/stale lanes Social Watch not_checked, broad UW not fully refreshed, post-open evidence gate remains failed-latest unrelated"
+    },
+    {
+      "routine_id": "investing-os-pre-market-source-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:15:51.328130Z",
+      "summary": "pre-market source intake success: Gmail full-body Fundstrat checked 10 recent IDs/threads; landed 8 compact Upticks rows DAL ALL IRM adds, ORCL GILD deletes, BABA CRWV ETHA watch/hold; source-call cache added 8; Drive drop empty; Chrome available but no new detail rows beyond already-landed Jul1 QQQ/Jun30 macro/KIE/gold; UW outside-regular dark pool checked empty for DAL/ALL/IRM/ORCL/GILD 1M-plus premium filter; broker position cache unchanged because no valid upload supplied; Notion writes 0; dark/stale lanes Social Watch not_checked, broad UW not fully refreshed, post-open evidence gate remains failed-latest unrelated"
     }
   ],
-  "updated_at": "2026-07-01T12:03:12.646777Z"
+  "updated_at": "2026-07-01T12:15:51.328130Z"
 }
