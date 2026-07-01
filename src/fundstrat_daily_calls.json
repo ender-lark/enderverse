@@ -3530,6 +3530,25 @@
   },
   {
     "author": "Mark L. Newton, CMT",
+    "ticker": "AAPL",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "same session",
+    "quote": "Newton says AAPL's July 1 technical recovery broke above its downtrend/gap-fill area today, reversing a prior SPX/QQQ headwind; re-check QQQ/SPX add timing if this breakout holds intraday.",
+    "date": "2026-07-01",
+    "subject": "Macro FlashInsights 11:02 ET: AAPL breakout reverses SPX/QQQ headwind",
+    "source_message_id": "fundstrat-web-flashinsights_feed-2026-07-01-1102-et-aapl-breakout",
+    "source": "Fundstrat Chrome Macro FlashInsights feed",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
     "ticker": "MAGS",
     "direction": "watch",
     "entry": null,
@@ -3546,5 +3565,24 @@
     "use_case": "technical_timing",
     "decision_usefulness": "high",
     "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
+  },
+  {
+    "author": "Sean Farrell",
+    "ticker": "STRC",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "near-term / same session",
+    "quote": "Farrell says STRC is Strategy's funding-repair barometer: near-par would clear the overhang, but STRC near 87 remains below all-clear as common issuance/BTC-sale risk persists; re-check MSTR/BTC risk before adding.",
+    "date": "2026-07-01",
+    "subject": "Crypto FlashInsights 11:29 ET: STRC funding-repair barometer",
+    "source_message_id": "fundstrat-web-flashinsights_feed-2026-07-01-1129-et-strc-funding-barometer",
+    "source": "Fundstrat Chrome Crypto FlashInsights feed",
+    "publication_type": "crypto_strategy",
+    "capture_policy": "daily_call",
+    "use_case": "crypto_sleeve",
+    "decision_usefulness": "medium",
+    "capture_reason": "Crypto or crypto-exposed equity context; act only inside the crypto sleeve/risk gate."
   }
 ]

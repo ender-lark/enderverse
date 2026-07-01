@@ -3,20 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T00:47:20.942394Z",
-      "summary": "FS inbox catch-up evening started"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T00:48:02.333586Z",
-      "summary": "dry-run selected 0; queued none; write verification not_checked no live writes; remaining unqueued 2 RYF/XOP QUIET; dark lanes Research Queue readback not_checked; blockers none"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T00:52:41.866930Z",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T15:28:31.246785Z",
       "summary": "sources checked official War.gov Today/Contracts/Releases, DOE/NNSA, NIST/CHIPS, NASA, NSF, DOT, DFC, EXIM/Treasury/DHS searches; verified rows 2 direct public LMT Sentinel A4 and LGO DLA vanadium; research rows 2 Signal Log rows 2; Notion Research Queue write/readback verified 2/2; dark July1 DOW contracts until 5pm ET and SAM/USAspending not needed; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T15:47:28.047330Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T15:54:01.658582Z",
+      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed cards were available; compact rows landed 2 (AAPL breakout recheck, STRC funding-risk recheck); suppressed duplicate/confirming MAGS-RSP cards plus older crypto/feed rows as low-value/stale/discovery-only; validation passed; dashboard refreshed; Pushover sent 2 alerts; dark/stale lanes Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T15:28:31.246785Z"
+  "updated_at": "2026-07-01T15:54:01.658582Z"
 }
