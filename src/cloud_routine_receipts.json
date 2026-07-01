@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-pre-market-source-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:15:05.845553Z",
-      "summary": "pre-market source intake landed 5 Fundstrat compact rows; broker caches validated not refreshed; UW Jun24 dark last_open_date=2026-06-23; Notion not used; Social/Meridian dark"
-    },
-    {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:22:29.373799Z",
-      "summary": "investing-os-broker-position-intake started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-preopen",
       "status": "started",
       "run_source": "scheduled",
@@ -6061,7 +6047,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T20:37:05.240746Z",
+      "summary": "FS inbox catch-up postclose started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T20:39:14.963205Z",
+      "summary": "FS inbox catch-up postclose nothing new; marker checked through [07/01/2026 08:10 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-07-01T20:34:17.324817Z"
+  "updated_at": "2026-07-01T20:39:14.963205Z"
 }
