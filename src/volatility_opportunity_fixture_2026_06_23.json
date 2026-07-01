@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "name": "volatility_opportunity_fixture_2026_06_23",
+    "as_of": "2026-06-24",
+    "describes": "Frozen 2026-06-23/24 AI/semis volatility regime. 6/23: semis -7% selloff (SMH -7.0%, DRAM -14%). 6/24: MU beats after close (rev $41.46B, EPS $25.11, Q4 guide $50B), +6.1% post-print. Fundstrat posture = buy-the-dip; QQQ/SMH held support (~704 on QQQ) but have NOT reclaimed; oil soft and long-end yields easing (supportive macro). Carries the FIXED target-drift read where held-but-untracked GOOGL/AVGO/MSFT are classified by real weight, not MISSING.",
+    "sources": "Fundstrat Inbox (Tom Lee 6/24 'buy the semis dip', Mark Newton 6/24 'QQQ rebound back to highs', Sean Farrell 6/25 'MU +6.11%'); Unusual Whales daily OHLC 6/22-6/24; account_positions.json sleeve_value 1923513 on 2026-06-24",
+    "honesty": "a deterministic test snapshot — NOT live; never auto-acted on; dollar figures are point-in-time"
+  },
+  "book_value": 1923513,
+  "target_drift": {
+    "status": "has_data",
+    "as_of": "2026-06-24",
+    "rows": [
+      {"ticker": "GOOGL", "direction": "UNDERSIZED", "actual_pct": 3.7627, "target_pct": 8.0, "drift_relative": -0.5297},
+      {"ticker": "AVGO", "direction": "UNDERSIZED", "actual_pct": 2.1157, "target_pct": 6.0, "drift_relative": -0.6474},
+      {"ticker": "MSFT", "direction": "UNDERSIZED", "actual_pct": 1.5511, "target_pct": 5.0, "drift_relative": -0.6898},
+      {"ticker": "GRNY", "direction": "OVERSIZED", "actual_pct": 9.5555, "target_pct": 3.0, "drift_relative": 2.185},
+      {"ticker": "GRNJ", "direction": "OVERSIZED", "actual_pct": 8.58, "target_pct": 3.0, "drift_relative": 1.86},
+      {"ticker": "MU", "direction": "OVERSIZED", "actual_pct": 3.6661, "target_pct": 3.0, "drift_relative": 0.222}
+    ]
+  },
+  "holdings": [
+    {"ticker": "NVDA", "market_value": 212710},
+    {"ticker": "GRNY", "market_value": 183802},
+    {"ticker": "GRNJ", "market_value": 165000},
+    {"ticker": "GOOGL", "market_value": 72376},
+    {"ticker": "MU", "market_value": 70518},
+    {"ticker": "AVGO", "market_value": 40696},
+    {"ticker": "MSFT", "market_value": 29836}
+  ],
+  "tape": {
+    "QQQ": {"pct_1d": -0.42, "pct_2d": -3.7, "iv_rank": 92.8, "reclaimed": false, "held_support": true, "support_level": 704},
+    "SMH": {"pct_1d": -0.5, "pct_2d": -7.5, "iv_rank": 97.5, "reclaimed": false, "held_support": true, "is_wrapper": true},
+    "GOOGL": {"pct_1d": -0.24, "pct_2d": -1.3, "iv_rank": 58.7, "held_up": true},
+    "AVGO": {"pct_1d": 0.51, "pct_2d": -2.6, "iv_rank": 44.8, "held_up": true},
+    "MSFT": {"pct_1d": -2.27, "pct_2d": -0.5, "iv_rank": 75.7, "held_up": true},
+    "MU": {"pct_1d": -0.31, "pct_2d": -13.5, "iv_rank": 93.0, "event_confirmation": true, "event_note": "Q3 FY26 beat: rev $41.46B, EPS $25.11, Q4 guide $50B +/- $1B; +6.1% post-print"},
+    "NVDA": {"pct_1d": -0.52, "pct_2d": -4.6, "iv_rank": 28.9}
+  },
+  "fundstrat_calls": [
+    {"ticker": "SMH", "stance": "BUY_DIP", "note": "Semis -7% 1D; 18th time since 2011, 88% recover within 1M — buy that dip", "source": "Tom Lee 2026-06-24"},
+    {"ticker": "QQQ", "stance": "RECLAIM_WATCH", "note": "Stellar MU earnings should fuel a QQQ rebound back to highs; pullback held ~704", "source": "Mark Newton 2026-06-24"},
+    {"ticker": "MU", "stance": "HOLD_RECHECK", "note": "MU beat; bounce for miners — confirmation, not a chase", "source": "Sean Farrell 2026-06-25"}
+  ],
+  "uw_proof": {
+    "GOOGL": {"verdict": "NEUTRAL", "net_premium": 1696931},
+    "AVGO": {"net_premium": 336571},
+    "MSFT": {"verdict": "NOT_CHECKED"}
+  },
+  "event_risk": {
+    "state": "SUPPORTIVE",
+    "note": "USO -5.7% over two sessions (oil soft, Hormuz premium bleeding, IV rank 17); TLT +1.5% (long-end yields easing, IV rank 9). Only the semis complex itself is at max IV — capitulation, not macro risk-off. Macro backdrop supports staging the dip."
+  },
+  "social_watch": {"status": "not_checked"},
+  "funding_policy": {"protected": ["GRNJ"], "conditional": {"NVDA": "concentration_rail"}}
+}
