@@ -3,6 +3,7 @@
 import pytest
 
 from position_drift_check import (
+    load_actuals_from_positions_cache,
     target_baselines_from_reallocate_model,
     target_weight_drift,
     target_weight_drift_summary,
@@ -110,6 +111,58 @@ def test_target_drift_subsystem_surfaces_in_priority_order():
     assert result.actionable_count > 0
     assert "TARGET DRIFT" in result.surface_line
     assert "NVDA undersized" in result.surface_line
+
+
+def test_account_positions_shape_reads_full_combined_book_not_tracked_only():
+    # Exact shape of the real account_positions.json: `combined_positions` (the FULL book,
+    # including untracked GOOGL/AVGO/MSFT) co-exists with `tracked_combined_positions` (which
+    # OMITS them). The drift read MUST measure the full combined book so held-but-untracked
+    # names show their real weight and never fall into the MISSING/0% bucket. This is the exact
+    # regression behind the 2026-06-25 stale-feed report (GOOGL/AVGO/MSFT shown MISSING@0%).
+    account_positions = {
+        "snapshot_date": "2026-06-24",
+        "sleeve_value": BOOK,
+        "combined_positions": [
+            {"ticker": "NVDA", "market_value": 0.12 * BOOK, "tracked": True},
+            {"ticker": "GOOGL", "market_value": 0.0376 * BOOK, "tracked": False},
+            {"ticker": "AVGO", "market_value": 0.0212 * BOOK, "tracked": False},
+            {"ticker": "MSFT", "market_value": 0.0155 * BOOK, "tracked": False},
+        ],
+        "tracked_combined_positions": [
+            {"ticker": "NVDA", "market_value": 0.12 * BOOK, "tracked": True},
+        ],
+        "account_positions": [
+            {"ticker": "NVDA", "market_value": 0.12 * BOOK, "account": "A", "tracked": True},
+            {"ticker": "GOOGL", "market_value": 0.0376 * BOOK, "account": "B", "tracked": False},
+        ],
+    }
+    actuals = {a.ticker: a for a in load_actuals_from_positions_cache(account_positions)}
+    assert actuals["GOOGL"].pct_of_portfolio == pytest.approx(0.0376)
+    assert "AVGO" in actuals and "MSFT" in actuals
+
+    summary = target_weight_drift_summary(account_positions, BOOK, limit=20)
+    by_ticker = {r["ticker"]: r for r in summary["rows"]}
+    for tk in ("GOOGL", "AVGO", "MSFT"):
+        assert by_ticker[tk]["direction"] == "UNDERSIZED"
+        assert by_ticker[tk]["actual_pct"] > 0
+        assert by_ticker[tk]["direction"] != "MISSING"
+
+
+def test_combined_positions_preferred_over_tracked_only_key():
+    # Direct guard on the foot-gun: pointing the reader at tracked_combined_positions would make
+    # untracked GOOGL vanish (MISSING). Pin that the FULL combined book is what gets measured.
+    account_positions = {
+        "sleeve_value": BOOK,
+        "combined_positions": [
+            {"ticker": "GOOGL", "market_value": 0.04 * BOOK, "tracked": False},
+            {"ticker": "NVDA", "market_value": 0.12 * BOOK, "tracked": True},
+        ],
+        "tracked_combined_positions": [
+            {"ticker": "NVDA", "market_value": 0.12 * BOOK, "tracked": True},
+        ],
+    }
+    tickers = {a.ticker for a in load_actuals_from_positions_cache(account_positions)}
+    assert "GOOGL" in tickers  # would be absent if tracked_combined_positions were read
 
 
 def test_orchestrator_runs_target_drift_subsystem():

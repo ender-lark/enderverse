@@ -57,6 +57,51 @@ def _lane_rows(feed):
     return {r["key"]: r for r in feed["lane_status"]["rows"]}
 
 
+def test_build_insider_inst_states_activates_institutional_lane(tmp_path):
+    # LEU = one $1.1M C-suite open-market buy -> BULLISH (+0.4).
+    # MP  = three distinct sub-$500K buyers in 90d -> CLUSTER (+0.5).
+    # NVDA = only a 10b5-1 sale -> NOISE -> absent from the inst_state map.
+    insider_data = {
+        "_meta": {"status": "has_data", "source": "uw", "checked_at": "2026-06-18"},
+        "LEU": [
+            {"date": "2026-06-10", "transaction_code": "P", "insider_title": "CEO",
+             "insider_name": "A", "shares": 5000, "price": 220},
+        ],
+        "MP": [
+            {"date": "2026-06-01", "transaction_code": "P", "insider_name": "a",
+             "shares": 100, "price": 50},
+            {"date": "2026-05-20", "transaction_code": "P", "insider_name": "b",
+             "shares": 100, "price": 50},
+            {"date": "2026-05-10", "transaction_code": "P", "insider_name": "c",
+             "shares": 100, "price": 50},
+        ],
+        "NVDA": [
+            {"date": "2026-06-09", "transaction_code": "S", "insider_title": "CFO",
+             "insider_name": "Z", "shares": 5000, "price": 250, "rule_10b5_1": True},
+        ],
+    }
+    _write(tmp_path / "insider_data.json", insider_data)
+    positions = [{"ticker": "LEU"}, {"ticker": "MP"}, {"ticker": "NVDA"}]
+
+    inst_states, honesty = full_build_runner.build_insider_inst_states(
+        src_dir=tmp_path, positions=positions, weights={}, today="2026-06-18",
+    )
+
+    assert inst_states["LEU"]["points"] > 0          # BULLISH lane live
+    assert inst_states["MP"]["points"] > 0           # CLUSTER lane live
+    assert "NVDA" not in inst_states                 # 10b5-1 sale filtered as noise
+    assert honesty.get("institutional_13f")          # 13F deferral surfaced honestly
+
+
+def test_build_insider_inst_states_honest_empty_when_cache_absent(tmp_path):
+    # No insider_data.json present -> honest-empty, lane stays not_checked, no crash.
+    inst_states, honesty = full_build_runner.build_insider_inst_states(
+        src_dir=tmp_path, positions=[{"ticker": "LEU"}], weights={}, today="2026-06-18",
+    )
+    assert inst_states == {}
+    assert honesty == {}
+
+
 def test_normalize_positions_cache_derives_pct_from_sleeve_value():
     rows, stamp = normalize_positions_cache({
         "snapshot_date": "2026-06-04",

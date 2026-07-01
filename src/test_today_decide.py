@@ -98,7 +98,7 @@ def _congruence(flagged=True):
         "flagged_ids": ["INSIGHT-950"] if flagged else [],
     }
 
-def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None, gates=None, today=TODAY):
+def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path=None, feed=None, gates=None, today=TODAY, options=None, volatility=None):
     return build_today_decide_payload(
         feed=feed or _feed(), weights=W, goal=goal or G, insights_payload=_insights(),
         accounts=_accounts(), gates=(gates if gates is not None else [_gate()]), uw_states={}, entry_zones={},
@@ -106,6 +106,8 @@ def _payload(goal=None, congruence_result=None, tmp_path=None, dispositions_path
         dispositions_path=(dispositions_path if dispositions_path else
                            (tmp_path / "none.jsonl" if tmp_path else "_no_dispositions_.jsonl")),
         today=today,
+        options=options,
+        volatility=volatility,
     )
 
 def test_payload_builds_and_goal_anchor_math():
@@ -405,3 +407,83 @@ def test_last_disposition_renders_from_file(tmp_path):
     p = _payload(dispositions_path=pth, tmp_path=tmp_path)
     html = render_today_decide_html(p)
     assert "last disposition: PASS on 2026-06-10" in html
+
+
+def _options_surface_act():
+    import options_surface as osf
+    screener = {"result": [{"ticker": "NVDA", "iv_rank": "23.6", "iv30d": "0.358",
+                            "implied_move_perc": "0.07", "next_earnings_date": "2026-08-26",
+                            "close": "210.69", "prev_close": "204.65", "date": "2026-06-18"}]}
+    chain = {"states": [
+        {"option_symbol": "NVDA260821C00205000", "strike": "205", "option_type": "call",
+         "expires": "2026-08-21", "iv": 0.4152, "delta": 0.5979, "theo": 17.4998,
+         "open_interest": 10123, "volume": 1326},
+        {"option_symbol": "NVDA260821C00210000", "strike": "210", "option_type": "call",
+         "expires": "2026-08-21", "iv": 0.4091, "delta": 0.5432, "theo": 14.7750,
+         "open_interest": 18035, "volume": 3825}], "price_data": {"price": "210.69"}}
+    return osf.surface_options({"NVDA": {"screener": screener, "chain": chain}},
+                               conviction_lookup={"NVDA": {"thesis_horizon_days": 60}},
+                               account={"portfolio_value": 100000},
+                               as_of="2026-06-18", generated_at="x")
+
+
+def test_options_block_opt_in_does_not_change_default_render():
+    # no options passed -> no options block (additive; existing surface unchanged)
+    assert "OPTIONS EXPRESSION" not in render_today_decide_html(_payload())
+
+
+def test_options_block_leads_with_move_when_actionable():
+    html = render_today_decide_html(_payload(options=_options_surface_act()))
+    assert "OPTIONS EXPRESSION" in html
+    assert "▶" in html and "Buy" in html          # LEAD WITH THE MOVE
+    assert "Most you can lose" in html                  # risk loud
+    assert "never an order" in html                     # honesty rail on the face
+
+
+def test_options_block_honest_empty_is_never_silent():
+    import options_surface as osf
+    html = render_today_decide_html(_payload(options=osf.surface_options({}, generated_at="x")))
+    assert "OPTIONS EXPRESSION" in html                 # labeled even when nothing actionable
+
+
+def _volatility_command():
+    import volatility_opportunity_converter as voc
+    target_drift = {"status": "has_data", "rows": [
+        {"ticker": "GOOGL", "direction": "UNDERSIZED", "actual_pct": 3.76, "target_pct": 8.0},
+        {"ticker": "MU", "direction": "OVERSIZED", "actual_pct": 3.67, "target_pct": 3.0},
+        {"ticker": "GRNY", "direction": "OVERSIZED", "actual_pct": 9.56, "target_pct": 3.0},
+    ]}
+    return voc.convert(
+        target_drift=target_drift, book_value=1_923_513,
+        holdings=[{"ticker": t, "market_value": 1} for t in ("GOOGL", "MU", "GRNY")],
+        tape={"QQQ": {"pct_1d": -0.4, "reclaimed": False, "held_support": True},
+              "SMH": {"pct_1d": -0.5, "reclaimed": False, "held_support": True, "is_wrapper": True},
+              "GOOGL": {"pct_1d": -0.2, "held_up": True},
+              "MU": {"pct_1d": -0.3, "event_confirmation": True}},
+        fundstrat_calls=[{"ticker": "SMH", "stance": "BUY_DIP"}],
+        event_risk={"state": "SUPPORTIVE"}, social_watch={"status": "not_checked"},
+        as_of="2026-06-24", generated_at="x",
+    )
+
+
+def test_volatility_block_opt_in_does_not_change_default_render():
+    # no volatility passed -> no volatility block (additive; existing surface unchanged)
+    assert "VOLATILITY OPPORTUNITY" not in render_today_decide_html(_payload())
+
+
+def test_volatility_block_leads_with_staged_command():
+    # first-viewport answers: what to do now (staged add), what NOT to chase (MU), the gate.
+    html = render_today_decide_html(_payload(volatility=_volatility_command()))
+    assert "VOLATILITY OPPORTUNITY" in html
+    assert "▶" in html                                  # LEAD WITH THE MOVE
+    assert "Stage GOOGL add" in html                    # the sized add is on the face
+    assert "Do NOT chase MU" in html                    # what not to chase, loud
+    assert "Gate" in html                               # what blocks it, visible
+    assert "Funding" in html                            # how it's funded, visible
+    assert "never an order" in html                     # no-execution rail on the face
+
+
+def test_volatility_block_honest_empty_is_never_silent():
+    import volatility_opportunity_converter as voc
+    html = render_today_decide_html(_payload(volatility=voc.convert(target_drift=None, holdings=None)))
+    assert "VOLATILITY OPPORTUNITY" in html             # labeled even when nothing actionable

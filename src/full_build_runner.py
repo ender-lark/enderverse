@@ -53,6 +53,7 @@ from alert_policy import build_alert_policy
 import cloud_routine_receipts
 import execution_plan as ep
 import today_decide
+import volatility_opportunity_converter
 from tunables import load_conviction_weights, load_goal_tunables
 
 
@@ -820,6 +821,64 @@ def active_parabolic_tickers(cache: Any, tiers=("AUTOFIRE", "WATCHLIST")) -> set
     return active
 
 
+def build_insider_inst_states(
+    *,
+    src_dir: Path,
+    positions: list[dict[str, Any]],
+    weights: dict[str, Any],
+    today: str,
+    catalysts: Any = None,
+    theses: Any = None,
+    macro: Any = None,
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
+    """Activate the institutional conviction lane from the insider Form 4 cache.
+
+    The classifier (``insider_activity_scan``), the UW cache refresh
+    (``insider_cache_refresh``), the inst_state adapter
+    (``orphan_wiring.build_inst_states``) and the conviction socket
+    (``conviction_engine.institutional_group``) all already exist and are
+    unit-tested. This is the production call that was missing — without it the
+    institutional lane rendered an honest ``not_checked`` stub forever.
+
+    13F is deferred (insiders-only per the 2026-06-18 operator call), so
+    ``holdings_13f`` stays ``None`` and the honesty footer says so. A missing or
+    malformed insider cache returns honest-empty and never sinks the build.
+    Returns ``(inst_states, orphan_honesty)``.
+    """
+    insider_data = _read_json(Path(src_dir) / "insider_data.json", default=None)
+    if not isinstance(insider_data, dict):
+        return {}, {}
+    try:
+        import insider_activity_scan as ias
+        import orphan_wiring as ow
+
+        scan_data = {k: v for k, v in insider_data.items() if k != "_meta"}
+        report = ias.scan(
+            positions,
+            scan_data,
+            catalysts=catalysts if isinstance(catalysts, list) else None,
+            theses=theses if isinstance(theses, list) else None,
+            macro_pulse=macro if isinstance(macro, dict) else None,
+            today=datetime.strptime(str(today), "%Y-%m-%d"),
+        )
+        inst_states = ow.build_inst_states(
+            weights=weights, insider_report=report, holdings_13f=None, today=today,
+        )
+        honesty = {
+            "institutional_13f": (
+                "not checked — 13F lane deferred (insiders-only wiring, "
+                "2026-06-18 operator call)"
+            ),
+        }
+        return inst_states, honesty
+    except Exception as exc:  # noqa: BLE001 — honest-empty, never crash the build
+        return {}, {
+            "institutional": (
+                f"not checked — insider wiring error: {type(exc).__name__}: {exc}"
+            ),
+        }
+
+
 def build_full_feed_from_files(
     *,
     src_dir: str | Path | None = None,
@@ -989,11 +1048,42 @@ def build_full_feed_from_files(
     )
     feed["market_open_packet"] = build_market_open_packet(feed)
     feed["if_i_were_you"] = build_if_i_were_you(feed)
+    weights_cfg = load_conviction_weights()
+    inst_states, orphan_honesty = build_insider_inst_states(
+        src_dir=src,
+        positions=positions,
+        weights=weights_cfg,
+        today=today,
+        catalysts=catalysts,
+        theses=theses,
+        macro=macro,
+    )
+    # Demote no-position sell-fast rows so a real held decision is never crowded out by loud
+    # "sell fast" noise on names we don't own. Held tickers stay loud; avoid-new-exposure notes
+    # stay as quiet new-buy-timing context (anti-passivity rail; see WORKBOARD VOL-OPP-CONVERTER).
+    _combined_rows = (
+        account_positions.get("combined_positions") if isinstance(account_positions, dict) else None
+    ) or []
+    _held_tickers = {
+        str(r.get("ticker") or "").strip().upper()
+        for r in _combined_rows if isinstance(r, dict)
+    }
+    feed["actions"] = volatility_opportunity_converter.demote_no_position_sells(
+        feed.get("actions") or [], _held_tickers
+    )
+    # Fuse the live volatility regime (Fundstrat calls + tape + the fixed target-drift read +
+    # flow + event-risk) into ONE staged command. Reads the already-assembled feed — no NEW live
+    # pulls — and surfaces LOUD inside the today_decide payload (no build-and-forget). Kept inside
+    # the payload (not a new top-level feed block) to mirror the options surface seam.
+    volatility_command = volatility_opportunity_converter.from_feed(feed, today=today, generated_at=now)
     feed["today_decide"] = today_decide.build_today_decide_payload(
         feed=feed,
-        weights=load_conviction_weights(),
+        weights=weights_cfg,
         goal=load_goal_tunables(),
         accounts=execution_accounts,
+        inst_states=inst_states,
+        orphan_honesty=orphan_honesty,
+        volatility=volatility_command,
         today=today,
     )
     feed["source_audits"]["decision_dossier_coverage"] = build_decision_dossier_coverage(

@@ -36,6 +36,8 @@ import insight_register as ir
 import lookthrough_disclosure as ltd
 import timing_engine as te
 import disposition_log
+import options_surface as opt_surface
+import volatility_opportunity_converter as voc
 
 SRC = Path(__file__).resolve().parent
 FEED_PATH = SRC / "latest_cockpit_feed.json"
@@ -392,6 +394,8 @@ def build_today_decide_payload(
     congruence_result: dict[str, Any] | None = None,
     dispositions_path: Path | str = disposition_log.DISPOSITIONS_PATH,
     today: str | None = None,
+    options: dict[str, Any] | None = None,
+    volatility: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     feed = _load_feed(feed)
     today_iso = today or date.today().isoformat()
@@ -451,6 +455,13 @@ def build_today_decide_payload(
         "cards": stack["cards"],
         "backlog": stack["backlog"],
         "congruence": congruence_result,
+        # Options-expression surface (opt-in): a produce/surface_options() result, or None when
+        # this build didn't screen options. Rendered LOUD (lead with the move) below congruence.
+        "options": options,
+        # Volatility opportunity surface (opt-in): a volatility_opportunity_converter result that
+        # fuses Fundstrat calls + tape + target gaps + flow + event-risk into ONE staged command,
+        # or None when this build didn't run the converter. Rendered LOUD (lead with the move).
+        "volatility": volatility,
         "honesty": honesty,
     }
 
@@ -824,6 +835,18 @@ def render_today_decide_html(payload: dict[str, Any]) -> str:
             h.append(f'<div class="td-cong">{flag}{_esc(row["insight_id"])} Â· {_esc(row["line"])}</div>')
     else:
         h.append(f'<div class="td-cong">congruence: not checked â€” {_esc(cong.get("reason", ""))}</div>')
+    # Volatility opportunity block (opt-in): LOUD staged command — leads with the sized move,
+    # gate + funding + honesty visible; honest-empty never silent. Rendered only when this build
+    # ran the converter (payload key present). Placed above options: the regime command is the
+    # most decision-forward element when a volatility event is live.
+    volatility_payload = payload.get("volatility")
+    if volatility_payload is not None:
+        h.append(voc.render_command_html(volatility_payload))
+    # Options-expression block (opt-in): LOUD, leads with the sized move; honest-empty when checked
+    # but nothing is actionable. Rendered only when this build screened options (payload key present).
+    options_payload = payload.get("options")
+    if options_payload is not None:
+        h.append(opt_surface.render_options_block_html(options_payload))
     h.append('<div class="td-honesty">'
              + "<br/>".join(f"{_esc(k)}: {_esc(v)}" for k, v in payload["honesty"].items())
              + "</div>")
