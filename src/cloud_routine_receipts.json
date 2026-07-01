@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:02:57.052567Z",
-      "summary": "investing-os-uw-opportunity-cache started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:03:01.143974Z",
-      "summary": "uw opportunity cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/uw_opportunity_signals.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "cba48aaf6e84ef6e3098bf60dfed29294ff48a9388eb494e019781b5595029da",
-            "as_of": "2026-06-23T14:03:01.027170+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "2188aa5c9e3c217f98cd0d0fbf2117d98a5c0393885216af11ade77dabed7d2a",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -5912,7 +5873,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T11:53:02.694805Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, latest research listings, Jul1 First-to-Market detail, Jun30 Crypto Comments detail, Jun30 Daily Technical Strategy detail, and Jun30 Macro Minute companion page; Gmail checked 0 not needed; rows landed 3 (QQQ recheck, CRCL reduce, KIE add); suppressed 2 compact rows as low-value/context/watch-only plus video transcript not_checked for Macro Minute; validation passed and focused tests 21 passed; dashboard refreshed; Notion not used; Social Watch dark/not_checked; blockers none"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:03:01.501486Z",
+      "summary": "work-os-daily-briefing started"
+    },
+    {
+      "routine_id": "work-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:03:12.646777Z",
+      "summary": "Work OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "work_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/work_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-01T11:53:02.694805Z"
+  "updated_at": "2026-07-01T12:03:12.646777Z"
 }
