@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-evening",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T00:52:41.866930Z",
-      "summary": "Decision-relevant flags logged only: SPX/QQQ support and June-low hold, Lee buy-dip/rebalance, tech/memory dip, KOSPI/SOX/MU scrutiny, FXI breakdown, silver/copper washouts, KIE breakout; ingested 2 FS inbox entries through [06/23/2026 18:40 ET]; Source Call Log rows 8 fetch-verified; marker advanced; Notion query endpoint dark/not_checked; no trade, broker, repo gate, or card mutation"
-    },
-    {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T01:17:24.929609Z",
-      "summary": "off-hours alt-data scout started"
-    },
-    {
       "routine_id": "investing-os-off-hours-alt-data-scout",
       "status": "success",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T15:54:01.658582Z",
       "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content feed cards were available; compact rows landed 2 (AAPL breakout recheck, STRC funding-risk recheck); suppressed duplicate/confirming MAGS-RSP cards plus older crypto/feed rows as low-value/stale/discovery-only; validation passed; dashboard refreshed; Pushover sent 2 alerts; dark/stale lanes Social Watch not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:31:20.280311Z",
+      "summary": "FS inbox catch-up midday started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-midday",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:35:04.570005Z",
+      "summary": "FS inbox catch-up midday nothing new; marker checked through [07/01/2026 08:10 ET]; Notion marker fetch-verified; no Source Call Log rows written"
     }
   ],
-  "updated_at": "2026-07-01T15:54:01.658582Z"
+  "updated_at": "2026-07-01T16:35:04.570005Z"
 }
