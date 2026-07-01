@@ -5,20 +5,6 @@
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:52:00.144908Z",
-      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research; Gmail 0; landed 1 compact SPY support/reclaim row from 10:38 ET Macro FlashInsights; suppressed/quiet prior Crypto Jun22 and listing/prior articles incl AMD; validation passed; dashboard refreshed; Pushover sent 1 alert; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T15:47:57.348126Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-23T15:54:37.242857Z",
       "summary": "Chrome checked Macro FlashInsights new Jun23 10:52 SMH and 10:51 MU, Crypto FlashInsights latest Jun22 prior, Latest Research category metadata; Gmail messages checked 0; rows landed 2; low/discovery/prior suppressed incl crypto prior/listing-only plus alert quiet 82 and duplicates 13; validation passed; dashboard refreshed; Pushover alert sent 1 SMH, MU quiet; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark; no Notion writes; blockers none except quote inputs not_checked"
     },
@@ -5884,7 +5870,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T12:27:35.601134Z",
       "summary": "FS inbox catch-up preopen ingested 3 entries through [07/01/2026 08:10 ET]; Source Call Log rows 2 fetch-verified; marker advanced; CRCL OpenUSD and BTC-to-USDC risk flags logged; duplicates suppressed; no trades sizing broker gate or card mutation"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:37:34.248038Z",
+      "summary": "morning scan started"
+    },
+    {
+      "routine_id": "investing-os-morning-scan",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:40:29.153995Z",
+      "summary": "morning scan success: Notion Signal Log rows 3/3 fetch-verified; repo Signal Log cache 127 rows; UW options split QQQ hedge vs NVDA/MU calls; July1 held dark-pool blocks empty under filters; macro cache stale not refreshed; dark Social Watch and complete macro/quote preflight not_checked"
     }
   ],
-  "updated_at": "2026-07-01T12:27:35.601134Z"
+  "updated_at": "2026-07-01T12:40:29.153995Z"
 }

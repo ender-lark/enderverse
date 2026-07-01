@@ -987,5 +987,29 @@
     "priority": "medium",
     "source": "https://app.notion.com/p/MU-CEO-10b5-1-sale-adds-watch-only-supply-check-after-AI-memory-rally-390c50314bb6819c9c0cc2eae1f230b3",
     "note": "Off-hours alt-data scout 2026-06-30 21:29 ET. SEC Form 4s accepted 2026-06-30T19:06Z show MU CEO Sanjay Mehrotra sold 40,000 shares on 2026-06-26; footnote F1 says sales were under a Rule 10b5-1 plan adopted 2026-01-30. Director Lynn Dugle Form 144 planned 1,300 shares. Watch-only supply context for MU/SMH/NVDA AI-memory rally recheck; mixed/slight disconfirmation but not a sell/trim signal because sales are pre-planned. Missing evidence: same-session MU/SMH option/dark-pool confirmation and post-filing price reaction. SEC sources: https://www.sec.gov/Archives/edgar/data/723125/000124265426000012/primarydocument.xml ; https://www.sec.gov/Archives/edgar/data/723125/000124265426000011/primarydocument.xml ; https://www.sec.gov/Archives/edgar/data/723125/000195824426000414/primary_doc.xml"
+  },
+  {
+    "signal": "Morning scan: MU weak tape conflicts with still-positive memory pricing evidence",
+    "ticker": "MU, SMH, NVDA, QQQ",
+    "date": "2026-07-01",
+    "priority": "high",
+    "source": "https://app.notion.com/p/390c50314bb6815ea936f468ee766e1b",
+    "note": "2026-07-01 08:35 ET scheduled scan. Barron's reported MU down premarket with broader tech futures softer, while KeyBanc memory-pricing read showed June DRAM up about 3% and NAND up 2.4%, with meaningful AI/HBM capacity relief not expected until 2027. Watch-only conflict: held MU/SMH/NVDA exposure needs same-session confirmation, not a direct trade call."
+  },
+  {
+    "signal": "Morning scan: QQQ hedge cluster offsets NVDA/MU upside call flow into the close",
+    "ticker": "QQQ, SPY, NVDA, MU, SMH",
+    "date": "2026-07-01",
+    "priority": "high",
+    "source": "https://app.notion.com/p/390c50314bb681f2a307ff30b0b8e7cf",
+    "note": "2026-07-01 08:35 ET scheduled scan of UW options alerts. Late 2026-06-30 alerts showed QQQ 2026-07-17 735 puts with volume/OI over 2x-3x and more than $2.7M ask-side premium clusters, while NVDA 2027-12-17 220 calls and MU July calls also printed. Watch-only: flow is split, not clean risk-on confirmation."
+  },
+  {
+    "signal": "Morning scan: no July 1 held-name dark-pool blocks under bounded filters",
+    "ticker": "NVDA, MU, LEU",
+    "date": "2026-07-01",
+    "priority": "medium",
+    "source": "https://app.notion.com/p/390c50314bb681d6bfe0f0907cfbd5dc",
+    "note": "2026-07-01 08:35 ET scheduled UW dark-pool checks returned zero rows newer than 2026-07-01T00:00Z/08:00Z for broad common-stock filters and for NVDA, MU, and LEU at bounded premium thresholds. This is an absence-of-proof lane only; do not treat as bullish or bearish confirmation."
   }
 ]
