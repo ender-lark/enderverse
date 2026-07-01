@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:46:49.912958Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-23T14:52:00.144908Z",
@@ -5884,7 +5877,14 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:27:35.601134Z",
+      "summary": "FS inbox catch-up preopen ingested 3 entries through [07/01/2026 08:10 ET]; Source Call Log rows 2 fetch-verified; marker advanced; CRCL OpenUSD and BTC-to-USDC risk flags logged; duplicates suppressed; no trades sizing broker gate or card mutation"
     }
   ],
-  "updated_at": "2026-07-01T12:24:56.143682Z"
+  "updated_at": "2026-07-01T12:27:35.601134Z"
 }
