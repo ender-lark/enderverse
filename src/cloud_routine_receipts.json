@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T16:35:37.518552Z",
-      "summary": "FS inbox catch-up midday ingested 1 entry through [06/23/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; duplicate catch-up snippets not re-logged; no gate/card mutation"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T16:47:53.422205Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "success",
       "run_source": "scheduled",
@@ -5908,7 +5894,50 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-options-decay-audit",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:56:29.810878Z",
+      "summary": "investing-os-options-decay-audit started"
+    },
+    {
+      "routine_id": "investing-os-options-decay-audit",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:56:30.272954Z",
+      "summary": "options decay audit succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/options_decay_audit.py",
+          "--send",
+          "--out",
+          "src/options_decay_audit.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/options_decay_audit.json",
+            "as_of_field": "",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "c81c1dffe2cfd8b0f6b8a466efdabe0b8917d441aea9f89deb716ef2732e398f",
+            "as_of": "",
+            "fresh": false,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "0602551ae957c9e798a0cbd808d0473373337d7feceae7b142675b1e2169e935",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "stale_boundary"
     }
   ],
-  "updated_at": "2026-07-01T12:55:18.115102Z"
+  "updated_at": "2026-07-01T12:56:30.272954Z"
 }
