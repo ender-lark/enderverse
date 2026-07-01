@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T20:33:03.063598Z",
-      "summary": "post-close refresh succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "93cb26a14c6c7a06750de1f321d7a511dee2cc805dd63207b90e5e138e45848b",
-            "as_of": "2026-06-23T20:32:55.630004+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "0df0712934832ea6a8dec1b2225ed2336010be726c897fe51d08ec53720eb6c6",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-postclose",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T20:36:05.290312Z",
-      "summary": "FS inbox catch-up postclose started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-postclose",
       "status": "success",
       "run_source": "scheduled",
@@ -5987,7 +5949,46 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T13:54:35.410330Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, high-decay category listings, Jul1 First-to-Market detail, and Jul1 First Word detail; Gmail checked 0 because Chrome full-content pages were available; rows landed 0; suppressed duplicate/non-distinct or discovery-only surfaces Macro Jun30, Crypto Jun30, Jul1 FTM, Jul1 First Word, Jun30 DTS/Crypto/Macro Minute; validation passed; dashboard skipped no new rows; Pushover sent capped duplicate-unsent KIE/QQQ alerts; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T14:02:06.709944Z",
+      "summary": "investing-os-uw-opportunity-cache started"
+    },
+    {
+      "routine_id": "investing-os-uw-opportunity-cache",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T14:02:11.447462Z",
+      "summary": "uw opportunity cache succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "cmd",
+          "/c",
+          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/uw_opportunity_signals.json",
+            "as_of_field": "generated_at",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "bff8fa3ca08257b63dcb01ddbfbbbf379add6665f9996ebdd9ca6b29317f8597",
+            "as_of": "2026-07-01T14:02:11.327762+00:00",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "d3ce328fbd99cf4ca374a23205329b56b0ec7ddbfe7b5ebb21d77d10b6efa837",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-07-01T13:54:35.410330Z"
+  "updated_at": "2026-07-01T14:02:11.447462Z"
 }
