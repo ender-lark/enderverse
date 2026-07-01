@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T23:15:16.807832Z",
-      "summary": "Chrome checked Macro/Crypto FlashInsights, 10 listing categories, DTS detail, Macro Minute detail; videos checked 2 with transcripts captured; transcript vault entries 2; Gmail messages checked 0; rows landed 3 DTS compact rows (SPY/EWY/KIE); suppressed/discovery-only duplicates/listings/promos 16; validation transcript-index/email-intake/focused pytest/dashboard passed; Notion not used; dark Social Watch; blockers none"
-    },
-    {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T23:31:21.740922Z",
-      "summary": "off-hours research queue started"
-    },
-    {
       "routine_id": "investing-os-off-hours-research-queue",
       "status": "success",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
         ]
       },
       "boundary_outcome": "produced_fresh"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T14:48:11.693925Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T14:57:10.875949Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research plus Intraday Word, First Word, DTS, Live Technical, US Policy, Fed Watch, Crypto Research/Strategy, and Macro Minute listings; Gmail checked 0 because Chrome full-content feed/listings were available; rows landed 1 MAGS/Mag-7 recheck from complete Macro FlashInsights feed cards; suppressed 1 fresh DRAM/breadth card as context-only plus duplicate/stale crypto cards and listing-only discovery cards; validation passed and dashboard refreshed; alert cap drained then quiet with 23 duplicates and 167 suppressed; trigger_check fired 0, EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark/not_checked; no Notion writes; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T14:34:29.544774Z"
+  "updated_at": "2026-07-01T14:57:10.875949Z"
 }

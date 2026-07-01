@@ -40,26 +40,26 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 ## Deep Discount Research
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| BMNR | $14 | $161 | -91.3% | $56,272 | Notion Working MONITOR, SEC 8-K/Ex.99.1 via off-hours alt-data scout 2026-06-29, repo research queue Working | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
-| LEU | $170 | $464 | -63.4% | $86,675 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
-| KTOS | $53 | $134 | -60.3% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
-| AVAV | $173 | $418 | -58.7% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, repo research queue Queued | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
-| ELF | $78 | $151 | -48.3% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
-| UUUU | $15 | $28 | -47.7% | $32,660 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
-| MP | $56 | $100 | -44.1% | $15,946 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
-| SOFI | $18 | $33 | -43.9% | $910 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
+| BMNR | $14 | $161 | -91.2% | $56,272 | Notion Working MONITOR, SEC 8-K/Ex.99.1 via off-hours alt-data scout 2026-06-29, repo research queue Working | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
+| LEU | $166 | $464 | -64.2% | $86,675 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
+| KTOS | $52 | $134 | -61.0% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
+| AVAV | $171 | $418 | -59.0% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, repo research queue Queued | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
+| UUUU | $14 | $28 | -48.5% | $32,660 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
+| ELF | $79 | $151 | -47.8% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
+| MP | $55 | $100 | -44.8% | $15,946 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |
+| SOFI | $18 | $33 | -43.7% | $910 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict and small current exposure make this research-only. |
 | HOOD | $105 | $154 | -31.8% | $2,886 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict; crypto/broker beta must confirm before any add review. |
 
 ## Higher Quality Pullbacks
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| MSFT | $383 | $555 | -31.1% | $34,455 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
-| GOOGL | $360 | $409 | -11.8% | $94,933 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
-| FN | $545 | $749 | -27.2% | $7,016 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
+| MSFT | $384 | $555 | -30.8% | $34,455 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
+| GOOGL | $362 | $409 | -11.4% | $94,933 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
+| FN | $546 | $749 | -27.1% | $7,016 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
 | AVGO | $370 | $495 | -25.2% | $44,539 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
+| VRT | $312 | $380 | -17.9% | $13,565 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
 | NVDA | $196 | $237 | -17.2% | $242,713 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
-| VRT | $317 | $380 | -16.5% | $13,565 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
-| AMZN | $241 | $279 | -13.6% | $21,277 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
+| AMZN | $242 | $279 | -13.2% | $21,277 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
 
 ## Full Watchlist Screen
 - Screened rows with chart data: 136.

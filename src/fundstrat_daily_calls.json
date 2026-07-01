@@ -3527,5 +3527,24 @@
     "use_case": "risk_posture",
     "decision_usefulness": "medium",
     "capture_reason": "Macro item changes risk posture, sizing, hedge, sector rotation, or a named-ticker gate."
+  },
+  {
+    "author": "Mark L. Newton, CMT",
+    "ticker": "MAGS",
+    "direction": "watch",
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "window": "next couple weeks into late July",
+    "quote": "Newton says MAGS/Mag-7 is at a critical bounce: MAGS vs RSP broke out short-term, but a break below last week's lows would raise late-July selloff risk.",
+    "date": "2026-07-01",
+    "subject": "Macro FlashInsights 10:42 ET: MAGS critical juncture",
+    "source_message_id": "fundstrat-web-flashinsights_feed-2026-07-01-1042-et-mags-critical-juncture",
+    "source": "Fundstrat Chrome member Macro FlashInsights page",
+    "publication_type": "daily_technical",
+    "capture_policy": "daily_call",
+    "use_case": "technical_timing",
+    "decision_usefulness": "high",
+    "capture_reason": "Technical/timing item with levels, invalidation, or clear setup language."
   }
 ]
