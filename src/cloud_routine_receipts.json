@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T19:52:35.741336Z",
-      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research listing; Gmail checked 0 (Chrome full-content available); landed 1 compact CPER copper-watch row from visible FlashInsights feed; suppressed prior/discovery-only or low-value items incl Jun22 Crypto, AMD listing, CNBC promo; validation passed; dashboard refreshed; alert quiet 0 candidates/15 duplicates/84 suppressed; trigger guard fired 0 with EWRE/ASTS/RKLB/MU quotes not_checked; Social Watch dark; blockers none"
-    },
-    {
-      "routine_id": "investing-os-post-close-refresh",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T20:31:21.930036Z",
-      "summary": "investing-os-post-close-refresh started"
-    },
-    {
       "routine_id": "investing-os-post-close-refresh",
       "status": "success",
       "run_source": "scheduled",
@@ -5987,7 +5973,21 @@
         "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-07-01 09:41 ET."
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:47:00.332046Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T13:54:35.410330Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, high-decay category listings, Jul1 First-to-Market detail, and Jul1 First Word detail; Gmail checked 0 because Chrome full-content pages were available; rows landed 0; suppressed duplicate/non-distinct or discovery-only surfaces Macro Jun30, Crypto Jun30, Jul1 FTM, Jul1 First Word, Jun30 DTS/Crypto/Macro Minute; validation passed; dashboard skipped no new rows; Pushover sent capped duplicate-unsent KIE/QQQ alerts; trigger_check fired 0 with EWRE/ASTS/RKLB/MU quote lanes not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T13:43:21.170833Z"
+  "updated_at": "2026-07-01T13:54:35.410330Z"
 }
