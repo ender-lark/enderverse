@@ -2,56 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:41:40.316230Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T13:43:24.582230Z",
-      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
-      "details": {
-        "boundary_artifact": "src\\uw_endpoint_results.json",
-        "boundary_artifact_committed": true,
-        "no_fresh_boundary_data": false,
-        "feed_built_from_committed_proof": true,
-        "dashboard_refresh_status": "success",
-        "redaction_valid": true,
-        "redaction_problems": [],
-        "proof_generated_at": "2026-06-23T13:41:40.337634+00:00",
-        "proof_count": 13,
-        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-23 09:41 ET.",
-        "proof_newest_checked_at": "2026-06-23T13:41:40.337634+00:00",
-        "proof_interpretation_counts": {
-          "supports": 0,
-          "contradicts": 0,
-          "inconclusive": 10,
-          "missing": 3
-        },
-        "proof_blockers": [
-          "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked"
-        ],
-        "boundary_commit": {
-          "valid": true,
-          "committed": true,
-          "commit": "ce43c0b",
-          "reason": "committed",
-          "selected_paths": [
-            "src/uw_endpoint_results.json"
-          ]
-        },
-        "dashboard_refresh_returncode": 0,
-        "feed_uw_proof_newest_checked_at": "2026-06-23T13:41:40.337634+00:00",
-        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-23 09:41 ET."
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -5931,7 +5881,38 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T08:51:19.412704Z",
       "summary": "processed quote-only Low rows CRCL and PAAS/SIL; live RQ queued H3 M6 L7 active H20 M34 L20 total74; Notion Findings writes/readback 2/2 verified, statuses stayed Queued; remaining queued 16 blocked by operator/code/full-source/recent-worker or Low watch/defer evidence; dark lanes options, same-session flow, account tax/funding, MCP SQL plan gate; no trades"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T11:32:12.042900Z",
+      "summary": "life-os-daily-briefing started"
+    },
+    {
+      "routine_id": "life-os-daily-briefing",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T11:32:18.483533Z",
+      "summary": "Life OS daily briefing succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_briefing.py",
+          "--routine",
+          "life_daily",
+          "--write-log",
+          "--push",
+          "--out",
+          "src/life_os_daily_briefing_last_run.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-01T08:51:19.412704Z"
+  "updated_at": "2026-07-01T11:32:18.483533Z"
 }
