@@ -2,44 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:54:03.302107Z",
-      "summary": "early cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "097a402d8fca81175be5ae4965ce74b2c2eba745e01c719c5e3f0093f0f1b95f",
-            "as_of": "2026-06-24T12:53:56.605716+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "21cdd79d0a6296737474b3f440036efec99acfddb61cabe6fc71c0febe9a7341",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T13:37:11.187893Z",
-      "summary": "daily synthesis started"
-    },
-    {
       "routine_id": "investing-os-daily-synthesis",
       "status": "failed",
       "run_source": "scheduled",
@@ -6008,7 +5970,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T23:22:34.566781Z",
       "summary": "Chrome checked Macro/Crypto FlashInsights; listings Intraday/First Word/DTS/LTSA/US Policy/Fed/Crypto/Macro Minute/Latest Videos; opened Jul1 First Word, DTS 18:19, Macro Minute 16:17 details; videos checked 2 fresh plus Jun30 duplicate; transcript vault entries 2 pushed; Gmail 0; rows landed 2 MAGS recheck and SPY buy-dip; suppressed duplicate FlashInsights/First Word/Jun30 Crypto plus stale or discovery-only categories; validations passed public-index email-validate source-merge 35 focused tests verify_standard 1955 passed 6 skipped; dashboard refreshed; Notion not used; Social Watch dark/not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T23:32:06.062427Z",
+      "summary": "off-hours research queue started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-research-queue",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T23:32:47.290027Z",
+      "summary": "Research Queue not_checked: Drive drop missing; cache not refreshed; existing cache pending=22 done=0 ACT_NOW=none skipped=0"
     }
   ],
-  "updated_at": "2026-07-01T23:22:34.566781Z"
+  "updated_at": "2026-07-01T23:32:47.290027Z"
 }
