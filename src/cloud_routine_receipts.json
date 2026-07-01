@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-morning-scan",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:39:39.032976Z",
-      "summary": "morning scan wrote/readback-verified 3 Notion Signal Log rows; repo Signal Log cache 81 rows; UW proof refreshed to Jun23 16:10 ET; Jun24 UW/macro/query lanes dark"
-    },
-    {
-      "routine_id": "investing-os-early-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:53:17.846525Z",
-      "summary": "investing-os-early-cockpit-build started"
-    },
-    {
       "routine_id": "investing-os-early-cockpit-build",
       "status": "success",
       "run_source": "scheduled",
@@ -6008,7 +5994,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T21:41:07.292956Z",
       "summary": "federal funding post-close success: checked War.gov Today/Releases/Contracts Jul1 and Jun30, Commerce/CHIPS/NIST, DOE/LPO/OCED/EERE/NNSA, service/DARPA/DIU/OSC, DHS/CBP, NASA, NSF TIP, Treasury/IRS/IRA, DOT, EXIM/DFC searches; verified rows +2 direct public AVAV/LMT, cache rows 45, research rows +2, Signal Log rows +2; Notion Research Queue write/readback 2/2 verified; Signal Log Notion not written; dark/low-value sources no material same-day non-defense public rows, USAspending/SAM not needed, market reaction/options flow not_checked; blockers none"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T23:02:34.251373Z",
+      "summary": "fundstrat after-hours catch-up started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-after-hours-catch-up",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T23:22:34.566781Z",
+      "summary": "Chrome checked Macro/Crypto FlashInsights; listings Intraday/First Word/DTS/LTSA/US Policy/Fed/Crypto/Macro Minute/Latest Videos; opened Jul1 First Word, DTS 18:19, Macro Minute 16:17 details; videos checked 2 fresh plus Jun30 duplicate; transcript vault entries 2 pushed; Gmail 0; rows landed 2 MAGS recheck and SPY buy-dip; suppressed duplicate FlashInsights/First Word/Jun30 Crypto plus stale or discovery-only categories; validations passed public-index email-validate source-merge 35 focused tests verify_standard 1955 passed 6 skipped; dashboard refreshed; Notion not used; Social Watch dark/not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T21:41:07.292956Z"
+  "updated_at": "2026-07-01T23:22:34.566781Z"
 }

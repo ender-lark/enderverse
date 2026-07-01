@@ -43,7 +43,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 | BMNR | $14 | $161 | -91.2% | $57,346 | Notion Working MONITOR, SEC 8-K/Ex.99.1 via off-hours alt-data scout 2026-06-29, repo research queue Working | Do not add until financing impact, mNAV, ETH-per-share, preferred coverage, and crypto tape resolve. |
 | LEU | $166 | $464 | -64.2% | $86,328 | chart only | Needs uranium/HALEU flow and policy confirmation; size is already meaningful. |
 | KTOS | $53 | $134 | -60.4% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means discount is research-only until source reconciliation changes. |
-| AVAV | $172 | $418 | -58.7% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, repo research queue Queued | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
+| AVAV | $172 | $418 | -58.7% | $0 | SEC 8-K/10-K via off-hours alt-data scout 2026-06-29, federal_funding_monitor, repo research queue Queued, repo research queue Working | Deep pullback needs defense order, margin, and flow confirmation before capital competes with GOOGL/MSFT. |
 | UUUU | $14 | $28 | -49.0% | $32,550 | Fundstrat bottom/avoid-list, SEC 8-K + Energy Fuels release via off-hours alt-data scout 2026-06-24, federal_funding_monitor, repo research queue Queued, repo research queue Working | Critical-minerals pullback is not enough while Fundstrat source context remains avoid/bottom-list. |
 | ELF | $79 | $151 | -47.8% | $0 | Fundstrat bottom/avoid-list | Fundstrat bottom-list conflict means no promotion without business-quality reversal evidence. |
 | MP | $54 | $100 | -45.9% | $15,851 | chart only | Needs rare-earth policy/order-flow confirmation; discount alone is not a buy signal. |

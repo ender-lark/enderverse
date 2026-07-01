@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T02:52:58.903063+00:00",
+  "generated_at": "2026-07-01T23:10:36.162399+00:00",
   "policy": "Full Fundstrat transcripts are stored only in the private source vault.",
   "items": [
     {
@@ -456,6 +456,44 @@
       "vault_ref": "vault://fundstrat/transcripts/2026/06/fundstrat-2026-06-30-tom-lee-video-macro-minute-as-2q26-comes-to-an-end-equity-markets-still",
       "short_synthesis": "Lee remains less hawkish than markets because Truflation is low and equities are still in good shape, but record May NYSE margin debt adds to the case for consolidation later in 2026.",
       "extract_count": 1,
+      "compact_row_count": 1
+    },
+    {
+      "transcript_id": "fundstrat-2026-07-01-newton-daily-technical-strategy-technology-s-bifurcation-isn-t-bearish",
+      "title": "Daily Technical Strategy: Technology's bifurcation isn't Bearish, as Mag 7 snaps back to life",
+      "analyst": "Mark L. Newton, CMT",
+      "source_url": "https://fundstratdirect.com/technical-strategy/daily-technical-strategy/2026/07/01/technologys-bifurcation-isnt-bearish-as-mag-7-snaps-back-to-life/",
+      "source_date": "2026-07-01",
+      "published_at": "2026-07-01T18:19:00-04:00",
+      "captured_at": "2026-07-01T23:10:32.298000+00:00",
+      "capture_method": "chrome_visible_transcript",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat detail page exposed full article text plus Vimeo Transcript/CC controls; complete English auto-generated caption track was available from the loaded player configuration. Transcript panel was virtualized in Chrome, so the full VTT caption track was used.",
+      "transcript_chars": 9277,
+      "transcript_sha256": "b80efb3e97c527c25a81ce54e09f9e72447cb23e61d4a812dd7c717b2edcb570",
+      "voice_lane": "mark_newton_technical",
+      "vault_ref": "vault://fundstrat/transcripts/2026/07/fundstrat-2026-07-01-newton-daily-technical-strategy-technology-s-bifurcation-isn-t-bearish",
+      "short_synthesis": "Newton frames the July 1 technology bifurcation as not bearish: Mag 7 and software are snapping back while semis/memory remain weak; MAGS weekly confirmation vs RSP is the key near-term recheck, and EWY/semis need stabilization before re-engaging.",
+      "extract_count": 3,
+      "compact_row_count": 1
+    },
+    {
+      "transcript_id": "fundstrat-2026-07-01-tom-lee-macro-minute-as-we-look-at-2h2026-6-factors-support-why-we-are-b",
+      "title": "Macro Minute: As we look at 2H2026, 6 factors support why we are buying the dip",
+      "analyst": "Tom Lee, CFA",
+      "source_url": "https://fundstratdirect.com/macro-strategy/macro-minute/2026/07/01/video-macro-minute-as-we-look-at-2h2026-6-factors-support-why-we-are-buying/",
+      "source_date": "2026-07-01",
+      "published_at": "2026-07-01T16:17:00-04:00",
+      "captured_at": "2026-07-01T23:10:32.298000+00:00",
+      "capture_method": "chrome_visible_transcript",
+      "capture_status": "captured_and_analyzed",
+      "completeness_notes": "Logged-in Fundstrat Macro Minute detail page exposed companion article text plus Vimeo Transcript/CC controls; complete English auto-generated caption track was available from the loaded player configuration.",
+      "transcript_chars": 4779,
+      "transcript_sha256": "52a27a0e3a26d1e87094926e4e610263c96fbf43b54c26c28693078a8bfcb01e",
+      "voice_lane": "tom_lee_macro",
+      "vault_ref": "vault://fundstrat/transcripts/2026/07/fundstrat-2026-07-01-tom-lee-macro-minute-as-we-look-at-2h2026-6-factors-support-why-we-are-b",
+      "short_synthesis": "Lee keeps a constructive 2H2026 posture: stronger economy, downside inflation risk, and a Fed potentially more dovish than priced support buying dips, while margin debt remains a later-year consolidation risk.",
+      "extract_count": 3,
       "compact_row_count": 1
     }
   ]
