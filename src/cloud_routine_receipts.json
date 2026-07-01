@@ -2,63 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T08:46:38.982148Z",
-      "summary": "off-hours queue buffer started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-queue-buffer",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T08:51:24.432364Z",
-      "summary": "skipped after live RQ H2/M3/L7; no safe advance; high operator/code blocked; med decision/pilot/doctrine blocked; low already reviewed; no Notion writes",
-      "details": {
-        "queue_source": "notion_rest_data_sources_query",
-        "data_source": "collection://cab89576-0933-40b0-ad2e-6f9a6188e804",
-        "mcp_query_data_sources": "blocked: Notion AI Business/Enterprise entitlement required; deterministic REST query succeeded",
-        "queued_counts": {
-          "High": 2,
-          "Med": 3,
-          "Low": 7,
-          "Total": 12
-        },
-        "after_worker_context": "1:45 AM worker processed VRT BMNR GOOGL COHR UUUU with verified Notion writes 5/5; remaining live queue is H2/M3/L7.",
-        "status": "skipped_no_safe_advance",
-        "processed_items": [],
-        "selected_items": [],
-        "remaining_backlog": 12,
-        "remaining_reason": "All remaining queued rows already have conservative Findings; High rows require operator review or code/data plumbing, Med rows require operator/pilot/doctrine decisions, and Low rows are watch/defer items already reviewed without fresh safe status completion.",
-        "high_blockers": [
-          "Full-book rebalance remains held pending explicit operator review; no execution/status completion by research buffer.",
-          "MU parabolic trigger requires live velocity/phase quote-cache wiring; framework/code change forbidden in this routine."
-        ],
-        "med_blockers": [
-          "AI labor-disruption thesis needs operator choice of beneficiary deep dive vs trigger-watch, not another queue mutation.",
-          "v0 qualifying-cluster threshold needs pilot calibration/operator threshold decision; no local pilot status/log artifact present, scheduled pilot rows not fully checked.",
-          "Staging doctrine needs measured tranche completion/outcome review; buying-power/leverage and completion history remain not_checked."
-        ],
-        "low_note": "Remaining Low rows have prior verified buffer Findings and stay Queued/Watch/Defer until fresh source, thesis, or operator decision changes posture.",
-        "write_verification": "No Notion writes attempted; no statuses changed; live REST query verified counts only.",
-        "dark_stale_lanes": [
-          "Social Watch and same-session flow stay not_checked where not pulled in this buffer.",
-          "MU velocity/phase quote wiring not_checked.",
-          "v0 calibration rows via Notion MCP query not_checked; REST/read evidence only.",
-          "current account buying-power/leverage and tranche completion history not_checked."
-        ],
-        "temporary_cap": "not applied; skipped for safety/blockers after worker drain, not for usage cap"
-      },
-      "boundary_outcome": "no_op"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T11:47:36.360959Z",
-      "summary": "fundstrat pre-market safety sweep started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-pre-market-safety-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6007,7 +5950,42 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T00:56:38.622247Z",
       "summary": "FS inbox catch-up evening ingested 5 entries through [06/30/2026 20:10 ET]; Source Call Log rows 8 fetch-verified; marker advanced; MONTHLY LANDED Upticks needs full distill; repo cache added 4 after 3 Chrome duplicate suppressions; no trades, sizing, broker access, timing-gate mutation, or decision-card mutation"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T01:16:47.564513Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T01:16:49.940063Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T01:16:59.978985Z",
+      "summary": "off-hours alt-data scout started"
     }
   ],
-  "updated_at": "2026-07-01T00:56:38.622247Z"
+  "updated_at": "2026-07-01T01:16:59.978985Z"
 }
