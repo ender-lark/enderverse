@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-alt-data-scout",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T01:29:49.648324Z",
-      "summary": "checked SEC/UW/Polymarket/Social; routed UUUU VAC to RQ and HOOD+Hormuz to verified Signal Log; repo caches validated; Social Watch/Kalshi direct/PortWatch direct dark; UW 10 inconclusive 3 missing"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T02:46:49.136531Z",
-      "summary": "fundstrat late evening web/transcript sweep started"
-    },
-    {
       "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
       "status": "success",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T16:35:04.570005Z",
       "summary": "FS inbox catch-up midday nothing new; marker checked through [07/01/2026 08:10 ET]; Notion marker fetch-verified; no Source Call Log rows written"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:47:21.776601Z",
+      "summary": "fundstrat daytime watch started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-daytime-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T16:52:14.609040Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, and high-decay latest-research listings; Gmail checked 0 because Chrome full-content feed/listing access was available; rows landed 0; suppressed duplicate/stale full-content FlashInsights plus discovery-only/no-post-boundary listing surfaces; validation passed; dashboard skipped no new rows; Pushover quiet candidates=0 duplicates=25 suppressed=167; trigger_check fired=0 quote_not_checked=4; dark/stale lanes Social Watch not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T16:35:04.570005Z"
+  "updated_at": "2026-07-01T16:52:14.609040Z"
 }
