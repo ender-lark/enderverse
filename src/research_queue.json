@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T21:45:00Z",
+  "generated_at": "2026-07-01T15:27:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -144,16 +144,32 @@
       "ticker": "NOC",
       "notes": "Northrop Grumman Systems Corp.: $312M fixed-price-incentive modification exercising options for SEWIP Block 3 systems, spares, hardware, and support; full $312M obligated at award.. Agency/program: Department of War / Navy / Naval Sea Systems Command / AN/SLQ-32(V)7 Surface Electronic Warfare Improvement Program Block 3. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Check NOC same-session/next-session relative strength, backlog commentary, SEWIP margin/schedule disclosures, and whether this confirms broader EW budget acceleration.. Risks: option exercise under existing contract; delivery stretches through 2031; ship-installation schedule risk; defense-prime valuation and budget-cycle risk.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "LGO - federal funding catalyst review: Largo Resources USA Inc. ($125M maximum shared five-year firm-fixed-price IDIQ contract with US Vanadium LLC for vanadium pentoxide; performance through June 21, 2031.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "LGO",
+      "notes": "Largo Resources USA Inc.: $125M maximum shared five-year firm-fixed-price IDIQ contract with US Vanadium LLC for vanadium pentoxide; performance through June 21, 2031.. Agency/program: Department of War / Defense Logistics Agency Strategic Materials / National Defense Stockpile vanadium pentoxide supply. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Confirm Largo's disclosed order share, fixed-price delivery-order economics, National Defense Stockpile cadence, LGO price/volume reaction, and whether follow-on DLA orders scale.. Risks: shared IDIQ ceiling not guaranteed revenue; delivery-order split between Largo and US Vanadium not checked; small-cap liquidity and execution risk; vanadium price and margin sensitivity; same-session price and flow not checked.",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "LMT - federal funding catalyst review: Lockheed Martin Corp. ($2.999B fixed-price-incentive/cost-plus contract for Sentinel A4 radar production and engineering services; work locations and funding determined with each order through June 29, 2031.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "LMT",
+      "notes": "Lockheed Martin Corp.: $2.999B fixed-price-incentive/cost-plus contract for Sentinel A4 radar production and engineering services; work locations and funding determined with each order through June 29, 2031.. Agency/program: Department of War / Army Contracting Command / Sentinel A4 radar production and engineering services. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Funded task orders, LMT backlog/margin commentary, production-rate evidence, relative LMT/ITA reaction, and comparison against existing THAAD/PrSM research rows.. Risks: order-level funding not yet specified; long-dated IDIQ-style revenue conversion; fixed-price and production-ramp execution risk; large-prime materiality dilution; same-session tape and flow not checked.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 13,
-    "pending": 13,
+    "input_rows": 15,
+    "pending": 15,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 18,
+    "stored_pending": 20,
     "stored_done": 0
   }
 }

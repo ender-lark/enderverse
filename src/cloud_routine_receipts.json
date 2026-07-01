@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-research-queue",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T23:31:44.335374Z",
-      "summary": "Research Queue export drop missing; queue not_checked; cache not refreshed; fallback cache pending 5 done 0 ACT_NOW none skipped 0"
-    },
-    {
-      "routine_id": "investing-os-top-prospects-auto-research",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T00:47:20.595537Z",
-      "summary": "top prospects auto-research started"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-evening",
       "status": "started",
       "run_source": "scheduled",
@@ -6037,7 +6023,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T14:57:10.875949Z",
       "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Latest Research plus Intraday Word, First Word, DTS, Live Technical, US Policy, Fed Watch, Crypto Research/Strategy, and Macro Minute listings; Gmail checked 0 because Chrome full-content feed/listings were available; rows landed 1 MAGS/Mag-7 recheck from complete Macro FlashInsights feed cards; suppressed 1 fresh DRAM/breadth card as context-only plus duplicate/stale crypto cards and listing-only discovery cards; validation passed and dashboard refreshed; alert cap drained then quiet with 23 duplicates and 167 suppressed; trigger_check fired 0, EWRE/ASTS/RKLB/MU quote triggers not_checked; Social Watch dark/not_checked; no Notion writes; blockers none"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T15:21:16.155043Z",
+      "summary": "federal funding midday watch started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-midday-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T15:28:31.246785Z",
+      "summary": "sources checked official War.gov Today/Contracts/Releases, DOE/NNSA, NIST/CHIPS, NASA, NSF, DOT, DFC, EXIM/Treasury/DHS searches; verified rows 2 direct public LMT Sentinel A4 and LGO DLA vanadium; research rows 2 Signal Log rows 2; Notion Research Queue write/readback verified 2/2; dark July1 DOW contracts until 5pm ET and SAM/USAspending not needed; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T14:57:10.875949Z"
+  "updated_at": "2026-07-01T15:28:31.246785Z"
 }
