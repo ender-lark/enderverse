@@ -63,6 +63,13 @@ def _has_any(text: str, terms: set[str]) -> bool:
     return any(term in text for term in terms)
 
 
+def _has_crypto_term(text: str) -> bool:
+    return any(
+        re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", text)
+        for term in CRYPTO_TERMS
+    )
+
+
 def _has_price_level(text: str) -> bool:
     return bool(re.search(r"(?:\$|near\s+|toward\s+|above\s+|below\s+)?\b\d{2,5}(?:\.\d+)?\b", text))
 
@@ -124,7 +131,7 @@ def classify_fundstrat_publication(
     newton_author = "newton" in author_l or "mark newton" in body
     farrell_author = "farrell" in author_l or "sean farrell" in body
     lee_author = "lee" in author_l or "tom lee" in body
-    crypto = farrell_author or _has_any(body, CRYPTO_TERMS)
+    crypto = farrell_author or _has_crypto_term(body)
     macro = lee_author or _has_any(body, MACRO_TERMS)
     technical = newton_author or (
         not lee_author
@@ -299,7 +306,7 @@ def classify_fundstrat_lane(
             **publication,
         }
 
-    if "farrell" in author_l or "sean farrell" in body or ticker_l in CRYPTO_TERMS or any(term in body for term in CRYPTO_TERMS):
+    if "farrell" in author_l or "sean farrell" in body or ticker_l in CRYPTO_TERMS or _has_crypto_term(body):
         return {
             "fundstrat_lane": "crypto",
             "source_domain": "crypto_strategy",

@@ -48,6 +48,24 @@ def test_crypto_lane_stays_scoped_to_crypto_context():
     assert "crypto-specific" in lane["source_weight_note"].lower()
 
 
+def test_macro_consolidation_does_not_match_sol_crypto_token():
+    publication = classify_fundstrat_publication(
+        author="Tom Lee, CFA",
+        ticker="SPY",
+        direction="buy",
+        subject="Macro Minute: 2H2026 buy-the-dip factors",
+        text=(
+            "Lee says the 2H setup supports buying dips: stronger economy, "
+            "downside inflation risk, and a Fed potentially more dovish than "
+            "priced offset near-term consolidation risk."
+        ),
+        window="next-session dip review",
+    )
+
+    assert publication["publication_type"] == "macro_update"
+    assert publication["use_case"] == "risk_posture"
+
+
 def test_monthly_lists_route_to_baseline_not_daily_call():
     publication = classify_fundstrat_publication(
         subject="June Monthly Bible - Top 5 large cap",
