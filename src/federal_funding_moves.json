@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "federal_funding_intake",
-  "generated_at": "2026-07-01T15:27:00Z",
+  "generated_at": "2026-07-02T00:03:00Z",
   "as_of": "2026-07-01",
   "scan_status": "has_data",
   "rows": [
@@ -314,6 +314,36 @@
         "https://news.lockheedmartin.com/2026-02-02-Lockheed-Martin-Delivers-First-Sentinel-A4-from-LRIP-2-Advances-Toward-Full-Rate-Production"
       ],
       "source_quality": "primary+company_context"
+    },
+    {
+      "date": "2026-07-01",
+      "priority": "high",
+      "agency": "Department of War / Army Contracting Command",
+      "program": "Commercial counter-unmanned aerial systems and counter small-unmanned aerial systems procurement",
+      "recipient": "AeroVironment Inc.",
+      "title": "AeroVironment Inc.",
+      "award_text": "$500M firm-fixed-price contract for commercial counter-UAS and counter small-UAS capabilities; work locations and funding determined with each order through June 29, 2029.",
+      "award_value_usd": 500000000,
+      "tickers": [
+        "AVAV"
+      ],
+      "directness": "direct_public",
+      "actionability": "review_now",
+      "investing_angle": "Direct public-company award in the exact drone/counter-drone lane the Department of War highlighted as a July 1 priority; review AVAV materiality, backlog conversion, and whether the contract validates a higher-priority defense-autonomy watch posture without chasing the tape.",
+      "risks": [
+        "IDIQ/order-level funding not yet specified",
+        "revenue conversion depends on task orders",
+        "production and integration execution risk",
+        "recent AVAV price move may already discount stronger drone demand",
+        "same-session options/flow not checked"
+      ],
+      "next_trigger": "Funded task orders, AVAV backlog/commentary, relative AVAV/defense-autonomy tape after the award, and confirmation that order cadence is incremental rather than already priced.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4531882/contracts-for-july-1-2026/",
+        "https://www.war.gov/News/Releases/Release/Article/4531728/department-of-war-establishes-direct-reporting-portfolio-manager-for-unmanned-s/",
+        "https://investor.avinc.com/"
+      ],
+      "source_quality": "primary plus company ticker mapping"
     },
     {
       "date": "2026-06-15",
@@ -893,6 +923,35 @@
       "source_quality": "primary"
     },
     {
+      "date": "2026-07-01",
+      "priority": "medium",
+      "agency": "Department of War / Army Contracting Command",
+      "program": "Prototype air and missile defense system improvements",
+      "recipient": "Lockheed Martin Missile and Fire Control",
+      "title": "Lockheed Martin Missile and Fire Control",
+      "award_text": "$347.5M cost-plus-incentive-fee contract for development, fabrication, and testing of improvements to prototype air and missile defense systems; work locations and funding determined with each order through Dec. 31, 2028.",
+      "award_value_usd": 347500000,
+      "tickers": [
+        "LMT"
+      ],
+      "directness": "direct_public",
+      "actionability": "research_review",
+      "investing_angle": "Adds another direct LMT air/missile-defense backlog signal after recent PrSM, THAAD, and Sentinel A4 rows, but should be treated as confirmation/research context unless it changes backlog, margin, or relative-defense allocation conviction.",
+      "risks": [
+        "order-level funding not yet specified",
+        "prototype development rather than clean production revenue",
+        "cost-plus incentive margin uncertainty",
+        "large-prime materiality dilution",
+        "same-session price and flow not checked"
+      ],
+      "next_trigger": "Compare with existing LMT federal-funding rows, check funded order cadence and management backlog/margin commentary, and verify whether LMT/ITA relative tape confirms incremental demand.",
+      "source_urls": [
+        "https://www.war.gov/News/Contracts/Contract/Article/4531882/contracts-for-july-1-2026/",
+        "https://investors.lockheedmartin.com/"
+      ],
+      "source_quality": "primary plus company ticker mapping"
+    },
+    {
       "date": "2026-06-17",
       "priority": "low",
       "agency": "Department of War / Air Force",
@@ -1187,10 +1246,10 @@
     }
   ],
   "summary": {
-    "stored": 43,
-    "high": 11,
-    "direct_public": 17,
-    "research_candidates": 15,
+    "stored": 45,
+    "high": 12,
+    "direct_public": 19,
+    "research_candidates": 17,
     "top_signal": "Energy Fuels: $725M conditional loan commitment for U.S. rare-earth separation and metallization capacity",
     "merged": true
   }

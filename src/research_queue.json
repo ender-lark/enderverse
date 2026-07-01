@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-01T15:27:00Z",
+  "generated_at": "2026-07-02T00:03:00Z",
   "source": "research_queue_intake",
   "pending": [
     {
@@ -160,16 +160,33 @@
       "ticker": "LMT",
       "notes": "Lockheed Martin Corp.: $2.999B fixed-price-incentive/cost-plus contract for Sentinel A4 radar production and engineering services; work locations and funding determined with each order through June 29, 2031.. Agency/program: Department of War / Army Contracting Command / Sentinel A4 radar production and engineering services. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Funded task orders, LMT backlog/margin commentary, production-rate evidence, relative LMT/ITA reaction, and comparison against existing THAAD/PrSM research rows.. Risks: order-level funding not yet specified; long-dated IDIQ-style revenue conversion; fixed-price and production-ramp execution risk; large-prime materiality dilution; same-session tape and flow not checked.",
       "source": "federal_funding_monitor"
+    },
+    {
+      "r": "AVAV - federal funding catalyst review: AeroVironment Inc. ($500M firm-fixed-price contract for commercial counter-UAS and counter small-UAS capabilities; work locations and funding determined with each order through June 29, 2029.)",
+      "pr": "high",
+      "status": "Working",
+      "ticker": "AVAV",
+      "notes": "AeroVironment Inc.: $500M firm-fixed-price contract for commercial counter-UAS and counter small-UAS capabilities; work locations and funding determined with each order through June 29, 2029.. Agency/program: Department of War / Army Contracting Command / Commercial counter-unmanned aerial systems and counter small-unmanned aerial systems procurement. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Funded task orders, AVAV backlog/commentary, relative AVAV/defense-autonomy tape after the award, and confirmation that order cadence is incremental rather than already priced.. Risks: IDIQ/order-level funding not yet specified; revenue conversion depends on task orders; production and integration execution risk; recent AVAV price move may already discount stronger drone demand; same-session options/flow not checked.",
+      "urgency": "today",
+      "source": "federal_funding_monitor"
+    },
+    {
+      "r": "LMT - federal funding catalyst review: Lockheed Martin Missile and Fire Control ($347.5M cost-plus-incentive-fee contract for development, fabrication, and testing of improvements to prototype air and missile defense systems; work locations and funding determined with each order through Dec. 31, 2028.)",
+      "pr": "med",
+      "status": "Working",
+      "ticker": "LMT",
+      "notes": "Lockheed Martin Missile and Fire Control: $347.5M cost-plus-incentive-fee contract for development, fabrication, and testing of improvements to prototype air and missile defense systems; work locations and funding determined with each order through Dec. 31, 2028.. Agency/program: Department of War / Army Contracting Command / Prototype air and missile defense system improvements. Check materiality, tape reaction, dilution/funding terms, execution risk, and whether this changes current hold/research posture. Missing evidence: Compare with existing LMT federal-funding rows, check funded order cadence and management backlog/margin commentary, and verify whether LMT/ITA relative tape confirms incremental demand.. Risks: order-level funding not yet specified; prototype development rather than clean production revenue; cost-plus incentive margin uncertainty; large-prime materiality dilution; same-session price and flow not checked.",
+      "source": "federal_funding_monitor"
     }
   ],
   "done": [],
   "summary": {
-    "input_rows": 15,
-    "pending": 15,
+    "input_rows": 17,
+    "pending": 17,
     "done": 0,
     "skipped": 0,
     "merged": true,
-    "stored_pending": 20,
+    "stored_pending": 22,
     "stored_done": 0
   }
 }

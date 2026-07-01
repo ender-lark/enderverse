@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:27:39.885575Z",
-      "summary": "FS inbox catch-up preopen ingested 3 entries; logged 4 Source Call rows; marker advanced to [06/24/2026 08:10 ET]; flags SMH/AI-semi buy-dip refresh and crypto liquidity patience; no repo gate/card mutation; rows fetch-verified 4/4"
-    },
-    {
-      "routine_id": "investing-os-morning-scan",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T12:36:31.849018Z",
-      "summary": "morning scan started"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "success",
       "run_source": "scheduled",
@@ -6008,7 +5994,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T20:51:54.381675Z",
       "summary": "positions sync succeeded: snapshot 2026-07-01; 11 accounts; 275 rows; diffs EXIT 1 ADD 1 VALUE_CHANGE 89; warnings 3; dashboard ok"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T21:37:39.616668Z",
+      "summary": "federal funding post-close sweep started"
+    },
+    {
+      "routine_id": "investing-os-federal-funding-post-close-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T21:41:07.292956Z",
+      "summary": "federal funding post-close success: checked War.gov Today/Releases/Contracts Jul1 and Jun30, Commerce/CHIPS/NIST, DOE/LPO/OCED/EERE/NNSA, service/DARPA/DIU/OSC, DHS/CBP, NASA, NSF TIP, Treasury/IRS/IRA, DOT, EXIM/DFC searches; verified rows +2 direct public AVAV/LMT, cache rows 45, research rows +2, Signal Log rows +2; Notion Research Queue write/readback 2/2 verified; Signal Log Notion not written; dark/low-value sources no material same-day non-defense public rows, USAspending/SAM not needed, market reaction/options flow not_checked; blockers none"
     }
   ],
-  "updated_at": "2026-07-01T20:51:54.381675Z"
+  "updated_at": "2026-07-01T21:41:07.292956Z"
 }
