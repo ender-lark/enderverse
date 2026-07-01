@@ -9,19 +9,18 @@
   "bodies_redacted": true,
   "compact_full_body_derived": true,
   "stored_entries": 4,
-  "stored_daily_calls": 167,
-  "stored_source_call_candidates": 168,
+  "stored_daily_calls": 171,
+  "stored_source_call_candidates": 172,
   "source_calls": {
     "updated": true,
-    "candidates": 168,
+    "candidates": 172,
     "added": 4,
-    "stored": 168,
+    "stored": 172,
     "log_call_dates": 21
   },
-  "web_compact_intake": {
-    "source": "authenticated_fundstrat_chrome",
-    "checked_rows": 4,
-    "suppressed_rows": 0,
-    "raw_bodies_stored": false
-  }
+  "notion_source_call_log": {
+    "rows_fetch_verified": 8,
+    "monthly_upticks_special_case": "logged live Source Call Log row and flagged MONTHLY LANDED - needs full distill; compact cache row suppressed by monthly/deep-crawl policy"
+  },
+  "duplicate_cache_rows_suppressed_after_chrome_cache": 3
 }

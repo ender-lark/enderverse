@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T05:47:26.728401Z",
-      "summary": "off-hours worker started"
-    },
-    {
-      "routine_id": "investing-os-off-hours-worker",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T05:50:31.391347Z",
-      "summary": "processed VRT BMNR GOOGL COHR UUUU; live RQ H2q/H7w M3q/M25w L7q/L13w; verified Notion writes 5/5; remaining active 57; blocked high rows include operator review/code plumbing; dark lanes Social Watch, same-session flow, dilution/mNAV/final awards/loan terms"
-    },
-    {
       "routine_id": "investing-os-off-hours-queue-buffer",
       "status": "started",
       "run_source": "scheduled",
@@ -6007,7 +5993,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T00:46:33.279056Z",
       "summary": "top prospects auto-research success: dry-run selected 0; queued tickers none; live writes not_attempted; cache verified 21 prospects/19 queued/2 unqueued RYF XOP both QUIET BUILDING uncorroborated; Research Queue readback not_checked no created rows; dark blockers post-open evidence gate failed-latest and options decay audit missing scheduled proof"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T00:47:08.614368Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T00:56:38.622247Z",
+      "summary": "FS inbox catch-up evening ingested 5 entries through [06/30/2026 20:10 ET]; Source Call Log rows 8 fetch-verified; marker advanced; MONTHLY LANDED Upticks needs full distill; repo cache added 4 after 3 Chrome duplicate suppressions; no trades, sizing, broker access, timing-gate mutation, or decision-card mutation"
     }
   ],
-  "updated_at": "2026-07-01T00:46:33.279056Z"
+  "updated_at": "2026-07-01T00:56:38.622247Z"
 }
