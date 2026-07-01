@@ -2,73 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-broker-position-intake",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:24:22.100853Z",
-      "summary": "broker position intake succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/snaptrade_book_refresh.py",
-          "--refresh-dashboard"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "2143084be0ae7c9679c4b7d97d8712c3ec423ce9f361b20ad6d5eb5ba938edc0",
-            "as_of": "2026-06-23",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "eb0ecf491f4fdb1b331e3881c4abd7c26fb5092f39e4c0b1102508a684b14eb4",
-            "changed": true
-          },
-          {
-            "path": "src/account_positions.json",
-            "as_of_field": "snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "03bf2ddd823e3f379521b339923dac864a3cc05f9051045b55ae6ba8a039925e",
-            "as_of": "2026-06-23",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "69109e746492bd39f35ae4e280a831b324fafd95d9d8057a51ffa815bcf6083b",
-            "changed": true
-          },
-          {
-            "path": "src/position_reconciliation.json",
-            "as_of_field": "current_snapshot_date",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "1df68e74184634bc399abfd2d10aca95d132d609a5a0aaf59f843bd1b3114f49",
-            "as_of": "2026-06-23",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "cb993c079d45e20c184679258528757d799c76d0dc0fa3b23fd213b8d94138c5",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T12:25:58.887703Z",
-      "summary": "FS inbox catch-up preopen ingested 1 entry through [06/22/2026 23:10 ET]; Source Call Log rows 2 fetch-verified; marker advanced; query endpoint dark/not_checked"
-    },
-    {
       "routine_id": "investing-os-morning-scan",
       "status": "started",
       "run_source": "scheduled",
@@ -5994,7 +5927,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T02:19:11.111600Z",
       "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=32 coverage=26/26 current action/material fresh discipline=clean dark_not_checked=remaining missing dossiers 32; CRCL price/flow/adoption not_checked; MSTR BTC/mNAV/current flow not_checked; unrelated post-open evidence gate failed-latest remains dark"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T02:47:25.337900Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T02:55:49.536795Z",
+      "summary": "Chrome checked Macro FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy/Fed Watch, crypto research, Macro Minute, Latest Videos, and Daily Technical Strategy videos; opened 3 fresh Jun30 post-7pm detail/video pages (Farrell crypto 10:02 ET, Lee Macro Minute 7:48 ET, Newton DTS 7:29 ET); transcript vault entries written/pushed 3 from visible Vimeo captions; Gmail messages checked 0 because Chrome full content/captions were available; compact rows landed 7 (CRCL avoid, BTC trim, MSTR watch, SPY macro watch, SPY range wait, QQQ range wait, KIE research); suppressed no fresh post-7pm Flash/article rows plus older/listing-only/webinar surfaces; transcript public index and Fundstrat intake validation passed; dashboard refreshed; dark/stale lanes Social Watch not_checked, post-open evidence gate failed-latest unrelated."
     }
   ],
-  "updated_at": "2026-07-01T02:19:11.111600Z"
+  "updated_at": "2026-07-01T02:55:49.536795Z"
 }

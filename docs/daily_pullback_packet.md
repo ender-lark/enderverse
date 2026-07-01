@@ -63,7 +63,7 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 
 ## Full Watchlist Screen
 - Screened rows with chart data: 131.
-- Not checked: SOX, SPX, TNX, VIRTUAL.
+- Not checked: GC, SOX, SPX, TNX, VIRTUAL.
 
 TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.
 YOUR MOVE: Do not execute until execution mode and green/amber/red gates are explicitly reviewed.
