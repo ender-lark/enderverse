@@ -8,7 +8,7 @@ Candidate-only packet. No trades executed. No option contracts selected.
 - Plan impact: Use the model reference bands only as staged candidates until live evidence is refreshed.
 
 ## Source Status
-- Positions: stale_or_dark from 2026-06-30 on $1,842,605.
+- Positions: has_data from 2026-07-01 on $1,841,186.
 - UW: UW endpoint proof: 13 captured row(s); neutral/inconclusive rows do not promote trades.
 - Fundstrat: Chrome-authenticated latest research review supports staged confirmation: tech trend intact, but broadening/value rotation argues against chasing full mega-cap AI size pre-Fed.
 - Notion Research Queue: fetched; no writeback needed.
@@ -18,8 +18,8 @@ Candidate-only packet. No trades executed. No option contracts selected.
 ## Act If Green
 | Ticker | Updated band | Model ref | First tranche | Existing exposure | Post-band exposure | Funding | Placement candidate | Do-nothing cost |
 | --- | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |
-| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $94,821 (5.2%) | 10.6%-13.6% | IVES $67,613, SMH $8,478, MAGS $381, GRNY $70,937 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
-| MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $34,442 (1.9%) | 3.2%-4.0% | GRNY $2,084 | Fidelity / ROLLOVER IRA - RamBalusu *****6333 / traditional | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| GOOGL | $100,000-$155,000 | $100,000-$155,000 | $50,000-$108,500 | $94,933 (5.2%) | 10.6%-13.6% | IVES $68,091, SMH $8,068, MAGS $381, GRNY $70,755 | Fidelity / Joint WROS - TOD *****2063 / taxable | GOOGL can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
+| MSFT | $25,000-$40,000 | $25,000-$40,000 | $12,500-$28,000 | $34,455 (1.9%) | 3.2%-4.0% | GRNY $2,093 | Fidelity / ROLLOVER IRA - RamBalusu *****6333 / traditional | MSFT can still re-rate if the Fed reaction and AI tape turn green, but waiting avoids forcing a full add into mixed breadth, slightly higher yields, and unresolved source/flow checks. |
 
 Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are not hostile, and live UW/source review is not contradictory.
 
@@ -53,16 +53,16 @@ Green gate: deploy only after the Fed reaction if QQQ/SPY hold, yields/oil are n
 ## Higher Quality Pullbacks
 | Ticker | Price | 52w high | Discount | Exposure | Sources | Disconfirmation |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| MSFT | $373 | $555 | -32.8% | $34,442 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
-| GOOGL | $357 | $409 | -12.5% | $94,821 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
-| FN | $562 | $749 | -24.9% | $7,036 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
-| AVGO | $378 | $495 | -23.7% | $44,561 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
-| NVDA | $200 | $237 | -15.4% | $242,722 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
+| MSFT | $373 | $555 | -32.8% | $34,455 | mark l. newton, cmt B | Do not deploy if the laggard thesis remains only valuation-based without post-Fed live confirmation. |
+| GOOGL | $357 | $409 | -12.5% | $94,933 | Fundstrat top-list, Notion Working WATCH, SEC 424B5 via manual off-hours alt-data scout 2026-06-09, fundstrat D, mark l. newton, cmt B, mark l. newton, cmt D, repo research queue Queued | Do not deploy if QQQ/SPY, yields, oil, source review, or flow contradict the staged add after the Fed reaction. |
+| FN | $562 | $749 | -24.9% | $7,016 | Fundstrat top-list | Advance only if optical/AI infrastructure evidence and flow beat the base packet. |
+| AVGO | $378 | $495 | -23.7% | $44,539 | Notion Working STAGE, repo research queue Queued, user update 2026-06-05: important AVGO date passed | Advance only if post-Fed semi tape and fresh flow beat GOOGL/MSFT on capital efficiency; prefer swap-funded review before net-new AI. |
+| NVDA | $200 | $237 | -15.4% | $242,713 | chart only | Already large; pullback is not enough unless target/sizing room and flow support it. |
 | AMZN | $238 | $279 | -14.4% | $21,277 | chart only | Secondary add only if live source review is stronger than the funded GOOGL/MSFT packet. |
-| VRT | $335 | $380 | -11.9% | $13,680 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
+| VRT | $335 | $380 | -11.9% | $13,565 | chart only | Advance only if power/cooling flow and entry quality beat the base packet. |
 
 ## Full Watchlist Screen
-- Screened rows with chart data: 131.
+- Screened rows with chart data: 136.
 - Not checked: GC, SOX, SPX, TNX, VIRTUAL.
 
 TLDR: Current plan is amber pre-Fed: keep the GOOGL/MSFT rotation live, use reduced bands only if gates turn green, and treat AVGO as the top secondary swap review.

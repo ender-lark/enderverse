@@ -2,75 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:31:28.615326Z",
-      "summary": "full cockpit build failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
-            "as_of": "2026-06-23T13:53:45.620447+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:31:49.215362Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-23T14:33:31.569189Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "e82231086f4132977a67df5ff04a5075cb87a8da45e8c38c70a54e4e86bafead",
-            "as_of": "2026-06-23T14:33:24.428548+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "668717fc7e74a944fa56c04219c409da11bbaae85bf11ca6f11abd3f84794fec",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -5879,7 +5810,81 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T12:15:51.328130Z",
       "summary": "pre-market source intake success: Gmail full-body Fundstrat checked 10 recent IDs/threads; landed 8 compact Upticks rows DAL ALL IRM adds, ORCL GILD deletes, BABA CRWV ETHA watch/hold; source-call cache added 8; Drive drop empty; Chrome available but no new detail rows beyond already-landed Jul1 QQQ/Jun30 macro/KIE/gold; UW outside-regular dark pool checked empty for DAL/ALL/IRM/ORCL/GILD 1M-plus premium filter; broker position cache unchanged because no valid upload supplied; Notion writes 0; dark/stale lanes Social Watch not_checked, broad UW not fully refreshed, post-open evidence gate remains failed-latest unrelated"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-preopen",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:21:06.210475Z",
+      "summary": "FS inbox catch-up preopen started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:21:35.366854Z",
+      "summary": "investing-os-broker-position-intake started"
+    },
+    {
+      "routine_id": "investing-os-broker-position-intake",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-01T12:24:56.143682Z",
+      "summary": "broker position intake succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/snaptrade_book_refresh.py",
+          "--refresh-dashboard"
+        ],
+        "artifact_boundaries": [
+          {
+            "path": "src/positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "e28d0c55af6669a305443e56845baedd1d34a268041810de5f2072464c41659e",
+            "as_of": "2026-07-01",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "5a515a3e3ec473f39eca2cacd07dcebfe13281338a0053e75604fe982f6f90ee",
+            "changed": true
+          },
+          {
+            "path": "src/account_positions.json",
+            "as_of_field": "snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "9d3857e6f3552061ab66d41e98f96e44cfee259dd88ba63cc49fa9e79e052bed",
+            "as_of": "2026-07-01",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "6a51474c6d58a2121e639b44160c000c7bd67d48e36e9551f825384caba13003",
+            "changed": true
+          },
+          {
+            "path": "src/position_reconciliation.json",
+            "as_of_field": "current_snapshot_date",
+            "freshness": "same_et_session_day",
+            "present": true,
+            "missing": false,
+            "content_hash": "27de8d292cdb47616901f0c333fa9ef4adf548e32a244edb7b800ea35b875e2d",
+            "as_of": "2026-07-01",
+            "fresh": true,
+            "committed": false,
+            "committed_sha": "",
+            "previous_content_hash": "e9c4e62512746879e0ca5456b6200d598d0b128fba4572fd4a45261cf7725f2c",
+            "changed": true
+          }
+        ]
+      },
+      "boundary_outcome": "produced_fresh"
     }
   ],
-  "updated_at": "2026-07-01T12:15:51.328130Z"
+  "updated_at": "2026-07-01T12:24:56.143682Z"
 }
