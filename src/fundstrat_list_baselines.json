@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-30T00:48:07.210Z",
+  "generated_at": "2026-07-02T00:59:03.313Z",
   "source": "authenticated Fundstrat Chrome deep crawl compact baseline",
   "raw_member_text_stored": false,
   "raw_tables_stored": false,
@@ -10,21 +10,20 @@
       "target_id": "macro_flashinsights",
       "checked_url": "https://fundstratdirect.com/members/flashinsights/",
       "visible_dates": [
+        "July 1, 2026",
+        "2:13PM",
+        "11:02AM",
+        "10:42AM",
+        "10:41AM",
+        "10:40AM",
+        "June 30, 2026",
+        "11:33AM",
+        "11:32AM",
+        "11:31AM",
         "June 29, 2026",
-        "12:32PM",
-        "11:07AM",
-        "June 26, 2026",
-        "5:12PM",
-        "12:12PM",
-        "12:11PM",
-        "June 25, 2026",
-        "1:15PM",
-        "1:00PM",
-        "12:46PM",
-        "June 24, 2026",
-        "4:18PM"
+        "12:32PM"
       ],
-      "page_signature": "1b3e3908",
+      "page_signature": "395b9dc0",
       "tables": [
         {
           "headers": [
@@ -34,23 +33,21 @@
           ],
           "row_count": 1,
           "tickers_or_assets": [],
-          "visible_dates": [],
           "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "569665c3"
         }
       ],
-      "portfolio_overlaps": [
-        "MAGS",
-        "MSFT",
-        "QQQ",
-        "RSP"
-      ],
+      "portfolio_overlaps": [],
       "watch_interest_overlaps": []
     },
     {
       "target_id": "crypto_flashinsights",
       "checked_url": "https://fundstratdirect.com/members/crypto-flash-insights/",
       "visible_dates": [
+        "July 1, 2026",
+        "11:29AM",
+        "June 30, 2026",
+        "1:41PM",
         "June 29, 2026",
         "10:10AM",
         "June 22, 2026",
@@ -66,15 +63,10 @@
         "12:11PM",
         "June 1, 2026",
         "9:45AM",
-        "May 29, 2026",
-        "12:46PM",
-        "May 18, 2026",
-        "10:11AM",
         "2:00PM",
-        "11:00AM",
-        "20:45"
+        "11:00AM"
       ],
-      "page_signature": "c880ea43",
+      "page_signature": "5ed35cfb",
       "tables": [
         {
           "headers": [
@@ -82,61 +74,35 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 7,
-          "tickers_or_assets": [
-            "BTC",
-            "BUIDL",
-            "ETH",
-            "HYPE",
-            "PURR",
-            "SOL",
-            "XLK"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.67%",
-            "+2.07%",
-            "+8.02%",
-            "+7.22%",
-            "+4.63%",
-            "+1.68%"
-          ],
-          "signature": "fb791972"
+          "row_count": 1,
+          "tickers_or_assets": [],
+          "weights_or_percents": [],
+          "signature": "8b810dd0"
         }
       ],
-      "portfolio_overlaps": [
-        "BTC",
-        "ETH",
-        "HYPE",
-        "MSTR",
-        "SOL",
-        "XLK"
-      ],
+      "portfolio_overlaps": [],
       "watch_interest_overlaps": []
     },
     {
       "target_id": "latest_research_core",
       "checked_url": "https://fundstratdirect.com/members/latest-research/",
       "visible_dates": [
+        "July 1, 2026",
+        "6:19PM",
+        "4:17PM",
+        "7:50AM",
+        "7:46AM",
+        "June 30, 2026",
+        "10:02PM",
+        "7:29PM",
+        "6:51PM",
+        "9:09AM",
         "June 29, 2026",
-        "6:20PM",
-        "10:42AM",
-        "9:10AM",
-        "June 27, 2026",
-        "5:00PM",
-        "June 26, 2026",
-        "7:55PM",
-        "7:50PM",
-        "4:58PM",
-        "11:32AM",
-        "9:04AM",
-        "June 25, 2026",
-        "8:18PM",
+        "10:32PM",
         "2:00PM",
-        "11:00AM",
-        "16:20"
+        "11:00AM"
       ],
-      "page_signature": "9e88bee4",
+      "page_signature": "40838143",
       "tables": [
         {
           "headers": [
@@ -149,34 +115,32 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "817e3962"
         }
       ],
       "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
         "SMH"
@@ -184,14 +148,28 @@
       "watch_interest_overlaps": []
     },
     {
-      "target_id": "stock_lists_latest",
-      "checked_url": "https://fundstratdirect.com/members/stock-lists/",
+      "target_id": "latest_videos_and_webinars",
+      "checked_url": "https://fundstratdirect.com/members/latest-videos/ | https://fundstratdirect.com/members/latest-research/?category=latest-videos",
       "visible_dates": [
+        "July 1, 2026",
+        "6:19PM",
+        "4:17PM",
+        "June 30, 2026",
+        "10:02PM",
+        "7:48PM",
+        "7:29PM",
+        "June 29, 2026",
+        "10:32PM",
+        "6:20PM",
+        "June 26, 2026",
+        "7:55PM",
+        "7:50PM",
+        "June 25, 2026",
+        "8:18PM",
         "2:00PM",
-        "11:00AM",
-        "16:20"
+        "11:00AM"
       ],
-      "page_signature": "072b398c",
+      "page_signature": "08c8b5c7|e1f79676",
       "tables": [
         {
           "headers": [
@@ -204,38 +182,88 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "817e3962"
         }
       ],
       "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "SPY"
+        "SMH"
+      ],
+      "watch_interest_overlaps": [],
+      "blocker": "https://fundstratdirect.com/members/latest-videos/: page not found; no visible transcript/caption/companion indicator on listing pages; sampled video/detail candidates exposed no transcript/captions; listing/detail text is discovery-only for video rows"
+    },
+    {
+      "target_id": "stock_lists_latest",
+      "checked_url": "https://fundstratdirect.com/members/stock-lists/",
+      "visible_dates": [
+        "2:00PM",
+        "11:00AM"
+      ],
+      "page_signature": "14e1c7ac",
+      "tables": [
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "a23f2a2a"
+        }
+      ],
+      "portfolio_overlaps": [
+        "MAGS",
+        "MSTR",
+        "QQQ",
+        "RSP",
+        "SMH"
       ],
       "watch_interest_overlaps": []
     },
@@ -243,7 +271,8 @@
       "target_id": "upticks_stock_list",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=upticks-stock-list | https://fundstratdirect.com/members/stock-lists/?category=upticks-performance | https://fundstratdirect.com/members/stock-lists/?category=upticks-daily-technical-analysis | https://fundstratdirect.com/members/stock-lists/?category=upticks-historical",
       "visible_dates": [
-        "16:20",
+        "June 30, 2026",
+        "6:51PM",
         "May 29, 2026",
         "2:51PM",
         "April 17, 2026",
@@ -262,19 +291,15 @@
         "July 25, 2025",
         "1:18PM",
         "June 20, 2025",
-        "1:59PM",
-        "6/20/25",
-        "May 28, 2025",
-        "9:03PM",
-        "5/28/25",
-        "June 29, 2026",
+        "July 01, 2026",
         "January 1, 2026",
         "October 08, 2022",
         "January 01, 2026",
         "October 5, 2022",
-        "2:00PM"
+        "2:00PM",
+        "11:00AM"
       ],
-      "page_signature": "957aab01|0dd1a393|bead46cf|Timed out after 3000ms waiting for CDP command Runtime.evaluate.",
+      "page_signature": "af0b7ce5|db7c06ca|7c0dd816|16204214",
       "tables": [
         {
           "headers": [
@@ -299,65 +324,53 @@
             "JCI",
             "GEV",
             "GE",
-            "VST",
             "PWR",
+            "VST",
             "AMZN",
             "CSX",
             "BRK.B",
+            "HATHAWAY",
             "PH",
             "WMT",
+            "MTB",
             "ORCL",
             "MRK",
-            "MTB",
             "AMGN",
             "TT",
-            "MAR",
             "GS",
+            "MAR",
             "GILD",
             "BG",
             "SA",
-            "CRWV",
-            "APLD",
             "BABA",
-            "ETHA"
+            "APLD",
+            "CRWV",
+            "ETHA",
+            "ETF"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "2.58%",
-            "217.87%",
-            "8.40%",
-            "134.32%",
-            "3.81%",
-            "110.99%",
-            "1.84%",
-            "101.94%",
-            "1.50%",
-            "80.99%",
-            "5.64%",
-            "79.77%",
-            "-0.91%",
-            "58.67%",
-            "3.86%",
-            "57.43%",
-            "3.10%",
-            "48.77%",
-            "0.73%",
-            "31.53%",
-            "-0.53%",
-            "29.44%",
-            "24.46%",
-            "17.62%",
-            "-0.19%",
-            "14.71%",
-            "-0.04%",
-            "11.07%",
-            "0.82%",
-            "10.00%",
-            "0.62%",
-            "3.88%",
-            "0.51%"
+            "-1.08%",
+            "219.51%",
+            "0.99%",
+            "141.80%",
+            "-1.44%",
+            "116.36%",
+            "-0.54%",
+            "113.15%",
+            "-0.90%",
+            "86.57%",
+            "-3.45%",
+            "84.69%",
+            "-3.98%",
+            "52.35%",
+            "50.01%",
+            "1.19%",
+            "49.56%",
+            "1.68%",
+            "32.41%",
+            "-0.08%"
           ],
-          "signature": "6cd9140e"
+          "signature": "95f11cac"
         },
         {
           "headers": [
@@ -369,6 +382,8 @@
           ],
           "row_count": 26,
           "tickers_or_assets": [
+            "TICKER",
+            "ADDED",
             "AMZN",
             "BABA",
             "MAR",
@@ -376,6 +391,7 @@
             "BG",
             "WMT",
             "ETHA",
+            "ETF",
             "BRK.B",
             "GS",
             "MTB",
@@ -396,34 +412,29 @@
             "CRS",
             "VST"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.10%",
-            "0.78%",
-            "-0.64%",
-            "8.40%",
-            "-1.30%",
-            "-0.91%",
-            "2.94%",
-            "-0.53%",
-            "0.06%",
-            "0.82%",
-            "0.62%",
-            "-1.21%",
-            "-0.04%",
-            "0.73%",
-            "5.64%",
-            "1.50%",
-            "3.86%",
-            "0.51%",
-            "-3.55%",
-            "1.84%",
-            "-1.17%",
-            "3.81%",
-            "-0.19%",
-            "2.58%"
+            "1.19%",
+            "2.05%",
+            "-0.61%",
+            "0.99%",
+            "-1.72%",
+            "-4.17%",
+            "2.35%",
+            "-0.08%",
+            "0.81%",
+            "1.66%",
+            "-0.22%",
+            "-0.29%",
+            "-2.44%",
+            "1.68%",
+            "-3.45%",
+            "-0.90%",
+            "-1.46%",
+            "-3.98%",
+            "-1.34%",
+            "-4.34%"
           ],
-          "signature": "08153d46"
+          "signature": "58510d02"
         },
         {
           "headers": [
@@ -436,28 +447,27 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "a23f2a2a"
         },
         {
           "headers": [
@@ -482,65 +492,53 @@
             "JCI",
             "GEV",
             "GE",
-            "VST",
             "PWR",
+            "VST",
             "AMZN",
             "CSX",
             "BRK.B",
+            "HATHAWAY",
             "PH",
             "WMT",
+            "MTB",
             "ORCL",
             "MRK",
-            "MTB",
             "AMGN",
             "TT",
-            "MAR",
             "GS",
+            "MAR",
             "GILD",
             "BG",
             "SA",
-            "CRWV",
-            "APLD",
             "BABA",
-            "ETHA"
+            "APLD",
+            "CRWV",
+            "ETHA",
+            "ETF"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "2.58%",
-            "217.87%",
-            "8.40%",
-            "134.32%",
-            "3.81%",
-            "110.99%",
-            "1.84%",
-            "101.94%",
-            "1.50%",
-            "80.99%",
-            "5.64%",
-            "79.77%",
-            "-0.91%",
-            "58.67%",
-            "3.86%",
-            "57.43%",
-            "3.10%",
-            "48.77%",
-            "0.73%",
-            "31.53%",
-            "-0.53%",
-            "29.44%",
-            "24.46%",
-            "17.62%",
-            "-0.19%",
-            "14.71%",
-            "-0.04%",
-            "11.07%",
-            "0.82%",
-            "10.00%",
-            "0.62%",
-            "3.88%",
-            "0.51%"
+            "-1.08%",
+            "219.51%",
+            "0.99%",
+            "141.80%",
+            "-1.44%",
+            "116.36%",
+            "-0.54%",
+            "113.15%",
+            "-0.90%",
+            "86.57%",
+            "-3.45%",
+            "84.69%",
+            "-3.98%",
+            "52.35%",
+            "50.01%",
+            "1.19%",
+            "49.56%",
+            "1.68%",
+            "32.41%",
+            "-0.08%"
           ],
-          "signature": "6cd9140e"
+          "signature": "95f11cac"
         },
         {
           "headers": [
@@ -553,6 +551,10 @@
           ],
           "row_count": 26,
           "tickers_or_assets": [
+            "TICKER",
+            "VS",
+            "SINCE",
+            "ADDED",
             "AMZN",
             "BABA",
             "MAR",
@@ -560,6 +562,7 @@
             "BG",
             "WMT",
             "ETHA",
+            "ETF",
             "BRK.B",
             "GS",
             "MTB",
@@ -576,48 +579,31 @@
             "CLS",
             "CRWV",
             "DELL",
-            "ORCL",
-            "CRS",
-            "VST"
+            "ORCL"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.10%",
-            "38.76%",
-            "0.78%",
-            "-8.51%",
-            "-0.64%",
-            "28.29%",
-            "8.40%",
-            "130.56%",
-            "-1.30%",
-            "13.08%",
-            "-0.91%",
-            "32.76%",
-            "2.94%",
-            "-46.50%",
-            "-0.53%",
-            "19.44%",
-            "0.06%",
-            "27.96%",
-            "0.82%",
-            "31.58%",
-            "0.62%",
-            "25.47%",
-            "-1.21%",
-            "17.92%",
-            "-0.04%",
-            "30.64%",
-            "0.73%",
-            "50.88%",
-            "5.64%",
-            "99.12%",
-            "1.50%",
-            "86.92%",
-            "45.00%",
-            "3.86%"
+            "1.19%",
+            "39.55%",
+            "2.05%",
+            "-6.62%",
+            "-0.61%",
+            "26.55%",
+            "0.99%",
+            "138.04%",
+            "-1.72%",
+            "9.47%",
+            "-4.17%",
+            "26.50%",
+            "2.35%",
+            "-46.70%",
+            "-0.08%",
+            "20.48%",
+            "0.81%",
+            "27.90%",
+            "1.66%",
+            "32.85%"
           ],
-          "signature": "ccb6e730"
+          "signature": "809c524e"
         },
         {
           "headers": [
@@ -653,6 +639,7 @@
             "KEYS",
             "PAYC",
             "PAYCOM",
+            "SOFTWARE",
             "INC",
             "SEDG",
             "TTD",
@@ -668,9 +655,9 @@
             "LRN",
             "ORLY",
             "ULTA",
-            "CASY"
+            "CASY",
+            "GIS"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "-22.86%",
             "-14.95%",
@@ -691,24 +678,9 @@
             "0.89%",
             "0.26%",
             "-21.21%",
-            "-18.44%",
-            "-14.02%",
-            "-15.33%",
-            "1.47%",
-            "0.84%",
-            "5.46%",
-            "6.13%",
-            "-10.38%",
-            "-2.47%",
-            "-15.05%",
-            "-7.14%",
-            "-7.95%",
-            "-0.04%",
-            "10.39%",
-            "18.30%",
-            "-7.94%"
+            "-18.44%"
           ],
-          "signature": "1b911b71"
+          "signature": "65e62677"
         },
         {
           "headers": [
@@ -721,6 +693,12 @@
           ],
           "row_count": 117,
           "tickers_or_assets": [
+            "TICKER",
+            "WHEN",
+            "ADDED",
+            "OUT",
+            "VS",
+            "SINCE",
             "GOOGL",
             "LBTYA",
             "NFLX",
@@ -747,15 +725,8 @@
             "KO",
             "KR",
             "MNST",
-            "PEP",
-            "SAM",
-            "AR",
-            "CCJ",
-            "CNR",
-            "HES",
-            "MPC"
+            "PEP"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "8.45%",
             "-6.09%",
@@ -767,33 +738,51 @@
             "-51.03%",
             "2.00%",
             "9.91%",
-            "-9.89%",
-            "-7.15%",
             "-23.24%",
             "-31.14%",
+            "-9.89%",
+            "-7.15%",
             "-45.72%",
             "-44.23%",
             "-8.33%",
             "-11.18%",
             "40.98%",
-            "34.75%",
-            "6.53%",
-            "0.51%",
-            "-4.27%",
-            "-1.50%",
-            "-8.24%",
-            "-5.47%",
-            "44.72%",
-            "52.29%",
-            "-4.37%",
-            "-12.47%",
-            "-55.96%",
-            "-69.98%",
-            "-9.97%",
-            "-9.84%",
-            "-11.79%"
+            "34.75%"
           ],
-          "signature": "520ef21c"
+          "signature": "d7ea85c0"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "a23f2a2a"
         },
         {
           "headers": [
@@ -803,57 +792,39 @@
           ],
           "row_count": 1,
           "tickers_or_assets": [],
-          "visible_dates": [],
           "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "ba2cb6b2"
         }
       ],
       "portfolio_overlaps": [
-        "AMZN",
-        "CCJ",
-        "CRS",
-        "ETHA",
+        "TSLA",
         "GEV",
-        "GOOGL",
+        "PWR",
+        "AMZN",
+        "ORCL",
         "GS",
+        "ETHA",
         "MAGS",
         "MSTR",
-        "MU",
-        "ORCL",
-        "PWR",
         "QQQ",
-        "RDDT",
         "RSP",
         "SMH",
-        "SPY",
-        "TSLA"
+        "GOOGL",
+        "RDDT"
       ],
       "watch_interest_overlaps": [],
-      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
+      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-performance: page not found; https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
     },
     {
       "target_id": "sector_allocation_current_outlook",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook",
       "visible_dates": [
-        "16:20",
         "June 11, 2026",
         "8:49AM",
         "2:00PM",
         "11:00AM"
       ],
-      "page_signature": "6bff0445",
+      "page_signature": "ead3de74",
       "tables": [
         {
           "headers": [
@@ -865,6 +836,8 @@
           ],
           "row_count": 12,
           "tickers_or_assets": [
+            "ETF",
+            "FSI",
             "XLV",
             "OW",
             "XLU",
@@ -879,7 +852,6 @@
             "XLE",
             "XLP"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "85%",
             "7.50%",
@@ -892,37 +864,25 @@
             "-2.0%",
             "30.90%",
             "31.40%",
-            "0.5%",
-            "8.90%",
-            "9.00%",
-            "0.1%",
-            "9.70%",
-            "9.80%",
-            "7.20%",
-            "7.30%",
-            "1.60%",
-            "4.10%",
-            "2.5%",
-            "1.50%",
-            "2.00%",
-            "2.80%",
-            "0.80%",
-            "4.50%",
-            "0.70%",
-            "-3.8%"
+            "0.5%"
           ],
-          "signature": "75557021"
+          "signature": "05949c69"
         },
         {
           "headers": [
             "SECTOR",
             "ETF",
-            "S&P WEIGHT",
+            "S&P\nWEIGHT",
             "FSI WEIGHT",
             "DELTA"
           ],
           "row_count": 12,
           "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "WEIGHT",
+            "FSI",
+            "DELTA",
             "XLV",
             "OW",
             "XLK",
@@ -937,7 +897,6 @@
             "XLP",
             "XLE"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "7.50%",
             "9.50%",
@@ -950,26 +909,9 @@
             "8.90%",
             "9.00%",
             "0.1%",
-            "9.70%",
-            "9.80%",
-            "7.20%",
-            "7.30%",
-            "1.60%",
-            "4.10%",
-            "2.5%",
-            "1.50%",
-            "2.00%",
-            "8.60%",
-            "6.60%",
-            "-2.0%",
-            "4.50%",
-            "0.70%",
-            "-3.8%",
-            "2.80%",
-            "0.80%",
-            "85%"
+            "9.70%"
           ],
-          "signature": "d1b4b3f2"
+          "signature": "0c674016"
         },
         {
           "headers": [
@@ -982,6 +924,7 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "ETF",
             "DRIV",
             "II",
             "NASDAQ",
@@ -992,62 +935,247 @@
             "ARKG",
             "IYT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.75%",
-            "-3.53%",
-            "3.75%",
-            "4.44%",
-            "-0.50%",
-            "2.77%",
-            "2.02%",
-            "26.72%",
-            "0.52%",
-            "3.35%"
+            "-2.10%",
+            "-3.90%",
+            "1.47%",
+            "7.04%",
+            "3.18%",
+            "5.57%",
+            "1.33%",
+            "27.27%",
+            "0.92%",
+            "2.72%"
           ],
-          "signature": "645b7f28"
+          "signature": "1a9e36f1"
+        }
+      ],
+      "portfolio_overlaps": [
+        "XLK"
+      ],
+      "watch_interest_overlaps": []
+    },
+    {
+      "target_id": "sector_allocation_prior_and_performance",
+      "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook | https://fundstratdirect.com/members/stock-lists/?category=etf-performance | https://fundstratdirect.com/members/stock-lists/?category=etf-sector | https://fundstratdirect.com/members/stock-lists/?category=etf-tools",
+      "visible_dates": [
+        "June 11, 2026",
+        "8:49AM",
+        "2:00PM",
+        "11:00AM",
+        "July 02, 2026",
+        "July 1, 2026",
+        "January 1, 2026",
+        "October 1, 2023",
+        "January 01, 2026",
+        "October 01, 2023"
+      ],
+      "page_signature": "ead3de74|93cb2b72|38ed68f0|9463f13f",
+      "tables": [
+        {
+          "headers": [
+            "Sector",
+            "ETF",
+            "S&P Weight",
+            "FSI Weight",
+            "Delta"
+          ],
+          "row_count": 12,
+          "tickers_or_assets": [
+            "ETF",
+            "FSI",
+            "XLV",
+            "OW",
+            "XLU",
+            "XLY",
+            "UW",
+            "XLK",
+            "XLC",
+            "XLF",
+            "XLI",
+            "XLRE",
+            "XLB",
+            "XLE",
+            "XLP"
+          ],
+          "weights_or_percents": [
+            "85%",
+            "7.50%",
+            "9.50%",
+            "2.0%",
+            "1.80%",
+            "3.80%",
+            "8.60%",
+            "6.60%",
+            "-2.0%",
+            "30.90%",
+            "31.40%",
+            "0.5%"
+          ],
+          "signature": "05949c69"
         },
         {
           "headers": [
+            "SECTOR",
             "ETF",
-            "LAST PRICE",
-            "DAILY %",
-            "PERFORMANCE VS S&P SINCE ADDED",
-            "DATE ADDED"
+            "S&P\nWEIGHT",
+            "FSI WEIGHT",
+            "DELTA"
+          ],
+          "row_count": 12,
+          "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "WEIGHT",
+            "FSI",
+            "DELTA",
+            "XLV",
+            "OW",
+            "XLK",
+            "XLU",
+            "XLC",
+            "XLF",
+            "XLI",
+            "XLRE",
+            "XLB",
+            "XLY",
+            "UW",
+            "XLP",
+            "XLE"
+          ],
+          "weights_or_percents": [
+            "7.50%",
+            "9.50%",
+            "2.0%",
+            "30.90%",
+            "31.40%",
+            "0.5%",
+            "1.80%",
+            "3.80%",
+            "8.90%",
+            "9.00%",
+            "0.1%",
+            "9.70%"
+          ],
+          "signature": "0c674016"
+        },
+        {
+          "headers": [
+            "Name",
+            "ETF",
+            "Last Price",
+            "Daily %",
+            "Performance vs S&P since added",
+            "Date Added"
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "ETF",
             "DRIV",
+            "II",
+            "NASDAQ",
             "CIBR",
+            "U.S",
             "IHF",
+            "ARK",
             "ARKG",
             "IYT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.75%",
-            "-3.53%",
-            "3.75%",
-            "4.44%",
-            "-0.50%",
-            "2.77%",
-            "2.02%",
-            "26.72%",
-            "0.52%",
-            "3.35%"
+            "-2.10%",
+            "-3.90%",
+            "1.47%",
+            "7.04%",
+            "3.18%",
+            "5.57%",
+            "1.33%",
+            "27.27%",
+            "0.92%",
+            "2.72%"
           ],
-          "signature": "0169ae6f"
+          "signature": "1a9e36f1"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
         },
         {
           "headers": [
             "Sector",
-            "TICKER"
+            "ETF",
+            "FSI Weight",
+            "Current Price",
+            "Shares to buy",
+            "Value $"
           ],
-          "row_count": 11,
+          "row_count": 12,
           "tickers_or_assets": [
+            "ETF",
+            "FSI",
             "HC",
             "XLV",
-            "OW",
             "IT",
             "XLK",
             "UT",
@@ -1063,24 +1191,45 @@
             "MT",
             "XLB",
             "CD",
-            "XLY",
-            "UW",
-            "CST",
-            "XLP"
+            "XLY"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "661f1650"
+          "weights_or_percents": [
+            "9.50%",
+            "31.40%",
+            "3.80%",
+            "9.00%",
+            "9.80%",
+            "7.30%",
+            "4.10%",
+            "2.00%",
+            "6.60%",
+            "0.70%",
+            "0.80%"
+          ],
+          "signature": "cae40438"
         },
         {
           "headers": [
             "SECTOR",
-            "TICKER"
+            "ETF",
+            "FSI WEIGHT",
+            "CURRENT PRICE",
+            "SHARES TO BUY",
+            "VALUE $"
           ],
-          "row_count": 11,
+          "row_count": 12,
           "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "FSI",
+            "WEIGHT",
+            "CURRENT",
+            "PRICE",
+            "SHARES",
+            "TO",
+            "BUY",
+            "VALUE",
             "XLV",
-            "OW",
             "XLK",
             "XLU",
             "XLC",
@@ -1089,179 +1238,56 @@
             "XLRE",
             "XLB",
             "XLY",
-            "UW",
-            "XLP",
-            "XLE"
+            "XLP"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d59d4c72"
+          "weights_or_percents": [
+            "9.50%",
+            "31.40%",
+            "3.80%",
+            "9.00%",
+            "9.80%",
+            "7.30%",
+            "4.10%",
+            "2.00%",
+            "6.60%",
+            "0.70%",
+            "0.80%"
+          ],
+          "signature": "dd62a872"
         },
         {
           "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
+            "Name",
+            "ETF",
+            "Current Price $",
+            "Shares To Buy/Sell",
+            "Date Added",
+            "Total"
           ],
-          "row_count": 10,
+          "row_count": 6,
           "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
+            "ETF",
+            "DRIV",
+            "II",
+            "NASDAQ",
+            "CIBR",
+            "U.S",
+            "IHF",
+            "ARK",
+            "ARKG",
+            "IYT"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
+          "weights_or_percents": [],
+          "signature": "74496c7b"
         }
       ],
       "portfolio_overlaps": [
-        "CIBR",
-        "DRIV",
-        "FN",
-        "IHF",
-        "MAGS",
-        "MSTR",
-        "MU",
-        "QQQ",
-        "RSP",
-        "SMH",
-        "XLF",
-        "XLI",
         "XLK",
-        "XLRE",
-        "XLU"
-      ],
-      "watch_interest_overlaps": []
-    },
-    {
-      "target_id": "sector_allocation_prior_and_performance",
-      "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-prior-outlooks | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-performance | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-sector | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-tools",
-      "visible_dates": [
-        "2:00PM",
-        "11:00AM",
-        "16:20"
-      ],
-      "page_signature": "1352bfaa|a97843a0|02fce78a|81c4f153",
-      "tables": [
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        }
-      ],
-      "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "SPY"
+        "SMH"
       ],
       "watch_interest_overlaps": []
     },
@@ -1269,11 +1295,11 @@
       "target_id": "large_cap_top_ideas",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=top-ideas-large-cap-stock-list | https://fundstratdirect.com/members/stock-lists/?category=top-ideas-large-cap-commentary",
       "visible_dates": [
-        "16:20",
         "2:00PM",
         "11:00AM",
         "July 2, 2026",
         "July 14, 2026",
+        "July 16, 2026",
         "July 21, 2026",
         "June 25, 2026",
         "June 16, 2026",
@@ -1283,10 +1309,9 @@
         "May 7, 2026",
         "April 30, 2026",
         "April 28, 2026",
-        "April 23, 2026",
-        "April 16, 2026"
+        "April 23, 2026"
       ],
-      "page_signature": "6b75314d|d3d4b288",
+      "page_signature": "2b03a1f4|f63c12f5",
       "tables": [
         {
           "headers": [
@@ -1299,31 +1324,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
             "AMD",
             "GS",
             "CAT",
-            "PWR",
-            "ANET"
+            "ANET",
+            "PWR"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.43%",
-            "60.57%",
-            "0.06%",
-            "9.70%",
-            "3.58%",
-            "3.54%",
-            "3.86%",
-            "-2.61%",
-            "3.90%",
-            "-5.67%"
+            "-6.89%",
+            "60.99%",
+            "0.81%",
+            "9.64%",
+            "-6.87%",
+            "-0.61%",
+            "-1.92%",
+            "-4.02%",
+            "-3.98%",
+            "-5.76%"
           ],
-          "signature": "53f2419c"
+          "signature": "d958043a"
         },
         {
           "headers": [
@@ -1335,21 +1358,28 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "SECTOR",
+            "CURRENT",
+            "PRICE",
+            "INTRADAY",
+            "CHANGE",
+            "DATE",
+            "ADDED",
             "AMD",
             "ANET",
             "GS",
             "PWR",
             "CAT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.43%",
-            "3.90%",
-            "0.06%",
-            "3.86%",
-            "3.58%"
+            "-6.89%",
+            "-1.92%",
+            "0.81%",
+            "-3.98%",
+            "-6.87%"
           ],
-          "signature": "2defe3d0"
+          "signature": "621f9ab8"
         },
         {
           "headers": [
@@ -1362,57 +1392,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
-            "TPL",
             "PLTR",
-            "ECHO",
             "NOC",
-            "MSTR"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "6.11%",
-            "3.42%",
-            "2.41%",
-            "1.54%",
-            "3.64%",
-            "0.98%",
-            "-0.80%",
-            "-2.36%",
-            "11.78%",
-            "-3.40%"
-          ],
-          "signature": "87e4d504"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "SECTOR",
-            "CURRENT PRICE",
-            "INTRADAY CHANGE",
-            "DATE ADDED"
-          ],
-          "row_count": 5,
-          "tickers_or_assets": [
             "TPL",
             "ECHO",
-            "NOC",
-            "PLTR",
             "MSTR"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "6.11%",
-            "3.64%",
-            "-0.80%",
-            "2.41%",
-            "11.78%"
+            "7.47%",
+            "10.09%",
+            "2.09%",
+            "2.35%",
+            "-5.17%",
+            "2.20%",
+            "-0.33%",
+            "1.31%",
+            "6.75%",
+            "-2.57%"
           ],
-          "signature": "2133425e"
+          "signature": "467bed2d"
         },
         {
           "headers": [
@@ -1420,32 +1422,45 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
         }
       ],
       "portfolio_overlaps": [
         "AMD",
-        "ANET",
         "GS",
-        "MSTR",
+        "ANET",
+        "PWR",
         "PLTR",
-        "PWR"
+        "MSTR",
+        "MAGS",
+        "QQQ",
+        "RSP",
+        "SMH"
       ],
       "watch_interest_overlaps": []
     },
@@ -1453,11 +1468,11 @@
       "target_id": "smid_cap_top_ideas",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=top-ideas-smid-cap-stock-list | https://fundstratdirect.com/members/stock-lists/?category=top-ideas-smid-cap-commentary",
       "visible_dates": [
-        "16:20",
         "2:00PM",
         "11:00AM",
         "July 2, 2026",
         "July 14, 2026",
+        "July 16, 2026",
         "July 21, 2026",
         "June 25, 2026",
         "June 16, 2026",
@@ -1467,10 +1482,9 @@
         "May 7, 2026",
         "April 30, 2026",
         "April 28, 2026",
-        "April 23, 2026",
-        "April 16, 2026"
+        "April 23, 2026"
       ],
-      "page_signature": "75a9a446|02db597e",
+      "page_signature": "1236ca39|5120d0af",
       "tables": [
         {
           "headers": [
@@ -1483,8 +1497,7 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
@@ -1496,20 +1509,19 @@
             "VMI",
             "MLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.12%",
-            "79.67%",
-            "5.09%",
-            "59.27%",
-            "1.13%",
-            "44.23%",
-            "0.81%",
-            "1.77%",
-            "-4.19%",
-            "-7.76%"
+            "-7.48%",
+            "71.45%",
+            "-5.89%",
+            "52.44%",
+            "-4.72%",
+            "39.64%",
+            "-3.22%",
+            "-0.78%",
+            "-6.58%",
+            "-56.88%"
           ],
-          "signature": "9ba81c7d"
+          "signature": "ab4d4f31"
         },
         {
           "headers": [
@@ -1521,21 +1533,28 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "SECTOR",
+            "CURRENT",
+            "PRICE",
+            "INTRADAY",
+            "CHANGE",
+            "DATE",
+            "ADDED",
             "FIX",
             "STRL",
             "IESC",
             "VMI",
             "MLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "5.09%",
-            "1.12%",
-            "1.13%",
-            "0.81%",
-            "-4.19%"
+            "-5.89%",
+            "-7.48%",
+            "-4.72%",
+            "-3.22%",
+            "-6.58%"
           ],
-          "signature": "bd14641e"
+          "signature": "5b6f326a"
         },
         {
           "headers": [
@@ -1548,57 +1567,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
-            "ECHO",
             "AVAV",
-            "WFRD",
-            "UUUU",
-            "KTOS"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "3.64%",
-            "0.98%",
-            "1.88%",
-            "-1.15%",
-            "-2.21%",
-            "-4.23%",
-            "-0.21%",
-            "-20.15%",
-            "-0.53%",
-            "-27.24%"
-          ],
-          "signature": "780ac0b8"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "SECTOR",
-            "CURRENT PRICE",
-            "INTRADAY CHANGE",
-            "DATE ADDED"
-          ],
-          "row_count": 5,
-          "tickers_or_assets": [
-            "KTOS",
-            "UUUU",
             "ECHO",
             "WFRD",
-            "AVAV"
+            "KTOS",
+            "UUUU"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "-0.53%",
-            "-0.21%",
-            "3.64%",
-            "-2.21%",
-            "1.88%"
+            "4.02%",
+            "20.76%",
+            "-0.33%",
+            "1.31%",
+            "-1.58%",
+            "-5.07%",
+            "7.10%",
+            "-17.26%",
+            "-1.86%",
+            "-22.12%"
           ],
-          "signature": "eafbd5ff"
+          "signature": "1d097a19"
         },
         {
           "headers": [
@@ -1611,53 +1602,39 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "46ef9251"
         }
       ],
       "portfolio_overlaps": [
+        "STRL",
         "FIX",
         "IESC",
+        "UUUU",
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "STRL",
-        "UUUU"
+        "SMH"
       ],
       "watch_interest_overlaps": []
     },
@@ -1680,16 +1657,13 @@
         "November 25, 2025",
         "November 5, 2025",
         "12:00PM",
-        "16:20",
-        "June 04, 2026",
-        "June 29, 2026",
-        "16:45",
+        "June 30, 2026",
+        "July 01, 2026",
         "January 01, 2026",
         "January 13, 2025",
-        "January 16, 2023",
-        "20:45"
+        "January 16, 2023"
       ],
-      "page_signature": "cf0a5e3f|c2b34dd7|673e8f6e|cc7c7fdf|0eade2e4|ec272906",
+      "page_signature": "235ed11c|8609d907|0f338d26|8a2cbc41|95e478b4|f55be1fd",
       "tables": [
         {
           "headers": [
@@ -1697,33 +1671,10 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
+          "row_count": 1,
+          "tickers_or_assets": [],
+          "weights_or_percents": [],
+          "signature": "442527af"
         },
         {
           "headers": [
@@ -1731,11 +1682,27 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
+          "row_count": 8,
+          "tickers_or_assets": [
+            "BTC",
+            "BUIDL",
+            "ETH",
+            "HYPE",
+            "PURR",
+            "SOL",
+            "USDC",
+            "XLK"
+          ],
+          "weights_or_percents": [
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
+          ],
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -1754,16 +1721,15 @@
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%",
+            "50.00%",
             "100%"
           ],
-          "signature": "a5b2f653"
+          "signature": "6b66844c"
         },
         {
           "headers": [
@@ -1776,22 +1742,27 @@
           ],
           "row_count": 6,
           "tickers_or_assets": [
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "CURRENT",
+            "DATE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%",
+            "50.00%",
             "100%"
           ],
-          "signature": "9f808ef0"
+          "signature": "3ed80a0f"
         },
         {
           "headers": [
@@ -1803,21 +1774,26 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "WEIGHT",
+            "VALUE",
+            "QTY",
+            "ASSETS",
+            "PRICE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "aebde5f7"
+          "signature": "674ad848"
         },
         {
           "headers": [
@@ -1825,19 +1801,7 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
-        },
-        {
-          "headers": [
-            "Asset",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 7,
+          "row_count": 8,
           "tickers_or_assets": [
             "BTC",
             "BUIDL",
@@ -1845,18 +1809,19 @@
             "HYPE",
             "PURR",
             "SOL",
+            "USDC",
             "XLK"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.98%",
-            "+2.31%",
-            "+8.50%",
-            "+7.20%",
-            "+5.04%",
-            "+1.79%"
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
           ],
-          "signature": "594b662c"
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -1868,33 +1833,36 @@
             "REBALANCE DATE",
             "NOTES"
           ],
-          "row_count": 460,
+          "row_count": 465,
           "tickers_or_assets": [
+            "ACTION",
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "DATE",
+            "NOTES",
+            "USDC",
             "HYPE",
             "SOL",
             "ETH",
-            "BTC",
-            "USDC"
+            "BTC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
+            "50.00%",
+            "45.0%",
+            "50.0%",
             "5.00%",
-            "10.0%",
-            "5.0%",
             "3.00%",
             "7.00%",
-            "40.00%",
-            "45.00%",
+            "35.00%",
             "40.0%",
-            "45.0%",
-            "10.00%",
-            "44.0%",
-            "36.0%",
-            "36.00%",
-            "44.00%",
-            "7.0%"
+            "35.0%",
+            "45.00%",
+            "40.00%",
+            "10.0%"
           ],
-          "signature": "49f5c6e6"
+          "signature": "168f36d4"
         },
         {
           "headers": [
@@ -1902,7 +1870,7 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 7,
+          "row_count": 8,
           "tickers_or_assets": [
             "BTC",
             "BUIDL",
@@ -1910,18 +1878,19 @@
             "HYPE",
             "PURR",
             "SOL",
+            "USDC",
             "XLK"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.98%",
-            "+2.31%",
-            "+8.50%",
-            "+7.20%",
-            "+5.04%",
-            "+1.79%"
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
           ],
-          "signature": "594b662c"
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -1941,15 +1910,14 @@
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "20cbcdbe"
+          "signature": "33f06aae"
         },
         {
           "headers": [
@@ -1963,21 +1931,30 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "CURRENT",
+            "ASSETS",
+            "TO",
+            "BUY",
+            "SELL",
+            "VALUE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "2917b150"
+          "signature": "d1a1a034"
         },
         {
           "headers": [
@@ -1993,82 +1970,33 @@
           ],
           "row_count": 6,
           "tickers_or_assets": [
+            "FSI",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40%",
+            "35%",
             "7%",
             "3%",
             "5%",
-            "45%",
+            "50%",
             "100%"
           ],
-          "signature": "886ac1cf"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "ASSET",
-            "FSI WEIGHT*",
-            "CURRENT PRICE $**",
-            "CURRENT # ASSETS",
-            "TARGET # OF ASSETS",
-            "ASSETS TO BUY/SELL",
-            "CURRENT VALUE $",
-            "TARGET VALUE $"
-          ],
-          "row_count": 6,
-          "tickers_or_assets": [
-            "BTC",
-            "ETH",
-            "SOL",
-            "HYPE",
-            "USDC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "40%",
-            "7%",
-            "3%",
-            "5%",
-            "45%",
-            "100%"
-          ],
-          "signature": "7f78bc09"
-        },
-        {
-          "headers": [
-            "Asset",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
+          "signature": "5fa341dd"
         }
       ],
       "portfolio_overlaps": [
         "BTC",
         "ETH",
         "HYPE",
-        "MAGS",
-        "MSTR",
-        "MU",
-        "QQQ",
-        "RSP",
-        "SMH",
         "SOL",
-        "SPY",
         "XLK"
       ],
-      "watch_interest_overlaps": []
+      "watch_interest_overlaps": [],
+      "blocker": "https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-historical: page not found"
     }
   ]
 }

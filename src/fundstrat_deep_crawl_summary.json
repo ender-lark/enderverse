@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "routine_id": "investing-os-fundstrat-deep-crawl",
-  "generated_at": "2026-06-30T00:48:07.210Z",
+  "generated_at": "2026-07-02T00:59:03.313Z",
   "run_source": "scheduled",
-  "chrome_status": "available_logged_in",
+  "chrome_status": "available_logged_in_with_partial_timeouts",
   "raw_member_text_stored": false,
   "raw_tables_stored": false,
   "sections_checked": [
@@ -11,21 +11,27 @@
     "crypto_flashinsights",
     "latest_research_core",
     "stock_lists_latest",
-    "upticks_stock_list",
     "sector_allocation_current_outlook",
     "sector_allocation_prior_and_performance",
     "large_cap_top_ideas",
-    "smid_cap_top_ideas",
+    "smid_cap_top_ideas"
+  ],
+  "sections_checked_partial": [
+    "upticks_stock_list",
     "crypto_core_strategy"
   ],
   "sections_not_checked": [
     {
       "target_id": "latest_videos_and_webinars",
-      "blocker": "manifest latest-videos URL returned 404; category listing visible but no transcript/caption/companion text captured"
+      "blocker": "https://fundstratdirect.com/members/latest-videos/: page not found; no visible transcript/caption/companion indicator on listing pages; sampled video/detail candidates exposed no transcript/captions; listing/detail text is discovery-only for video rows"
     },
     {
       "target_id": "upticks_stock_list",
-      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
+      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-performance: page not found; https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
+    },
+    {
+      "target_id": "crypto_core_strategy",
+      "blocker": "https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-historical: page not found"
     }
   ],
   "rows_landed": [],
@@ -36,6 +42,7 @@
       "macro_flashinsights",
       "crypto_flashinsights",
       "latest_research_core",
+      "latest_videos_and_webinars",
       "stock_lists_latest",
       "upticks_stock_list",
       "sector_allocation_current_outlook",
@@ -44,192 +51,272 @@
       "smid_cap_top_ideas",
       "crypto_core_strategy"
     ],
-    "note": "Page/table signatures refreshed from compact extractor; no add/remove/weight/support-resistance diff was promoted to a daily-call row."
+    "note": "Compact baseline refreshed from bounded Chrome metadata. No add/remove/weight/support-resistance diff was promoted to a daily-call row."
   },
   "portfolio_watch_overlaps": [
     {
       "ticker": "MAGS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for macro_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MSFT",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for macro_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "QQQ",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for macro_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "RSP",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for macro_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "BTC",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "ETH",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "HYPE",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MSTR",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "SOL",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "XLK",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_flashinsights; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MAGS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MSTR",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MU",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "QQQ",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "RSP",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "SMH",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_research_core; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MAGS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MSTR",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MU",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "QQQ",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "RSP",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "SMH",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "SOL",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for latest_videos_and_webinars; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MAGS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MSTR",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "MU",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "QQQ",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "RSP",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "SMH",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
-      "ticker": "SPY",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for stock_lists_latest; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "AMZN",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "CCJ",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "CRS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
-    },
-    {
-      "ticker": "ETHA",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "ticker": "TSLA",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "GEV",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
-      "ticker": "GOOGL",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "ticker": "PWR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "AMZN",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "ORCL",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "GS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "ETHA",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MAGS",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
       "ticker": "MSTR",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
     },
     {
-      "ticker": "MU",
-      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; use as context only unless future diff changes posture/sizing/risk."
+      "ticker": "QQQ",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "RSP",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "SMH",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "GOOGL",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "RDDT",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for upticks_stock_list; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "XLK",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_current_outlook; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "XLK",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MAGS",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MSTR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "QQQ",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "RSP",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "SMH",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for sector_allocation_prior_and_performance; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "AMD",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "GS",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "ANET",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "PWR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "PLTR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MSTR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MAGS",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "QQQ",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "RSP",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "SMH",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for large_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "STRL",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "FIX",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "IESC",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "UUUU",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MAGS",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "MSTR",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "QQQ",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "RSP",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "SMH",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for smid_cap_top_ideas; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "BTC",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_core_strategy; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "ETH",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_core_strategy; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "HYPE",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_core_strategy; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "SOL",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_core_strategy; baseline/watch context only unless future diff changes posture/sizing/risk."
+    },
+    {
+      "ticker": "XLK",
+      "reason": "Appears in Fundstrat deep-crawl compact metadata for crypto_core_strategy; baseline/watch context only unless future diff changes posture/sizing/risk."
     }
   ],
   "watch_interest_overlaps": [],
   "action_priority": [
     {
-      "ticker": "QQQ",
-      "posture": "recheck_context_only",
+      "ticker": "QQQ/SMH/MAGS/RSP",
+      "posture": "context_only_recheck",
       "time_sensitivity": "next regular intake",
-      "evidence": "Macro FlashInsights/Latest Research visible June 29, 2026",
-      "implication": "Tech/growth exposure context remains active, but this deep crawl did not validate a new action-changing detail row."
+      "evidence": "July 1, 2026 Fundstrat FlashInsights/Latest Research/sector-list pages visible in logged-in Chrome",
+      "implication": "Growth/tech and sector baseline remains active, but this crawl did not validate a new action-changing compact row."
     },
     {
-      "ticker": "MSTR",
-      "posture": "watch_recheck_context_only",
-      "time_sensitivity": "same-week crypto-equity risk review",
-      "evidence": "Crypto FlashInsights visible June 29, 2026; stock-list metadata overlap",
-      "implication": "Keep crypto-equity proxy risk visible; no trade execution or new sizing call from this crawl."
+      "ticker": "MSTR/BTC/ETH/SOL/HYPE",
+      "posture": "crypto_sleeve_context_only",
+      "time_sensitivity": "same-week crypto risk review",
+      "evidence": "Crypto FlashInsights and crypto strategy tables visible; historical crypto category returned page-not-found",
+      "implication": "Keep crypto sleeve risk visible; no new sizing/leverage call without a validated weight/rebalance diff."
     },
     {
       "ticker": "UUUU",
       "posture": "monitor_only",
       "time_sensitivity": "baseline context",
-      "evidence": "SMID/related Top Ideas compact metadata visible June 30 UTC run",
-      "implication": "Keep existing MONITOR sleeve defined-risk rails; no alternate buy path."
+      "evidence": "SMID-Cap Top Ideas compact metadata visible July 1/2 browser run",
+      "implication": "Maintain existing MONITOR defined-risk rails; do not create alternate buy path from table overlap."
     }
   ],
   "sections": [
@@ -237,23 +324,22 @@
       "target_id": "macro_flashinsights",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/flashinsights/",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:48:45.357Z",
       "visible_dates": [
+        "July 1, 2026",
+        "2:13PM",
+        "11:02AM",
+        "10:42AM",
+        "10:41AM",
+        "10:40AM",
+        "June 30, 2026",
+        "11:33AM",
+        "11:32AM",
+        "11:31AM",
         "June 29, 2026",
-        "12:32PM",
-        "11:07AM",
-        "June 26, 2026",
-        "5:12PM",
-        "12:12PM",
-        "12:11PM",
-        "June 25, 2026",
-        "1:15PM",
-        "1:00PM",
-        "12:46PM",
-        "June 24, 2026",
-        "4:18PM"
+        "12:32PM"
       ],
-      "table_count": 1,
+      "page_signature": "395b9dc0",
       "tables": [
         {
           "headers": [
@@ -263,27 +349,39 @@
           ],
           "row_count": 1,
           "tickers_or_assets": [],
-          "visible_dates": [],
           "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "569665c3"
         }
       ],
-      "portfolio_overlaps": [
-        "MAGS",
-        "MSFT",
-        "QQQ",
-        "RSP"
-      ],
+      "portfolio_overlaps": [],
       "watch_interest_overlaps": [],
-      "action_implication": "Macro FlashInsights visible through June 29 12:32PM ET; overlaps QQQ/MAGS/RSP/SMH remain source context, no new deep-crawl row emitted.",
-      "blocker": null
+      "action_implication": "Macro FlashInsights visible; no new compact row unless complete card changes action/timing/risk.",
+      "blocker": null,
+      "pages": [
+        {
+          "url": "https://fundstratdirect.com/members/flashinsights/",
+          "final_url": "https://fundstratdirect.com/members/flashinsights/",
+          "signals": {
+            "logged_in": true,
+            "login_wall": false,
+            "page_not_found": false,
+            "text_length": 11273,
+            "transcript_or_caption_hint": false
+          },
+          "link_count": 20
+        }
+      ]
     },
     {
       "target_id": "crypto_flashinsights",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/crypto-flash-insights/",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:48:49.001Z",
       "visible_dates": [
+        "July 1, 2026",
+        "11:29AM",
+        "June 30, 2026",
+        "1:41PM",
         "June 29, 2026",
         "10:10AM",
         "June 22, 2026",
@@ -299,15 +397,10 @@
         "12:11PM",
         "June 1, 2026",
         "9:45AM",
-        "May 29, 2026",
-        "12:46PM",
-        "May 18, 2026",
-        "10:11AM",
         "2:00PM",
-        "11:00AM",
-        "20:45"
+        "11:00AM"
       ],
-      "table_count": 1,
+      "page_signature": "5ed35cfb",
       "tables": [
         {
           "headers": [
@@ -315,65 +408,53 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 7,
-          "tickers_or_assets": [
-            "BTC",
-            "BUIDL",
-            "ETH",
-            "HYPE",
-            "PURR",
-            "SOL",
-            "XLK"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.67%",
-            "+2.07%",
-            "+8.02%",
-            "+7.22%",
-            "+4.63%",
-            "+1.68%"
-          ],
-          "signature": "fb791972"
+          "row_count": 1,
+          "tickers_or_assets": [],
+          "weights_or_percents": [],
+          "signature": "8b810dd0"
         }
       ],
-      "portfolio_overlaps": [
-        "BTC",
-        "ETH",
-        "HYPE",
-        "MSTR",
-        "SOL",
-        "XLK"
-      ],
+      "portfolio_overlaps": [],
       "watch_interest_overlaps": [],
-      "action_implication": "Crypto FlashInsights visible through June 29 10:10AM ET with MSTR/BTC/STRC context; no new deep-crawl row emitted beyond existing intake lanes.",
-      "blocker": null
+      "action_implication": "Crypto FlashInsights visible; no new compact row unless crypto sleeve posture/risk changed.",
+      "blocker": null,
+      "pages": [
+        {
+          "url": "https://fundstratdirect.com/members/crypto-flash-insights/",
+          "final_url": "https://fundstratdirect.com/members/crypto-flash-insights/",
+          "signals": {
+            "logged_in": true,
+            "login_wall": false,
+            "page_not_found": false,
+            "text_length": 17200,
+            "transcript_or_caption_hint": false
+          },
+          "link_count": 20
+        }
+      ]
     },
     {
       "target_id": "latest_research_core",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/latest-research/",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:48:53.559Z",
       "visible_dates": [
+        "July 1, 2026",
+        "6:19PM",
+        "4:17PM",
+        "7:50AM",
+        "7:46AM",
+        "June 30, 2026",
+        "10:02PM",
+        "7:29PM",
+        "6:51PM",
+        "9:09AM",
         "June 29, 2026",
-        "6:20PM",
-        "10:42AM",
-        "9:10AM",
-        "June 27, 2026",
-        "5:00PM",
-        "June 26, 2026",
-        "7:55PM",
-        "7:50PM",
-        "4:58PM",
-        "11:32AM",
-        "9:04AM",
-        "June 25, 2026",
-        "8:18PM",
+        "10:32PM",
         "2:00PM",
-        "11:00AM",
-        "16:20"
+        "11:00AM"
       ],
-      "table_count": 1,
+      "page_signature": "40838143",
       "tables": [
         {
           "headers": [
@@ -386,66 +467,158 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "817e3962"
         }
       ],
       "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
         "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Latest Research listing visible through June 29 6:20PM/10:42AM/9:10AM; detail links were not stably exposed in the compact crawl, so no standard-article checked row emitted.",
-      "blocker": null
+      "action_implication": "Latest Research listing visible as discovery; detail-page row capture remains owned by fast-lane helpers.",
+      "blocker": null,
+      "pages": [
+        {
+          "url": "https://fundstratdirect.com/members/latest-research/",
+          "final_url": "https://fundstratdirect.com/members/latest-research/",
+          "signals": {
+            "logged_in": true,
+            "login_wall": false,
+            "page_not_found": false,
+            "text_length": 6301,
+            "transcript_or_caption_hint": false
+          },
+          "link_count": 20
+        }
+      ],
+      "detail_checks": [
+        {
+          "title": "First Word",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=first-word",
+          "visible_dates": [
+            "July 1, 2026",
+            "7:50AM",
+            "June 24, 2026",
+            "8:18PM",
+            "June 12, 2026",
+            "June 11, 2026",
+            "June 10, 2026",
+            "June 5, 2026",
+            "May 28, 2026",
+            "4:32PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Intraday Word",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=intraday-alert",
+          "visible_dates": [
+            "September 17, 2025",
+            "1:42PM",
+            "July 17, 2025",
+            "8:18PM",
+            "May 16, 2025",
+            "4:00PM",
+            "March 12, 2025",
+            "10:52AM",
+            "January 10, 2025",
+            "12:19PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Macro Minute Video",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=macro-minute",
+          "visible_dates": [
+            "July 1, 2026",
+            "4:17PM",
+            "June 30, 2026",
+            "7:48PM",
+            "June 25, 2026",
+            "7:58PM",
+            "June 24, 2026",
+            "8:00PM",
+            "June 23, 2026",
+            "9:10PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Outlooks",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=tom-lee-outlooks",
+          "visible_dates": [
+            "December 10, 2025",
+            "9:47PM",
+            "December 11, 2024",
+            "7:50AM",
+            "December 7, 2023",
+            "2:00PM",
+            "11:00AM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        }
+      ]
     },
     {
       "target_id": "latest_videos_and_webinars",
       "status": "not_checked",
       "checked_url": "https://fundstratdirect.com/members/latest-videos/ | https://fundstratdirect.com/members/latest-research/?category=latest-videos",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:49:05.081Z",
       "visible_dates": [
+        "July 1, 2026",
+        "6:19PM",
+        "4:17PM",
+        "June 30, 2026",
+        "10:02PM",
+        "7:48PM",
+        "7:29PM",
         "June 29, 2026",
+        "10:32PM",
         "6:20PM",
         "June 26, 2026",
         "7:55PM",
         "7:50PM",
         "June 25, 2026",
         "8:18PM",
-        "7:58PM",
-        "June 24, 2026",
-        "10:08PM",
-        "8:00PM",
-        "7:21PM",
-        "June 23, 2026",
-        "9:34PM",
-        "9:10PM",
-        "16:20"
+        "2:00PM",
+        "11:00AM"
       ],
-      "table_count": 1,
+      "page_signature": "08c8b5c7|e1f79676",
       "tables": [
         {
           "headers": [
@@ -458,54 +631,155 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "817e3962"
         }
       ],
       "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "SOL"
+        "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Video listing visible but transcript/caption/companion evidence not captured; leave discovery-only/not_checked.",
-      "blocker": "manifest latest-videos URL returned 404; category listing visible but no transcript/caption/companion text captured"
+      "action_implication": "Video listing discovery; checked only if transcript/captions/companion text visible.",
+      "blocker": "https://fundstratdirect.com/members/latest-videos/: page not found; no visible transcript/caption/companion indicator on listing pages; sampled video/detail candidates exposed no transcript/captions; listing/detail text is discovery-only for video rows",
+      "pages": [
+        {
+          "url": "https://fundstratdirect.com/members/latest-videos/",
+          "final_url": "https://fundstratdirect.com/members/latest-videos/",
+          "signals": {
+            "logged_in": true,
+            "login_wall": false,
+            "page_not_found": true,
+            "text_length": 132,
+            "transcript_or_caption_hint": false
+          },
+          "link_count": 20
+        },
+        {
+          "url": "https://fundstratdirect.com/members/latest-research/?category=latest-videos",
+          "final_url": "https://fundstratdirect.com/members/latest-research/?category=latest-videos",
+          "signals": {
+            "logged_in": true,
+            "login_wall": false,
+            "page_not_found": false,
+            "text_length": 6797,
+            "transcript_or_caption_hint": false
+          },
+          "link_count": 20
+        }
+      ],
+      "detail_checks": [
+        {
+          "title": "First Word",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=first-word",
+          "visible_dates": [
+            "July 1, 2026",
+            "7:50AM",
+            "June 24, 2026",
+            "8:18PM",
+            "June 12, 2026",
+            "June 11, 2026",
+            "June 10, 2026",
+            "June 5, 2026",
+            "May 28, 2026",
+            "4:32PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Intraday Word",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=intraday-alert",
+          "visible_dates": [
+            "September 17, 2025",
+            "1:42PM",
+            "July 17, 2025",
+            "8:18PM",
+            "May 16, 2025",
+            "4:00PM",
+            "March 12, 2025",
+            "10:52AM",
+            "January 10, 2025",
+            "12:19PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Macro Minute Video",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=macro-minute",
+          "visible_dates": [
+            "July 1, 2026",
+            "4:17PM",
+            "June 30, 2026",
+            "7:48PM",
+            "June 25, 2026",
+            "7:58PM",
+            "June 24, 2026",
+            "8:00PM",
+            "June 23, 2026",
+            "9:10PM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        },
+        {
+          "title": "Outlooks",
+          "url": "https://fundstratdirect.com/members/latest-research/?category=tom-lee-outlooks",
+          "visible_dates": [
+            "December 10, 2025",
+            "9:47PM",
+            "December 11, 2024",
+            "7:50AM",
+            "December 7, 2023",
+            "2:00PM",
+            "11:00AM"
+          ],
+          "detail_text_visible": true,
+          "transcript_or_caption_visible": false,
+          "page_not_found": false,
+          "error": null
+        }
+      ]
     },
     {
       "target_id": "stock_lists_latest",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:53:23.272Z",
       "visible_dates": [
         "2:00PM",
-        "11:00AM",
-        "16:20"
+        "11:00AM"
       ],
-      "table_count": 1,
+      "page_signature": "14e1c7ac",
       "tables": [
         {
           "headers": [
@@ -518,50 +792,48 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "a23f2a2a"
         }
       ],
       "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "SPY"
+        "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Compact page metadata refreshed; unchanged/discovery-only table evidence did not create a daily-call row.",
+      "action_implication": "Latest Stock Lists compact baseline refresh only; no daily-call row for unchanged tables.",
       "blocker": null
     },
     {
       "target_id": "upticks_stock_list",
       "status": "checked_partial",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=upticks-stock-list | https://fundstratdirect.com/members/stock-lists/?category=upticks-performance | https://fundstratdirect.com/members/stock-lists/?category=upticks-daily-technical-analysis | https://fundstratdirect.com/members/stock-lists/?category=upticks-historical",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:53:54.237Z",
       "visible_dates": [
-        "16:20",
+        "June 30, 2026",
+        "6:51PM",
         "May 29, 2026",
         "2:51PM",
         "April 17, 2026",
@@ -580,19 +852,15 @@
         "July 25, 2025",
         "1:18PM",
         "June 20, 2025",
-        "1:59PM",
-        "6/20/25",
-        "May 28, 2025",
-        "9:03PM",
-        "5/28/25",
-        "June 29, 2026",
+        "July 01, 2026",
         "January 1, 2026",
         "October 08, 2022",
         "January 01, 2026",
         "October 5, 2022",
-        "2:00PM"
+        "2:00PM",
+        "11:00AM"
       ],
-      "table_count": 9,
+      "page_signature": "af0b7ce5|db7c06ca|7c0dd816|16204214",
       "tables": [
         {
           "headers": [
@@ -617,65 +885,53 @@
             "JCI",
             "GEV",
             "GE",
-            "VST",
             "PWR",
+            "VST",
             "AMZN",
             "CSX",
             "BRK.B",
+            "HATHAWAY",
             "PH",
             "WMT",
+            "MTB",
             "ORCL",
             "MRK",
-            "MTB",
             "AMGN",
             "TT",
-            "MAR",
             "GS",
+            "MAR",
             "GILD",
             "BG",
             "SA",
-            "CRWV",
-            "APLD",
             "BABA",
-            "ETHA"
+            "APLD",
+            "CRWV",
+            "ETHA",
+            "ETF"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "2.58%",
-            "217.87%",
-            "8.40%",
-            "134.32%",
-            "3.81%",
-            "110.99%",
-            "1.84%",
-            "101.94%",
-            "1.50%",
-            "80.99%",
-            "5.64%",
-            "79.77%",
-            "-0.91%",
-            "58.67%",
-            "3.86%",
-            "57.43%",
-            "3.10%",
-            "48.77%",
-            "0.73%",
-            "31.53%",
-            "-0.53%",
-            "29.44%",
-            "24.46%",
-            "17.62%",
-            "-0.19%",
-            "14.71%",
-            "-0.04%",
-            "11.07%",
-            "0.82%",
-            "10.00%",
-            "0.62%",
-            "3.88%",
-            "0.51%"
+            "-1.08%",
+            "219.51%",
+            "0.99%",
+            "141.80%",
+            "-1.44%",
+            "116.36%",
+            "-0.54%",
+            "113.15%",
+            "-0.90%",
+            "86.57%",
+            "-3.45%",
+            "84.69%",
+            "-3.98%",
+            "52.35%",
+            "50.01%",
+            "1.19%",
+            "49.56%",
+            "1.68%",
+            "32.41%",
+            "-0.08%"
           ],
-          "signature": "6cd9140e"
+          "signature": "95f11cac"
         },
         {
           "headers": [
@@ -687,6 +943,8 @@
           ],
           "row_count": 26,
           "tickers_or_assets": [
+            "TICKER",
+            "ADDED",
             "AMZN",
             "BABA",
             "MAR",
@@ -694,6 +952,7 @@
             "BG",
             "WMT",
             "ETHA",
+            "ETF",
             "BRK.B",
             "GS",
             "MTB",
@@ -714,34 +973,29 @@
             "CRS",
             "VST"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.10%",
-            "0.78%",
-            "-0.64%",
-            "8.40%",
-            "-1.30%",
-            "-0.91%",
-            "2.94%",
-            "-0.53%",
-            "0.06%",
-            "0.82%",
-            "0.62%",
-            "-1.21%",
-            "-0.04%",
-            "0.73%",
-            "5.64%",
-            "1.50%",
-            "3.86%",
-            "0.51%",
-            "-3.55%",
-            "1.84%",
-            "-1.17%",
-            "3.81%",
-            "-0.19%",
-            "2.58%"
+            "1.19%",
+            "2.05%",
+            "-0.61%",
+            "0.99%",
+            "-1.72%",
+            "-4.17%",
+            "2.35%",
+            "-0.08%",
+            "0.81%",
+            "1.66%",
+            "-0.22%",
+            "-0.29%",
+            "-2.44%",
+            "1.68%",
+            "-3.45%",
+            "-0.90%",
+            "-1.46%",
+            "-3.98%",
+            "-1.34%",
+            "-4.34%"
           ],
-          "signature": "08153d46"
+          "signature": "58510d02"
         },
         {
           "headers": [
@@ -754,28 +1008,27 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
+          "signature": "a23f2a2a"
         },
         {
           "headers": [
@@ -800,65 +1053,53 @@
             "JCI",
             "GEV",
             "GE",
-            "VST",
             "PWR",
+            "VST",
             "AMZN",
             "CSX",
             "BRK.B",
+            "HATHAWAY",
             "PH",
             "WMT",
+            "MTB",
             "ORCL",
             "MRK",
-            "MTB",
             "AMGN",
             "TT",
-            "MAR",
             "GS",
+            "MAR",
             "GILD",
             "BG",
             "SA",
-            "CRWV",
-            "APLD",
             "BABA",
-            "ETHA"
+            "APLD",
+            "CRWV",
+            "ETHA",
+            "ETF"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "2.58%",
-            "217.87%",
-            "8.40%",
-            "134.32%",
-            "3.81%",
-            "110.99%",
-            "1.84%",
-            "101.94%",
-            "1.50%",
-            "80.99%",
-            "5.64%",
-            "79.77%",
-            "-0.91%",
-            "58.67%",
-            "3.86%",
-            "57.43%",
-            "3.10%",
-            "48.77%",
-            "0.73%",
-            "31.53%",
-            "-0.53%",
-            "29.44%",
-            "24.46%",
-            "17.62%",
-            "-0.19%",
-            "14.71%",
-            "-0.04%",
-            "11.07%",
-            "0.82%",
-            "10.00%",
-            "0.62%",
-            "3.88%",
-            "0.51%"
+            "-1.08%",
+            "219.51%",
+            "0.99%",
+            "141.80%",
+            "-1.44%",
+            "116.36%",
+            "-0.54%",
+            "113.15%",
+            "-0.90%",
+            "86.57%",
+            "-3.45%",
+            "84.69%",
+            "-3.98%",
+            "52.35%",
+            "50.01%",
+            "1.19%",
+            "49.56%",
+            "1.68%",
+            "32.41%",
+            "-0.08%"
           ],
-          "signature": "6cd9140e"
+          "signature": "95f11cac"
         },
         {
           "headers": [
@@ -871,6 +1112,10 @@
           ],
           "row_count": 26,
           "tickers_or_assets": [
+            "TICKER",
+            "VS",
+            "SINCE",
+            "ADDED",
             "AMZN",
             "BABA",
             "MAR",
@@ -878,6 +1123,7 @@
             "BG",
             "WMT",
             "ETHA",
+            "ETF",
             "BRK.B",
             "GS",
             "MTB",
@@ -894,48 +1140,31 @@
             "CLS",
             "CRWV",
             "DELL",
-            "ORCL",
-            "CRS",
-            "VST"
+            "ORCL"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.10%",
-            "38.76%",
-            "0.78%",
-            "-8.51%",
-            "-0.64%",
-            "28.29%",
-            "8.40%",
-            "130.56%",
-            "-1.30%",
-            "13.08%",
-            "-0.91%",
-            "32.76%",
-            "2.94%",
-            "-46.50%",
-            "-0.53%",
-            "19.44%",
-            "0.06%",
-            "27.96%",
-            "0.82%",
-            "31.58%",
-            "0.62%",
-            "25.47%",
-            "-1.21%",
-            "17.92%",
-            "-0.04%",
-            "30.64%",
-            "0.73%",
-            "50.88%",
-            "5.64%",
-            "99.12%",
-            "1.50%",
-            "86.92%",
-            "45.00%",
-            "3.86%"
+            "1.19%",
+            "39.55%",
+            "2.05%",
+            "-6.62%",
+            "-0.61%",
+            "26.55%",
+            "0.99%",
+            "138.04%",
+            "-1.72%",
+            "9.47%",
+            "-4.17%",
+            "26.50%",
+            "2.35%",
+            "-46.70%",
+            "-0.08%",
+            "20.48%",
+            "0.81%",
+            "27.90%",
+            "1.66%",
+            "32.85%"
           ],
-          "signature": "ccb6e730"
+          "signature": "809c524e"
         },
         {
           "headers": [
@@ -971,6 +1200,7 @@
             "KEYS",
             "PAYC",
             "PAYCOM",
+            "SOFTWARE",
             "INC",
             "SEDG",
             "TTD",
@@ -986,9 +1216,9 @@
             "LRN",
             "ORLY",
             "ULTA",
-            "CASY"
+            "CASY",
+            "GIS"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "-22.86%",
             "-14.95%",
@@ -1009,24 +1239,9 @@
             "0.89%",
             "0.26%",
             "-21.21%",
-            "-18.44%",
-            "-14.02%",
-            "-15.33%",
-            "1.47%",
-            "0.84%",
-            "5.46%",
-            "6.13%",
-            "-10.38%",
-            "-2.47%",
-            "-15.05%",
-            "-7.14%",
-            "-7.95%",
-            "-0.04%",
-            "10.39%",
-            "18.30%",
-            "-7.94%"
+            "-18.44%"
           ],
-          "signature": "1b911b71"
+          "signature": "65e62677"
         },
         {
           "headers": [
@@ -1039,6 +1254,12 @@
           ],
           "row_count": 117,
           "tickers_or_assets": [
+            "TICKER",
+            "WHEN",
+            "ADDED",
+            "OUT",
+            "VS",
+            "SINCE",
             "GOOGL",
             "LBTYA",
             "NFLX",
@@ -1065,15 +1286,8 @@
             "KO",
             "KR",
             "MNST",
-            "PEP",
-            "SAM",
-            "AR",
-            "CCJ",
-            "CNR",
-            "HES",
-            "MPC"
+            "PEP"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "8.45%",
             "-6.09%",
@@ -1085,33 +1299,51 @@
             "-51.03%",
             "2.00%",
             "9.91%",
-            "-9.89%",
-            "-7.15%",
             "-23.24%",
             "-31.14%",
+            "-9.89%",
+            "-7.15%",
             "-45.72%",
             "-44.23%",
             "-8.33%",
             "-11.18%",
             "40.98%",
-            "34.75%",
-            "6.53%",
-            "0.51%",
-            "-4.27%",
-            "-1.50%",
-            "-8.24%",
-            "-5.47%",
-            "44.72%",
-            "52.29%",
-            "-4.37%",
-            "-12.47%",
-            "-55.96%",
-            "-69.98%",
-            "-9.97%",
-            "-9.84%",
-            "-11.79%"
+            "34.75%"
           ],
-          "signature": "520ef21c"
+          "signature": "d7ea85c0"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "a23f2a2a"
         },
         {
           "headers": [
@@ -1121,60 +1353,42 @@
           ],
           "row_count": 1,
           "tickers_or_assets": [],
-          "visible_dates": [],
           "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "ba2cb6b2"
         }
       ],
       "portfolio_overlaps": [
-        "AMZN",
-        "CCJ",
-        "CRS",
-        "ETHA",
+        "TSLA",
         "GEV",
-        "GOOGL",
+        "PWR",
+        "AMZN",
+        "ORCL",
         "GS",
+        "ETHA",
         "MAGS",
         "MSTR",
-        "MU",
-        "ORCL",
-        "PWR",
         "QQQ",
-        "RDDT",
         "RSP",
         "SMH",
-        "SPY",
-        "TSLA"
+        "GOOGL",
+        "RDDT"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Upticks stock/performance/technical pages visible; historical subpage timed out in file-backed capture, so that subpage remains dark/not_checked.",
-      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
+      "action_implication": "Upticks compact baseline refresh; support/resistance/add/remove changes only.",
+      "blocker": "https://fundstratdirect.com/members/stock-lists/?category=upticks-performance: page not found; https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
     },
     {
       "target_id": "sector_allocation_current_outlook",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:56:25.986Z",
       "visible_dates": [
-        "16:20",
         "June 11, 2026",
         "8:49AM",
         "2:00PM",
         "11:00AM"
       ],
-      "table_count": 7,
+      "page_signature": "ead3de74",
       "tables": [
         {
           "headers": [
@@ -1186,6 +1400,8 @@
           ],
           "row_count": 12,
           "tickers_or_assets": [
+            "ETF",
+            "FSI",
             "XLV",
             "OW",
             "XLU",
@@ -1200,7 +1416,6 @@
             "XLE",
             "XLP"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "85%",
             "7.50%",
@@ -1213,37 +1428,25 @@
             "-2.0%",
             "30.90%",
             "31.40%",
-            "0.5%",
-            "8.90%",
-            "9.00%",
-            "0.1%",
-            "9.70%",
-            "9.80%",
-            "7.20%",
-            "7.30%",
-            "1.60%",
-            "4.10%",
-            "2.5%",
-            "1.50%",
-            "2.00%",
-            "2.80%",
-            "0.80%",
-            "4.50%",
-            "0.70%",
-            "-3.8%"
+            "0.5%"
           ],
-          "signature": "75557021"
+          "signature": "05949c69"
         },
         {
           "headers": [
             "SECTOR",
             "ETF",
-            "S&P WEIGHT",
+            "S&P\nWEIGHT",
             "FSI WEIGHT",
             "DELTA"
           ],
           "row_count": 12,
           "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "WEIGHT",
+            "FSI",
+            "DELTA",
             "XLV",
             "OW",
             "XLK",
@@ -1258,7 +1461,6 @@
             "XLP",
             "XLE"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
             "7.50%",
             "9.50%",
@@ -1271,26 +1473,9 @@
             "8.90%",
             "9.00%",
             "0.1%",
-            "9.70%",
-            "9.80%",
-            "7.20%",
-            "7.30%",
-            "1.60%",
-            "4.10%",
-            "2.5%",
-            "1.50%",
-            "2.00%",
-            "8.60%",
-            "6.60%",
-            "-2.0%",
-            "4.50%",
-            "0.70%",
-            "-3.8%",
-            "2.80%",
-            "0.80%",
-            "85%"
+            "9.70%"
           ],
-          "signature": "d1b4b3f2"
+          "signature": "0c674016"
         },
         {
           "headers": [
@@ -1303,6 +1488,7 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "ETF",
             "DRIV",
             "II",
             "NASDAQ",
@@ -1313,62 +1499,251 @@
             "ARKG",
             "IYT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.75%",
-            "-3.53%",
-            "3.75%",
-            "4.44%",
-            "-0.50%",
-            "2.77%",
-            "2.02%",
-            "26.72%",
-            "0.52%",
-            "3.35%"
+            "-2.10%",
+            "-3.90%",
+            "1.47%",
+            "7.04%",
+            "3.18%",
+            "5.57%",
+            "1.33%",
+            "27.27%",
+            "0.92%",
+            "2.72%"
           ],
-          "signature": "645b7f28"
+          "signature": "1a9e36f1"
+        }
+      ],
+      "portfolio_overlaps": [
+        "XLK"
+      ],
+      "watch_interest_overlaps": [],
+      "action_implication": "Sector Allocation current outlook compact baseline refresh only.",
+      "blocker": null
+    },
+    {
+      "target_id": "sector_allocation_prior_and_performance",
+      "status": "checked",
+      "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook | https://fundstratdirect.com/members/stock-lists/?category=etf-performance | https://fundstratdirect.com/members/stock-lists/?category=etf-sector | https://fundstratdirect.com/members/stock-lists/?category=etf-tools",
+      "checked_at": "2026-07-02T00:56:54.803Z",
+      "visible_dates": [
+        "June 11, 2026",
+        "8:49AM",
+        "2:00PM",
+        "11:00AM",
+        "July 02, 2026",
+        "July 1, 2026",
+        "January 1, 2026",
+        "October 1, 2023",
+        "January 01, 2026",
+        "October 01, 2023"
+      ],
+      "page_signature": "ead3de74|93cb2b72|38ed68f0|9463f13f",
+      "tables": [
+        {
+          "headers": [
+            "Sector",
+            "ETF",
+            "S&P Weight",
+            "FSI Weight",
+            "Delta"
+          ],
+          "row_count": 12,
+          "tickers_or_assets": [
+            "ETF",
+            "FSI",
+            "XLV",
+            "OW",
+            "XLU",
+            "XLY",
+            "UW",
+            "XLK",
+            "XLC",
+            "XLF",
+            "XLI",
+            "XLRE",
+            "XLB",
+            "XLE",
+            "XLP"
+          ],
+          "weights_or_percents": [
+            "85%",
+            "7.50%",
+            "9.50%",
+            "2.0%",
+            "1.80%",
+            "3.80%",
+            "8.60%",
+            "6.60%",
+            "-2.0%",
+            "30.90%",
+            "31.40%",
+            "0.5%"
+          ],
+          "signature": "05949c69"
         },
         {
           "headers": [
+            "SECTOR",
             "ETF",
-            "LAST PRICE",
-            "DAILY %",
-            "PERFORMANCE VS S&P SINCE ADDED",
-            "DATE ADDED"
+            "S&P\nWEIGHT",
+            "FSI WEIGHT",
+            "DELTA"
+          ],
+          "row_count": 12,
+          "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "WEIGHT",
+            "FSI",
+            "DELTA",
+            "XLV",
+            "OW",
+            "XLK",
+            "XLU",
+            "XLC",
+            "XLF",
+            "XLI",
+            "XLRE",
+            "XLB",
+            "XLY",
+            "UW",
+            "XLP",
+            "XLE"
+          ],
+          "weights_or_percents": [
+            "7.50%",
+            "9.50%",
+            "2.0%",
+            "30.90%",
+            "31.40%",
+            "0.5%",
+            "1.80%",
+            "3.80%",
+            "8.90%",
+            "9.00%",
+            "0.1%",
+            "9.70%"
+          ],
+          "signature": "0c674016"
+        },
+        {
+          "headers": [
+            "Name",
+            "ETF",
+            "Last Price",
+            "Daily %",
+            "Performance vs S&P since added",
+            "Date Added"
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "ETF",
             "DRIV",
+            "II",
+            "NASDAQ",
             "CIBR",
+            "U.S",
             "IHF",
+            "ARK",
             "ARKG",
             "IYT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.75%",
-            "-3.53%",
-            "3.75%",
-            "4.44%",
-            "-0.50%",
-            "2.77%",
-            "2.02%",
-            "26.72%",
-            "0.52%",
-            "3.35%"
+            "-2.10%",
+            "-3.90%",
+            "1.47%",
+            "7.04%",
+            "3.18%",
+            "5.57%",
+            "1.33%",
+            "27.27%",
+            "0.92%",
+            "2.72%"
           ],
-          "signature": "0169ae6f"
+          "signature": "1a9e36f1"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
+        },
+        {
+          "headers": [
+            "Ticker",
+            "Price",
+            "Chg%"
+          ],
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
+          ],
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
         },
         {
           "headers": [
             "Sector",
-            "TICKER"
+            "ETF",
+            "FSI Weight",
+            "Current Price",
+            "Shares to buy",
+            "Value $"
           ],
-          "row_count": 11,
+          "row_count": 12,
           "tickers_or_assets": [
+            "ETF",
+            "FSI",
             "HC",
             "XLV",
-            "OW",
             "IT",
             "XLK",
             "UT",
@@ -1384,24 +1759,45 @@
             "MT",
             "XLB",
             "CD",
-            "XLY",
-            "UW",
-            "CST",
-            "XLP"
+            "XLY"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "661f1650"
+          "weights_or_percents": [
+            "9.50%",
+            "31.40%",
+            "3.80%",
+            "9.00%",
+            "9.80%",
+            "7.30%",
+            "4.10%",
+            "2.00%",
+            "6.60%",
+            "0.70%",
+            "0.80%"
+          ],
+          "signature": "cae40438"
         },
         {
           "headers": [
             "SECTOR",
-            "TICKER"
+            "ETF",
+            "FSI WEIGHT",
+            "CURRENT PRICE",
+            "SHARES TO BUY",
+            "VALUE $"
           ],
-          "row_count": 11,
+          "row_count": 12,
           "tickers_or_assets": [
+            "SECTOR",
+            "ETF",
+            "FSI",
+            "WEIGHT",
+            "CURRENT",
+            "PRICE",
+            "SHARES",
+            "TO",
+            "BUY",
+            "VALUE",
             "XLV",
-            "OW",
             "XLK",
             "XLU",
             "XLC",
@@ -1410,199 +1806,72 @@
             "XLRE",
             "XLB",
             "XLY",
-            "UW",
-            "XLP",
-            "XLE"
+            "XLP"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d59d4c72"
+          "weights_or_percents": [
+            "9.50%",
+            "31.40%",
+            "3.80%",
+            "9.00%",
+            "9.80%",
+            "7.30%",
+            "4.10%",
+            "2.00%",
+            "6.60%",
+            "0.70%",
+            "0.80%"
+          ],
+          "signature": "dd62a872"
         },
         {
           "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
+            "Name",
+            "ETF",
+            "Current Price $",
+            "Shares To Buy/Sell",
+            "Date Added",
+            "Total"
           ],
-          "row_count": 10,
+          "row_count": 6,
           "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
+            "ETF",
+            "DRIV",
+            "II",
+            "NASDAQ",
+            "CIBR",
+            "U.S",
+            "IHF",
+            "ARK",
+            "ARKG",
+            "IYT"
           ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
+          "weights_or_percents": [],
+          "signature": "74496c7b"
         }
       ],
       "portfolio_overlaps": [
-        "CIBR",
-        "DRIV",
-        "FN",
-        "IHF",
-        "MAGS",
-        "MSTR",
-        "MU",
-        "QQQ",
-        "RSP",
-        "SMH",
-        "XLF",
-        "XLI",
         "XLK",
-        "XLRE",
-        "XLU"
-      ],
-      "watch_interest_overlaps": [],
-      "action_implication": "Sector Allocation current outlook table visible; XLK/XLF/XLV/XLU/XLC/XLI context refreshed as baseline, no action row without a validated stance/weight diff.",
-      "blocker": null
-    },
-    {
-      "target_id": "sector_allocation_prior_and_performance",
-      "status": "checked",
-      "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-prior-outlooks | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-performance | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-sector | https://fundstratdirect.com/members/stock-lists/?category=etf-outlook-tools",
-      "checked_at": "2026-06-30T00:48:07.210Z",
-      "visible_dates": [
-        "2:00PM",
-        "11:00AM",
-        "16:20"
-      ],
-      "table_count": 4,
-      "tables": [
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        }
-      ],
-      "portfolio_overlaps": [
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "SPY"
+        "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Compact page metadata refreshed; unchanged/discovery-only table evidence did not create a daily-call row.",
+      "action_implication": "Sector prior/performance/sector/tools compact baseline refresh only.",
       "blocker": null
     },
     {
       "target_id": "large_cap_top_ideas",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=top-ideas-large-cap-stock-list | https://fundstratdirect.com/members/stock-lists/?category=top-ideas-large-cap-commentary",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:57:11.743Z",
       "visible_dates": [
-        "16:20",
         "2:00PM",
         "11:00AM",
         "July 2, 2026",
         "July 14, 2026",
+        "July 16, 2026",
         "July 21, 2026",
         "June 25, 2026",
         "June 16, 2026",
@@ -1612,10 +1881,9 @@
         "May 7, 2026",
         "April 30, 2026",
         "April 28, 2026",
-        "April 23, 2026",
-        "April 16, 2026"
+        "April 23, 2026"
       ],
-      "table_count": 6,
+      "page_signature": "2b03a1f4|f63c12f5",
       "tables": [
         {
           "headers": [
@@ -1628,31 +1896,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
             "AMD",
             "GS",
             "CAT",
-            "PWR",
-            "ANET"
+            "ANET",
+            "PWR"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.43%",
-            "60.57%",
-            "0.06%",
-            "9.70%",
-            "3.58%",
-            "3.54%",
-            "3.86%",
-            "-2.61%",
-            "3.90%",
-            "-5.67%"
+            "-6.89%",
+            "60.99%",
+            "0.81%",
+            "9.64%",
+            "-6.87%",
+            "-0.61%",
+            "-1.92%",
+            "-4.02%",
+            "-3.98%",
+            "-5.76%"
           ],
-          "signature": "53f2419c"
+          "signature": "d958043a"
         },
         {
           "headers": [
@@ -1664,21 +1930,28 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "SECTOR",
+            "CURRENT",
+            "PRICE",
+            "INTRADAY",
+            "CHANGE",
+            "DATE",
+            "ADDED",
             "AMD",
             "ANET",
             "GS",
             "PWR",
             "CAT"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "3.43%",
-            "3.90%",
-            "0.06%",
-            "3.86%",
-            "3.58%"
+            "-6.89%",
+            "-1.92%",
+            "0.81%",
+            "-3.98%",
+            "-6.87%"
           ],
-          "signature": "2defe3d0"
+          "signature": "621f9ab8"
         },
         {
           "headers": [
@@ -1691,57 +1964,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
-            "TPL",
             "PLTR",
-            "ECHO",
             "NOC",
-            "MSTR"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "6.11%",
-            "3.42%",
-            "2.41%",
-            "1.54%",
-            "3.64%",
-            "0.98%",
-            "-0.80%",
-            "-2.36%",
-            "11.78%",
-            "-3.40%"
-          ],
-          "signature": "87e4d504"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "SECTOR",
-            "CURRENT PRICE",
-            "INTRADAY CHANGE",
-            "DATE ADDED"
-          ],
-          "row_count": 5,
-          "tickers_or_assets": [
             "TPL",
             "ECHO",
-            "NOC",
-            "PLTR",
             "MSTR"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "6.11%",
-            "3.64%",
-            "-0.80%",
-            "2.41%",
-            "11.78%"
+            "7.47%",
+            "10.09%",
+            "2.09%",
+            "2.35%",
+            "-5.17%",
+            "2.20%",
+            "-0.33%",
+            "1.31%",
+            "6.75%",
+            "-2.57%"
           ],
-          "signature": "2133425e"
+          "signature": "467bed2d"
         },
         {
           "headers": [
@@ -1749,48 +1994,61 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
+          "row_count": 10,
+          "tickers_or_assets": [
+            "DJIA",
+            "MAGS",
+            "MSTR",
+            "QQQ",
+            "RSP",
+            "RSPT",
+            "SMH",
+            "SPCX",
+            "STRC",
+            "XLI"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "weights_or_percents": [
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
+          ],
+          "signature": "46ef9251"
         }
       ],
       "portfolio_overlaps": [
         "AMD",
-        "ANET",
         "GS",
-        "MSTR",
+        "ANET",
+        "PWR",
         "PLTR",
-        "PWR"
+        "MSTR",
+        "MAGS",
+        "QQQ",
+        "RSP",
+        "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Large-Cap Top Ideas stock list/commentary visible; AMD/ANET/MSTR and related watch overlaps refreshed as baseline only.",
+      "action_implication": "Large-Cap Top Ideas compact baseline refresh only.",
       "blocker": null
     },
     {
       "target_id": "smid_cap_top_ideas",
       "status": "checked",
       "checked_url": "https://fundstratdirect.com/members/stock-lists/?category=top-ideas-smid-cap-stock-list | https://fundstratdirect.com/members/stock-lists/?category=top-ideas-smid-cap-commentary",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:57:28.989Z",
       "visible_dates": [
-        "16:20",
         "2:00PM",
         "11:00AM",
         "July 2, 2026",
         "July 14, 2026",
+        "July 16, 2026",
         "July 21, 2026",
         "June 25, 2026",
         "June 16, 2026",
@@ -1800,10 +2058,9 @@
         "May 7, 2026",
         "April 30, 2026",
         "April 28, 2026",
-        "April 23, 2026",
-        "April 16, 2026"
+        "April 23, 2026"
       ],
-      "table_count": 6,
+      "page_signature": "1236ca39|5120d0af",
       "tables": [
         {
           "headers": [
@@ -1816,8 +2073,7 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
@@ -1829,20 +2085,19 @@
             "VMI",
             "MLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "1.12%",
-            "79.67%",
-            "5.09%",
-            "59.27%",
-            "1.13%",
-            "44.23%",
-            "0.81%",
-            "1.77%",
-            "-4.19%",
-            "-7.76%"
+            "-7.48%",
+            "71.45%",
+            "-5.89%",
+            "52.44%",
+            "-4.72%",
+            "39.64%",
+            "-3.22%",
+            "-0.78%",
+            "-6.58%",
+            "-56.88%"
           ],
-          "signature": "9ba81c7d"
+          "signature": "ab4d4f31"
         },
         {
           "headers": [
@@ -1854,21 +2109,28 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "SECTOR",
+            "CURRENT",
+            "PRICE",
+            "INTRADAY",
+            "CHANGE",
+            "DATE",
+            "ADDED",
             "FIX",
             "STRL",
             "IESC",
             "VMI",
             "MLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "5.09%",
-            "1.12%",
-            "1.13%",
-            "0.81%",
-            "-4.19%"
+            "-5.89%",
+            "-7.48%",
+            "-4.72%",
+            "-3.22%",
+            "-6.58%"
           ],
-          "signature": "bd14641e"
+          "signature": "5b6f326a"
         },
         {
           "headers": [
@@ -1881,57 +2143,29 @@
             "Performance",
             "Price When Added",
             "Support",
-            "Resistance",
-            "Date Added"
+            "Resistance"
           ],
           "row_count": 5,
           "tickers_or_assets": [
-            "ECHO",
             "AVAV",
-            "WFRD",
-            "UUUU",
-            "KTOS"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "3.64%",
-            "0.98%",
-            "1.88%",
-            "-1.15%",
-            "-2.21%",
-            "-4.23%",
-            "-0.21%",
-            "-20.15%",
-            "-0.53%",
-            "-27.24%"
-          ],
-          "signature": "780ac0b8"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "SECTOR",
-            "CURRENT PRICE",
-            "INTRADAY CHANGE",
-            "DATE ADDED"
-          ],
-          "row_count": 5,
-          "tickers_or_assets": [
-            "KTOS",
-            "UUUU",
             "ECHO",
             "WFRD",
-            "AVAV"
+            "KTOS",
+            "UUUU"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "-0.53%",
-            "-0.21%",
-            "3.64%",
-            "-2.21%",
-            "1.88%"
+            "4.02%",
+            "20.76%",
+            "-0.33%",
+            "1.31%",
+            "-1.58%",
+            "-5.07%",
+            "7.10%",
+            "-17.26%",
+            "-1.86%",
+            "-22.12%"
           ],
-          "signature": "eafbd5ff"
+          "signature": "1d097a19"
         },
         {
           "headers": [
@@ -1944,63 +2178,49 @@
             "DJIA",
             "MAGS",
             "MSTR",
-            "MU",
             "QQQ",
             "RSP",
             "RSPT",
             "SMH",
             "SPCX",
-            "STRC"
+            "STRC",
+            "XLI"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
+            "-0.27%",
+            "+2.35%",
+            "+6.75%",
+            "-1.71%",
+            "+0.28%",
+            "-1.75%",
+            "-5.44%",
+            "-7.74%",
+            "+2.84%",
+            "-1.01%"
           ],
-          "signature": "62944722"
-        },
-        {
-          "headers": [
-            "Ticker",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "442527af"
+          "signature": "46ef9251"
         }
       ],
       "portfolio_overlaps": [
+        "STRL",
         "FIX",
         "IESC",
+        "UUUU",
         "MAGS",
         "MSTR",
-        "MU",
         "QQQ",
         "RSP",
-        "SMH",
-        "STRL",
-        "UUUU"
+        "SMH"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "SMID-Cap Top Ideas stock list/commentary visible; UUUU remains a MONITOR overlap requiring defined-risk rails, not auto-action.",
+      "action_implication": "SMID-Cap Top Ideas compact baseline refresh only; UUUU remains MONITOR-only under defined-risk rails.",
       "blocker": null
     },
     {
       "target_id": "crypto_core_strategy",
-      "status": "checked",
+      "status": "checked_partial",
       "checked_url": "https://fundstratdirect.com/members/crypto/ | https://fundstratdirect.com/members/crypto-lists/ | https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-strategy | https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-performance | https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-historical | https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-tools",
-      "checked_at": "2026-06-30T00:48:07.210Z",
+      "checked_at": "2026-07-02T00:58:03.024Z",
       "visible_dates": [
         "July 14, 2026",
         "11:00AM",
@@ -2017,16 +2237,13 @@
         "November 25, 2025",
         "November 5, 2025",
         "12:00PM",
-        "16:20",
-        "June 04, 2026",
-        "June 29, 2026",
-        "16:45",
+        "June 30, 2026",
+        "July 01, 2026",
         "January 01, 2026",
         "January 13, 2025",
-        "January 16, 2023",
-        "20:45"
+        "January 16, 2023"
       ],
-      "table_count": 14,
+      "page_signature": "235ed11c|8609d907|0f338d26|8a2cbc41|95e478b4|f55be1fd",
       "tables": [
         {
           "headers": [
@@ -2034,33 +2251,10 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 10,
-          "tickers_or_assets": [
-            "DJIA",
-            "MAGS",
-            "MSTR",
-            "MU",
-            "QQQ",
-            "RSP",
-            "RSPT",
-            "SMH",
-            "SPCX",
-            "STRC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "+0.57%",
-            "+2.99%",
-            "+11.78%",
-            "+1.08%",
-            "+2.40%",
-            "+1.16%",
-            "+2.30%",
-            "+3.27%",
-            "+7.51%",
-            "+12.04%"
-          ],
-          "signature": "62944722"
+          "row_count": 1,
+          "tickers_or_assets": [],
+          "weights_or_percents": [],
+          "signature": "442527af"
         },
         {
           "headers": [
@@ -2068,11 +2262,27 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
+          "row_count": 8,
+          "tickers_or_assets": [
+            "BTC",
+            "BUIDL",
+            "ETH",
+            "HYPE",
+            "PURR",
+            "SOL",
+            "USDC",
+            "XLK"
+          ],
+          "weights_or_percents": [
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
+          ],
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -2091,16 +2301,15 @@
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%",
+            "50.00%",
             "100%"
           ],
-          "signature": "a5b2f653"
+          "signature": "6b66844c"
         },
         {
           "headers": [
@@ -2113,22 +2322,27 @@
           ],
           "row_count": 6,
           "tickers_or_assets": [
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "CURRENT",
+            "DATE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%",
+            "50.00%",
             "100%"
           ],
-          "signature": "9f808ef0"
+          "signature": "3ed80a0f"
         },
         {
           "headers": [
@@ -2140,21 +2354,26 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "WEIGHT",
+            "VALUE",
+            "QTY",
+            "ASSETS",
+            "PRICE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "aebde5f7"
+          "signature": "674ad848"
         },
         {
           "headers": [
@@ -2162,19 +2381,7 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
-        },
-        {
-          "headers": [
-            "Asset",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 7,
+          "row_count": 8,
           "tickers_or_assets": [
             "BTC",
             "BUIDL",
@@ -2182,18 +2389,19 @@
             "HYPE",
             "PURR",
             "SOL",
+            "USDC",
             "XLK"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.98%",
-            "+2.31%",
-            "+8.50%",
-            "+7.20%",
-            "+5.04%",
-            "+1.79%"
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
           ],
-          "signature": "594b662c"
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -2205,33 +2413,36 @@
             "REBALANCE DATE",
             "NOTES"
           ],
-          "row_count": 460,
+          "row_count": 465,
           "tickers_or_assets": [
+            "ACTION",
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "DATE",
+            "NOTES",
+            "USDC",
             "HYPE",
             "SOL",
             "ETH",
-            "BTC",
-            "USDC"
+            "BTC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
+            "50.00%",
+            "45.0%",
+            "50.0%",
             "5.00%",
-            "10.0%",
-            "5.0%",
             "3.00%",
             "7.00%",
-            "40.00%",
-            "45.00%",
+            "35.00%",
             "40.0%",
-            "45.0%",
-            "10.00%",
-            "44.0%",
-            "36.0%",
-            "36.00%",
-            "44.00%",
-            "7.0%"
+            "35.0%",
+            "45.00%",
+            "40.00%",
+            "10.0%"
           ],
-          "signature": "49f5c6e6"
+          "signature": "168f36d4"
         },
         {
           "headers": [
@@ -2239,7 +2450,7 @@
             "Price",
             "Chg%"
           ],
-          "row_count": 7,
+          "row_count": 8,
           "tickers_or_assets": [
             "BTC",
             "BUIDL",
@@ -2247,18 +2458,19 @@
             "HYPE",
             "PURR",
             "SOL",
+            "USDC",
             "XLK"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "+0.98%",
-            "+2.31%",
-            "+8.50%",
-            "+7.20%",
-            "+5.04%",
-            "+1.79%"
+            "+2.10%",
+            "+1.78%",
+            "-3.16%",
+            "-3.13%",
+            "+5.27%",
+            "0.00%",
+            "+1.14%"
           ],
-          "signature": "594b662c"
+          "signature": "1d49c8ae"
         },
         {
           "headers": [
@@ -2278,15 +2490,14 @@
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "20cbcdbe"
+          "signature": "33f06aae"
         },
         {
           "headers": [
@@ -2300,21 +2511,30 @@
           ],
           "row_count": 5,
           "tickers_or_assets": [
+            "TICKER",
+            "ASSET",
+            "WEIGHT",
+            "PRICE",
+            "CURRENT",
+            "ASSETS",
+            "TO",
+            "BUY",
+            "SELL",
+            "VALUE",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40.00%",
+            "35.00%",
             "7.00%",
             "3.00%",
             "5.00%",
-            "45.00%"
+            "50.00%"
           ],
-          "signature": "2917b150"
+          "signature": "d1a1a034"
         },
         {
           "headers": [
@@ -2330,96 +2550,47 @@
           ],
           "row_count": 6,
           "tickers_or_assets": [
+            "FSI",
             "BTC",
             "ETH",
             "SOL",
             "HYPE",
             "USDC"
           ],
-          "visible_dates": [],
           "weights_or_percents": [
-            "40%",
+            "35%",
             "7%",
             "3%",
             "5%",
-            "45%",
+            "50%",
             "100%"
           ],
-          "signature": "886ac1cf"
-        },
-        {
-          "headers": [
-            "TICKER",
-            "ASSET",
-            "FSI WEIGHT*",
-            "CURRENT PRICE $**",
-            "CURRENT # ASSETS",
-            "TARGET # OF ASSETS",
-            "ASSETS TO BUY/SELL",
-            "CURRENT VALUE $",
-            "TARGET VALUE $"
-          ],
-          "row_count": 6,
-          "tickers_or_assets": [
-            "BTC",
-            "ETH",
-            "SOL",
-            "HYPE",
-            "USDC"
-          ],
-          "visible_dates": [],
-          "weights_or_percents": [
-            "40%",
-            "7%",
-            "3%",
-            "5%",
-            "45%",
-            "100%"
-          ],
-          "signature": "7f78bc09"
-        },
-        {
-          "headers": [
-            "Asset",
-            "Price",
-            "Chg%"
-          ],
-          "row_count": 1,
-          "tickers_or_assets": [],
-          "visible_dates": [],
-          "weights_or_percents": [],
-          "signature": "d13eba4c"
+          "signature": "5fa341dd"
         }
       ],
       "portfolio_overlaps": [
         "BTC",
         "ETH",
         "HYPE",
-        "MAGS",
-        "MSTR",
-        "MU",
-        "QQQ",
-        "RSP",
-        "SMH",
         "SOL",
-        "SPY",
         "XLK"
       ],
       "watch_interest_overlaps": [],
-      "action_implication": "Crypto core strategy tables visible with BTC/ETH/SOL/HYPE/USDC weights and June 29/Juin 4 dates; baseline refreshed, no sleeve action without validated diff.",
-      "blocker": null
+      "action_implication": "Crypto strategy compact baseline refresh only; sleeve rows require validated weight/rebalance diff.",
+      "blocker": "https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-historical: page not found"
     }
   ],
   "validation": {
     "manifest_validate": "passed_before_capture_and_after_capture",
     "fundstrat_email_intake_validate": "not_run_no_compact_rows_landed",
     "fundstrat_deep_crawl_validate": "passed",
-    "pytest": "passed: 10 passed in 0.41s",
-    "dashboard_refresh": "passed"
+    "pytest": "passed: 10 passed in 0.31s",
+    "dashboard_refresh": "skipped_no_compact_rows_landed"
   },
   "blockers": [
-    "latest_videos_and_webinars: manifest latest-videos URL returned 404; category listing visible but no transcript/caption/companion text captured",
-    "upticks_stock_list: https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate."
+    "latest_videos_and_webinars: https://fundstratdirect.com/members/latest-videos/: page not found; no visible transcript/caption/companion indicator on listing pages; sampled video/detail candidates exposed no transcript/captions; listing/detail text is discovery-only for video rows",
+    "upticks_stock_list: https://fundstratdirect.com/members/stock-lists/?category=upticks-performance: page not found; https://fundstratdirect.com/members/stock-lists/?category=upticks-historical: Timed out after 3000ms waiting for CDP command Runtime.evaluate.",
+    "crypto_core_strategy: https://fundstratdirect.com/members/crypto-lists/?category=core-strategy-historical: page not found"
   ],
   "notes": "Scheduled deep crawl used authenticated Chrome and stored compact metadata only. No raw member text, screenshots, raw tables, credentials, cookies, local storage, browser profile data, article bodies, or transcripts were stored."
 }

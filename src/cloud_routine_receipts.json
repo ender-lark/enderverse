@@ -2,38 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:02:20.995086Z",
-      "summary": "uw opportunity cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode opportunity --entries-dir ../tmp/uw/opportunity_entries --emit-bundle ../tmp/uw/opportunity_bundle.json --emit-cache uw_opportunity_signals.json --max-workers 5 --retry-failed 1 --force --require-sources flow,oi,dark_pool --require-normalized-keys flow,oi,dark_pool --fail-on-dark --allow-empty-sources && python uw_opportunity_scan.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/uw_opportunity_signals.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "9c540f160caa3312cddf7c0d5a3aeeafb8364b4afc80411933772d14f8c808e0",
-            "as_of": "2026-06-24T14:02:20.863383+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "cba48aaf6e84ef6e3098bf60dfed29294ff48a9388eb494e019781b5595029da",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-parabolic-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -5947,7 +5915,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T00:52:05.514598Z",
       "summary": "FS inbox catch-up evening ingested 4 entries through [07/01/2026 18:40 ET]; Source Call Log rows 6 fetch-verified; marker advanced; flags Lee 2H dip-buying context, STRC/MSTR/BTC overhang not all-clear, Mag-7/MAGS conditional recovery, EWY/semis/MU caution; Source Call Log SQL endpoint blocked/not_checked; no trades sizing broker gate or card mutation"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-deep-crawl",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:59:31.146636Z",
+      "summary": "fundstrat deep crawl success: checked FlashInsights, research details, stock lists, sector allocation, Top Ideas, crypto strategy; partial/not_checked Latest Videos transcripts, Upticks performance/historical, crypto historical; rows 0 diffs 0; overlaps QQQ/SMH/MAGS/RSP MSTR/BTC/ETH/SOL/HYPE AMD/ANET/PWR/PLTR STRL/FIX/IESC/UUUU; validations passed manifest + pytest 10; dashboard skipped no compact rows; blockers named in summary"
     }
   ],
-  "updated_at": "2026-07-02T00:52:05.514598Z"
+  "updated_at": "2026-07-02T00:59:31.146636Z"
 }
