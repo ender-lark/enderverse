@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T15:47:12.729610Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T15:52:55.146633Z",
-      "summary": "Chrome checked Macro/Crypto FlashInsights; Gmail checked 0; landed 1 QQQ 10:50 ET breadth/Tech compact row; web suppressed 0 discovery-only, skipped duplicate/stale 10:46 TLT and crypto Jun22; validation passed; dashboard refreshed; Pushover sent 1 alert, duplicates 10, alert-suppressed 102; Social Watch dark, crypto stale; blockers none"
-    },
-    {
       "routine_id": "investing-os-fs-inbox-catch-up-midday",
       "status": "started",
       "run_source": "scheduled",
@@ -5878,7 +5864,21 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T02:54:44.906271Z",
       "summary": "fundstrat late evening web/transcript sweep success: Chrome checked Macro FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy, Fed Watch, crypto research, Macro Minute, Latest Videos, and DTS video surfaces; detail pages checked Jul1 DTS 18:19, Jul1 Macro Minute 16:17, Jul1 First Word 07:50, Jun30 Crypto Comments 22:02; no new post-19:00 ET full-content evidence; transcript vault entries written 0; Gmail messages checked 0 because Chrome full-content lanes were available; rows landed 0; suppressed already-landed/duplicate or discovery-only items Jul1 EWY semis, Jul1 STRC, Jul1 DTS, Jul1 Macro Minute, Jul1 First Word, Jun30 crypto rebalance, stale Intraday/US Policy/Fed Watch/Live Technical listings, Latest Videos 404; validations passed public transcript index and email intake; dashboard refresh skipped no new rows; dark/stale lanes video transcript controls not visibly exposed in current detail pass and no after-7 PM ET new Fundstrat content"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T05:47:14.240466Z",
+      "summary": "off-hours worker started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-worker",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T05:51:30.741591Z",
+      "summary": "live RQ active H3q/H20w M6q/M29w L8q/L13w total79; selected AVAV LGO LMT Sentinel and LMT prototype; Notion writes 4/4 fetch-verified; AVAV correction verified; remaining queued blocked/prior-reviewed/operator-code/full-source; dark order funding/margins/options/flow/account tax/MCP SQL; no trades"
     }
   ],
-  "updated_at": "2026-07-02T02:54:44.906271Z"
+  "updated_at": "2026-07-02T05:51:30.741591Z"
 }
