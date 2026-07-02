@@ -2,71 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-daily-synthesis",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T13:39:00.775312Z",
-      "summary": "repo synthesis refreshed/validated; Notion page 389c5031-4bb6-8132-9b50-e715fd132b3a write/readback verified; Social Watch not_checked; verify_standard failed test_efficacy_harness googl-tranche-2 expected armed got fired",
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T13:42:01.190887Z",
-      "summary": "post-open evidence gate started"
-    },
-    {
-      "routine_id": "investing-os-post-open-evidence-gate",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T13:43:53.168721Z",
-      "summary": "UW proof 0 supports 0 contradicts 10 inconclusive 3 missing; boundary_artifact_committed=true; dashboard_refresh=success",
-      "details": {
-        "boundary_artifact": "src\\uw_endpoint_results.json",
-        "boundary_artifact_committed": true,
-        "no_fresh_boundary_data": false,
-        "feed_built_from_committed_proof": true,
-        "dashboard_refresh_status": "success",
-        "redaction_valid": true,
-        "redaction_problems": [],
-        "proof_generated_at": "2026-06-24T13:42:01.212352+00:00",
-        "proof_count": 13,
-        "proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-24 09:42 ET.",
-        "proof_newest_checked_at": "2026-06-24T13:42:01.212352+00:00",
-        "proof_interpretation_counts": {
-          "supports": 0,
-          "contradicts": 0,
-          "inconclusive": 10,
-          "missing": 3
-        },
-        "proof_blockers": [
-          "inconclusive endpoint result(s) cannot promote related actions",
-          "missing/failed endpoint result(s) keep related actions blocked"
-        ],
-        "boundary_commit": {
-          "valid": true,
-          "committed": true,
-          "commit": "4d6d460",
-          "reason": "committed",
-          "selected_paths": [
-            "src/uw_endpoint_results.json"
-          ]
-        },
-        "dashboard_refresh_returncode": 0,
-        "feed_uw_proof_newest_checked_at": "2026-06-24T13:42:01.212352+00:00",
-        "feed_uw_proof_line": "UW endpoint proof: 13 captured result(s); supports=0, contradicts=0, inconclusive=10, missing=3; stale=0. newest=2026-06-24 09:42 ET."
-      },
-      "boundary_outcome": "fired_unknown"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T13:47:36.895402Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
       "routine_id": "investing-os-uw-opportunity-cache",
       "status": "started",
       "run_source": "scheduled",
@@ -5984,7 +5919,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-01T23:32:47.290027Z",
       "summary": "Research Queue not_checked: Drive drop missing; cache not refreshed; existing cache pending=22 done=0 ACT_NOW=none skipped=0"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-deep-crawl",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:41:18.084587Z",
+      "summary": "fundstrat deep crawl started"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:46:30.205576Z",
+      "summary": "FS inbox catch-up evening started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:47:26.863443Z",
+      "summary": "top prospects auto-research started"
+    },
+    {
+      "routine_id": "investing-os-top-prospects-auto-research",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:47:57.182481Z",
+      "summary": "dry_run_selected=0; queued_tickers=none; write_verification=not_checked_no_rows_created; remaining_unqueued=2 RYF XOP QUIET/BUILDING uncorroborated; dark_stale_lanes=Research Queue readback not_checked because no writes; blockers=none"
     }
   ],
-  "updated_at": "2026-07-01T23:32:47.290027Z"
+  "updated_at": "2026-07-02T00:47:57.182481Z"
 }
