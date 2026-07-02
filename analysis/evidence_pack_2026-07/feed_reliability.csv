@@ -1,0 +1,6 @@
+case,ticker,severity,feed_value,truth_value,status,source
+target_drift_false_missing_held_name,GOOGL,high,MISSING actual_pct=0.0,"broker/account_positions pct=5.2019, market_value=95330.00",live_divergence,target_drift vs account_positions
+target_drift_false_missing_held_name,AVGO,high,MISSING actual_pct=0.0,"broker/account_positions pct=2.4088, market_value=44144.00",live_divergence,target_drift vs account_positions
+target_drift_false_missing_held_name,MSFT,high,MISSING actual_pct=0.0,"broker/account_positions pct=1.8993, market_value=34806.00",live_divergence,target_drift vs account_positions
+fundstrat_daily_false_staleness_vs_feed_marker,,high,today_decide.data_health=stale; detail=covered only through 2026-06-17,staleness fundstrat_daily date=2026-07-01 stale=False; source_audit daily_calls=2,live_divergence,today_decide.data_health vs staleness/source_audits
+hood_option_exposure_without_option_risk_render,HOOD,medium,action_label=TRIM/SELL REVIEW instrument_class=option,broker has 1 HOOD option row(s); action has no max_loss/risk_amount field,seed_case_rescan,latest_cockpit_feed.actions vs account_positions.option

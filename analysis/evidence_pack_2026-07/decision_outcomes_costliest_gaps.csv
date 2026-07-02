@@ -1,0 +1,5 @@
+ticker,gap_type,matched_decision,flag_source,flag_date,flag_price,current_price,return_to_date,current_pct,target_pct,under_size_notional_usd,foregone_pnl_usd,cost_flag,gap_reason
+AVGO,under_target_or_missing,yes,target_drift_only,,,370.96,,2.408839,6.000000,65811.04,,unknown,missing flag price or current price for foregone P/L
+MSFT,under_target_or_missing,yes,target_drift_only,,,373.95,,1.899285,5.000000,56823.20,,unknown,missing flag price or current price for foregone P/L
+AMZN,under_target_or_missing,yes,target_drift_only,,,241.01,,1.170478,4.000000,51853.36,,unknown,missing flag price or current price for foregone P/L
+GOOGL,under_target_or_missing,yes,top_prospects.add_price,2026-05-28,388.11,357.02,-0.080103,5.201944,8.000000,51276.72,-4107.43,loss_avoided_not_foregone_gain,

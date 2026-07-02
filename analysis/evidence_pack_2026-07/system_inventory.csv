@@ -1,0 +1,289 @@
+module,wired_into_daily_flow,daily_flow_reason,feeds_outcomes_back,outcome_feedback_reason,last_touched,build_and_forget_risk
+src/analyst_config.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-03,high
+src/battery_feed_adapter.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-16,high
+src/codex_uw/__init__.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-04,high
+src/codex_uw/rest_client.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-07,high
+src/conviction_stack.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-05,high
+src/correlation_matrix.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-05-28,high
+src/fs_macro_view.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-03,high
+src/fs_ranker.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-05-28,high
+src/full_chain_smoke.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-03,high
+src/fundstrat_add_price_backfill.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-07,high
+src/golden_snapshot.json,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-03,high
+src/institutional_signals.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-05-28,high
+src/options_uw_adapter.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-21,high
+src/prospect_surface.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-03,high
+src/reddit_signal_core.py,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-05-28,high
+src/snaptrade_profiles.example.json,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-07,high
+src/source_shelf_life.json,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-06-12,high
+src/volatility_opportunity_fixture_2026_06_23.json,no,no reference found in main flow index files,no,no outcome feedback keyword found,2026-07-01,high
+src/account_positions.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/account_rules.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/account_trade_placement.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-08,low
+src/alert_policy.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/analyst.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/automation_health_watchdog.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-24,low
+src/battery_evidence.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/broker_pdf_extractor.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/build_positions_cache.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,low
+src/case_file.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-21,low
+src/case_file_coverage.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/catalyst_calendar_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/catalyst_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/catalysts.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/cloud_automation_status.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-30,low
+src/cloud_ops_status.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-30,low
+src/cloud_routine_commit.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-30,low
+src/cloud_routine_receipts.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/cloud_routine_receipts.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/cloud_routine_runner.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/cockpit_artifact_boundaries.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/cockpit_html_gen.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/cockpit_jsx_preview.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/codex_routine_manifest.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/codex_routine_manifest.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-30,low
+src/codex_uw/acquisition.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-15,low
+src/codex_uw/endpoints.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-04,low
+src/codex_uw/merge.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-08,low
+src/codex_uw/orchestrator.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-15,low
+src/codex_uw/worker.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-04,low
+src/collection.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,low
+src/collection_gate.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-04,low
+src/completion_audit.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/congruence.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-10,low
+src/conviction_engine.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/conviction_weights.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/daily_preflight.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/daily_synthesis.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/daily_synthesis_from_feed.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/daily_synthesis_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/daily_synthesis_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-24,low
+src/dashboard_preview_server.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/data_health.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/decision_card.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/decision_dossier_coverage.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/decision_dossier_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/decision_dossier_sync.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/decision_dossiers.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/decision_dossiers.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/decision_support.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/deepdive_runner.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/directive_recs.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/disconfirmation_registry.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-15,low
+src/disconfirmation_registry.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-13,low
+src/disposition_log.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,low
+src/dossier_universe.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/efficacy_scenarios.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/event_risk.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/event_risk_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/event_risk_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-28,low
+src/event_risks.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-28,low
+src/execution_plan.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/fed_day_reallocation_packet.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fed_day_reallocation_packet.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/federal_funding_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/federal_funding_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/federal_funding_moves.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/feed_assembler.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/feedback_summary.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/fs_ingest_guard.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/fs_ingest_inventory.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/full_build_runner.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fundstrat_bible.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/fundstrat_bible.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/fundstrat_bible_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/fundstrat_bible_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/fundstrat_daily.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/fundstrat_daily_calls.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fundstrat_daily_compact_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/fundstrat_daytime_alert.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-08,low
+src/fundstrat_daytime_alert_state.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/fundstrat_deep_crawl.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-26,low
+src/fundstrat_deep_crawl_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/fundstrat_deep_crawl_targets.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-26,low
+src/fundstrat_email_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/fundstrat_inbox_entries.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fundstrat_intake_state.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fundstrat_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/fundstrat_list_baselines.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/fundstrat_news.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/fundstrat_sector_stances.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/fundstrat_transcript_index.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/fundstrat_transcript_vault.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-16,low
+src/fundstrat_web_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-09,low
+src/go_live_checklist.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/goal_tunables.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,low
+src/golden_feed.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,low
+src/heartbeat.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/heartbeat_status.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/heartbeat_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-29,low
+src/held_decisions.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/held_decisions.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/inbox_call_dates.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/insider_cache_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/insider_cache_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-28,low
+src/insider_data.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-28,low
+src/insights.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-10,low
+src/integration_debt_report.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-28,low
+src/integration_debt_sweep.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/lane_status.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/latest_cockpit_feed.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/life_os_daily_briefing_last_run.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/life_os_weekly_review_last_run.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-27,low
+src/life_work_os_briefing.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/life_work_os_heartbeat.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/life_work_os_heartbeat.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/life_work_os_hygiene.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/life_work_os_hygiene_receipt.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/live_dashboard_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/live_readiness.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-25,low
+src/live_source_capability.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/live_source_config.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/live_source_config_update.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/log_call_dates.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/loose_thread_sweep.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/macro_pulse_scan.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,low
+src/macro_pulse_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/macro_state.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/manual_source_drop.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/market_open_packet.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-08,low
+src/meridian.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/morning_scan.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/non_surfacing_allowlist.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,low
+src/notion_collision_audit.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/open_opportunities.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/open_opportunities.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/operator_hardening.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/options_chain_cache.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-21,low
+src/options_chain_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-21,low
+src/options_decay_audit.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/options_decay_audit.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-30,low
+src/options_expression.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-22,low
+src/options_shadow_log.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-25,low
+src/options_surface.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-22,low
+src/orphan_triage.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/orphan_triage.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-12,low
+src/orphan_wiring.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,low
+src/outcome_patterns.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-13,low
+src/parabolic_setup_screener.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/parabolic_setups.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/pattern_engine.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,low
+src/portfolio.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,low
+src/portfolio_views.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/position_drift_check.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/position_reconciliation.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/position_reconciliation.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/positions.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/post_open_evidence_gate.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-11,low
+src/publish_cockpit_feed.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/publish_gate.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/pushover_notify.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-08,low
+src/reallocate.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-15,low
+src/reallocate_config.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-15,low
+src/reallocation_brief.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/research_queue.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/research_queue_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/runtime_adapters.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/sell_gate.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-18,low
+src/session_orchestrator.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/signal_log.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/signal_log_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/signal_log_intake_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/sizing_tunables.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-18,low
+src/snaptrade_book_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-12,low
+src/snaptrade_positions_import.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-26,low
+src/social_snapshot_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/social_watch.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/source_call_cache_merge.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/source_call_cache_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/source_call_candidate_draft.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-09,low
+src/source_call_candidates.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/source_calls.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/source_rates.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/sources.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/state_ownership_map.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-26,low
+src/state_ownership_map.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/sudden_event_refresh.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/system_improvement_queue.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-18,low
+src/system_improvement_queue.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-04,low
+src/theses.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/timing_engine.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-14,low
+src/timing_gates.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/today_decide.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-21,low
+src/today_recommendation_brief.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/top_prospects.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-19,low
+src/top_prospects_feeder.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,low
+src/trigger_check.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,low
+src/trigger_check_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/trigger_registry.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-19,low
+src/tunables.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/uw_action_runbook.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/uw_closes.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-17,low
+src/uw_endpoint_interpret.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-17,low
+src/uw_endpoint_result_capture.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-07,low
+src/uw_endpoint_result_proof.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/uw_endpoint_results.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-07-01,low
+src/uw_macro.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/uw_opportunity.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,low
+src/uw_opportunity_scan.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-04,low
+src/uw_opportunity_signals.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/uw_price.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-03,low
+src/uw_price_cache_intake.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-05,low
+src/uw_price_cache_summary.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-17,low
+src/uw_routing_recommendations.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,low
+src/validators.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-26,low
+src/verify_standard.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,low
+src/watch_interest.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,no,no outcome feedback keyword found,2026-06-26,low
+src/watch_interest.py,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-26,low
+src/watch_interest_index.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-26,low
+src/work_os_daily_briefing_last_run.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,low
+src/work_os_weekly_review_last_run.json,yes,referenced by full build/routine manifest/state/workboard/AGENTS,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-26,low
+src/13f_best_ideas.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/13f_quarterly_pull.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/action_memory_resolve.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/action_memory_writer.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/analyst_judgment.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,medium
+src/automation_prompt_audit.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,medium
+src/benchmark_overlay.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/build_golden.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/cloud_routine_drill.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/cloud_routine_manual_run.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-30,medium
+src/conviction_sizing_calibrator.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,medium
+src/fundstrat_lanes.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,medium
+src/fundstrat_transcript_synthesis.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-16,medium
+src/gamma_positioning.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/goal_impact.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/granny_diff.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/hyperscaler_anchor_scan.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/insider_activity_scan.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,medium
+src/insight_register.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-10,medium
+src/iv_context_surface.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/life_work_os_config.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,medium
+src/life_work_os_notion.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,medium
+src/live_status.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,medium
+src/live_theses_helpers.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/lookthrough_disclosure.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-15,medium
+src/notion_helpers.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/options_expiry_preflight.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/outcome_logger.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-14,medium
+src/outcome_to_source_call_link.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/portfolio_factor_exposure.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/position_sizer.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/post_open_uw_evidence_run.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-17,medium
+src/pretrade_gate.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-01,medium
+src/prospect_autoresearch.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-09,medium
+src/prospect_performance.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,medium
+src/rationale_decay_v3.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/re_entry_zone_scan.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/recommendations_digest.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/render_cockpit.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/runtime_skeleton.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-05,medium
+src/sample_opportunity_signals.json,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-03,medium
+src/source_call_tracker.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-31,medium
+src/stale_leaps_scan.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/thesis_strengthening_backtest.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/tier_promotion_scan.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/uw_endpoint_router.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-06-07,medium
+src/uw_iv_context.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/v0_score.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-05-28,medium
+src/volatility_opportunity_converter.py,no,no reference found in main flow index files,yes,contains outcome/disposition/calibration/receipt/notion feedback keywords,2026-07-01,medium
