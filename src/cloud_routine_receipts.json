@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T16:32:43.960857Z",
-      "summary": "FS inbox catch-up midday started"
-    },
-    {
-      "routine_id": "investing-os-fs-inbox-catch-up-midday",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T16:37:00.115458Z",
-      "summary": "FS inbox catch-up midday ingested 1 entry through [06/24/2026 09:25 ET]; Source Call Log rows 1 fetch-verified; marker advanced; defense-prime stance research-only; no gate/card mutation"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -5878,7 +5864,37 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T05:51:30.741591Z",
       "summary": "live RQ active H3q/H20w M6q/M29w L8q/L13w total79; selected AVAV LGO LMT Sentinel and LMT prototype; Notion writes 4/4 fetch-verified; AVAV correction verified; remaining queued blocked/prior-reviewed/operator-code/full-source; dark order funding/margins/options/flow/account tax/MCP SQL; no trades"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T06:33:02.472446Z",
+      "summary": "life-work-os-safe-hygiene started"
+    },
+    {
+      "routine_id": "life-work-os-safe-hygiene",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T06:33:07.934608Z",
+      "summary": "Life/Work OS safe hygiene succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_hygiene.py",
+          "--apply",
+          "--max-mutations",
+          "10",
+          "--out",
+          "src/life_work_os_hygiene_receipt.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-02T05:51:30.741591Z"
+  "updated_at": "2026-07-02T06:33:07.934608Z"
 }
