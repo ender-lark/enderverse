@@ -3,13 +3,6 @@
   "receipts": [
     {
       "routine_id": "investing-os-uw-opportunity-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:02:15.836969Z",
-      "summary": "investing-os-uw-opportunity-cache started"
-    },
-    {
-      "routine_id": "investing-os-uw-opportunity-cache",
       "status": "success",
       "run_source": "scheduled",
       "recorded_at": "2026-06-24T14:02:20.995086Z",
@@ -5947,7 +5940,14 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T00:47:57.182481Z",
       "summary": "dry_run_selected=0; queued_tickers=none; write_verification=not_checked_no_rows_created; remaining_unqueued=2 RYF XOP QUIET/BUILDING uncorroborated; dark_stale_lanes=Research Queue readback not_checked because no writes; blockers=none"
+    },
+    {
+      "routine_id": "investing-os-fs-inbox-catch-up-evening",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T00:52:05.514598Z",
+      "summary": "FS inbox catch-up evening ingested 4 entries through [07/01/2026 18:40 ET]; Source Call Log rows 6 fetch-verified; marker advanced; flags Lee 2H dip-buying context, STRC/MSTR/BTC overhang not all-clear, Mag-7/MAGS conditional recovery, EWY/semis/MU caution; Source Call Log SQL endpoint blocked/not_checked; no trades sizing broker gate or card mutation"
     }
   ],
-  "updated_at": "2026-07-02T00:47:57.182481Z"
+  "updated_at": "2026-07-02T00:52:05.514598Z"
 }
