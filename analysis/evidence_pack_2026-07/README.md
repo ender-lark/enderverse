@@ -1,6 +1,6 @@
 # Evidence Pack 2026-07
 
-Generated: 2026-07-02T05:10:18Z
+Generated: 2026-07-02T05:34:04Z
 
 This pack is for Phase A Fable review. It ships the generator, raw Notion snapshots where available, CSV outputs, and one summary MD per artifact. Unknowns remain unknown.
 
@@ -34,7 +34,7 @@ Notion index: https://app.notion.com/p/Evidence-Pack-2026-07-Phase-A-Index-391c5
 - source_call_log: ok - 208 rows, 3 pages
 - decisions_log: ok - 257 rows, 3 pages
 - research_queue: ok - 111 rows, 2 pages
-- system_update_queue: gap - Notion HTTP 404 POST /data_sources/968cfff4-369c-40bb-b748-5633b9ff7685/query: {"object":"error","status":404,"code":"object_not_found","message":"Could not find database with ID: 968cfff4-369c-40bb-b748-5633b9ff7685. Make sure the relevant pages and databases are shared with your integration \"LifeOS cc\".","additional_data":{"integration_id":"36ec5031-4bb6-8109-bd09-00277bf571c6"},"request_id":"09c943b4-b49a-4a08-95db-1d630460d9b7"}
+- system_update_queue: ok - 153 rows, 2 pages
 
 ## Reproduce
 

@@ -28,6 +28,7 @@ SOURCE_CALL_LOG_DS = "e7def40e-1492-458a-9de8-bd77cd3f8471"
 DECISIONS_LOG_DS = "632c97f1-192a-4933-8682-60c730446caf"
 RESEARCH_QUEUE_DS = "cab89576-0933-40b0-ad2e-6f9a6188e804"
 SYSTEM_UPDATE_QUEUE_DS = "968cfff4-369c-40bb-b748-5633b9ff7685"
+NOTION_INDEX_URL = "https://app.notion.com/p/Evidence-Pack-2026-07-Phase-A-Index-391c50314bb6814db8e3c2031a7f91ce"
 
 FALSE_TICKERS = {
     "A", "AI", "ALL", "AM", "API", "AS", "AT", "ATH", "BE", "BUY", "BY",
@@ -294,10 +295,16 @@ def fetch_notion_snapshots(repo_root: Path, out_dir: Path, *, skip: bool) -> dic
     for name, ds in targets.items():
         snap = query_notion_data_source(repo_root, ds, page_size=100)
         snapshots[name] = snap
+        ok_path = raw_dir / f"notion_{name}.json"
+        error_path = raw_dir / f"notion_{name}.error.json"
         if snap.get("ok"):
-            write_json(raw_dir / f"notion_{name}.json", snap)
+            write_json(ok_path, snap)
+            if error_path.exists():
+                error_path.unlink()
         else:
-            write_json(raw_dir / f"notion_{name}.error.json", snap)
+            write_json(error_path, snap)
+            if ok_path.exists():
+                ok_path.unlink()
     return snapshots
 
 
@@ -1326,6 +1333,7 @@ def build_manifest(out_dir: Path, stats: dict[str, Any], snapshots: dict[str, An
         "generated_at": now_iso(),
         "pack_date": PACK_DATE,
         "generator": "analysis/evidence_pack_2026-07/generate_evidence_pack.py",
+        "notion_index_url": NOTION_INDEX_URL,
         "artifacts": artifacts,
         "stats": stats,
         "notion_snapshots": raw,
@@ -1339,6 +1347,8 @@ def write_readme(out_dir: Path, manifest: dict[str, Any]) -> None:
         f"Generated: {manifest['generated_at']}",
         "",
         "This pack is for Phase A Fable review. It ships the generator, raw Notion snapshots where available, CSV outputs, and one summary MD per artifact. Unknowns remain unknown.",
+        "",
+        f"Notion index: {manifest['notion_index_url']}",
         "",
         "## Index",
         "",

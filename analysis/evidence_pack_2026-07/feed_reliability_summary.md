@@ -1,6 +1,6 @@
 # feed_reliability
 
-Generated: 2026-07-02T05:08:45Z
+Generated: 2026-07-02T05:32:33Z
 
 - Live divergence rows: 5
 - Seed cases checked: target_drift false missing, Fundstrat false staleness, HOOD option-risk render.

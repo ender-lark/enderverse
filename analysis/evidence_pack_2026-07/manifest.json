@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-02T05:10:18Z",
+  "generated_at": "2026-07-02T05:34:04Z",
   "pack_date": "2026-07-02",
   "generator": "analysis/evidence_pack_2026-07/generate_evidence_pack.py",
   "notion_index_url": "https://app.notion.com/p/Evidence-Pack-2026-07-Phase-A-Index-391c50314bb6814db8e3c2031a7f91ce",
@@ -97,10 +97,10 @@
       "error": ""
     },
     "system_update_queue": {
-      "ok": false,
-      "rows": 0,
-      "pages_fetched": 0,
-      "error": "Notion HTTP 404 POST /data_sources/968cfff4-369c-40bb-b748-5633b9ff7685/query: {\"object\":\"error\",\"status\":404,\"code\":\"object_not_found\",\"message\":\"Could not find database with ID: 968cfff4-369c-40bb-b748-5633b9ff7685. Make sure the relevant pages and databases are shared with your integration \\\"LifeOS cc\\\".\",\"additional_data\":{\"integration_id\":\"36ec5031-4bb6-8109-bd09-00277bf571c6\"},\"request_id\":\"09c943b4-b49a-4a08-95db-1d630460d9b7\"}"
+      "ok": true,
+      "rows": 153,
+      "pages_fetched": 2,
+      "error": ""
     }
   }
 }

@@ -1,6 +1,6 @@
 # source_hit_rates
 
-Generated: 2026-07-02T05:08:45Z
+Generated: 2026-07-02T05:32:33Z
 
 - Input source: notion_source_call_log
 - Calls analyzed: 208
