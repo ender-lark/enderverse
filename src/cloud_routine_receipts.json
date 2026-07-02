@@ -5,44 +5,6 @@
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:33:11.927836Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "failed",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:33:15.598982Z",
-      "summary": "full cockpit build failed",
-      "details": {
-        "returncode": 1,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
-            "as_of": "2026-06-24T13:43:43.495115+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
-            "changed": false
-          }
-        ]
-      },
-      "boundary_outcome": "failed"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
       "recorded_at": "2026-06-24T14:33:35.110068Z",
       "summary": "investing-os-full-cockpit-build started"
     },
@@ -5911,7 +5873,21 @@
         "artifact_boundaries": []
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T01:16:34.571967Z",
+      "summary": "off-hours alt-data scout started"
+    },
+    {
+      "routine_id": "investing-os-off-hours-alt-data-scout",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T01:30:22.584783Z",
+      "summary": "off-hours alt-data scout success: grounded on live cockpit/RQ/holdings/event risks; checked SEC EDGAR 80 target tickers since 2026-07-01T01:16Z, UW endpoint capture, Kalshi/Polymarket public reads, and Social Watch cache; routed 3 Signal Log packets MU/KTOS/ANET, Notion writes 3/3 fetch-verified, repo Signal Log 134 rows; suppressed bank structured notes and routine/no-posture-change Form 4/144/8-K noise; dark/not_checked Social Watch missing cache, direct Reddit not used, Polymarket search noisy, Kalshi price/orderbook fields unavailable/null, direct IMF PortWatch not pulled; UW proof supports=0 contradicts=0 inconclusive=10 missing=3; validations passed"
     }
   ],
-  "updated_at": "2026-07-02T01:16:03.665360Z"
+  "updated_at": "2026-07-02T01:30:22.584783Z"
 }
