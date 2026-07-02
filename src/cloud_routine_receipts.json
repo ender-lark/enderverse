@@ -2,58 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:33:35.110068Z",
-      "summary": "investing-os-full-cockpit-build started"
-    },
-    {
-      "routine_id": "investing-os-full-cockpit-build",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:35:32.663067Z",
-      "summary": "full cockpit build succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "python",
-          "src/live_dashboard_refresh.py"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/latest_cockpit_feed.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "e196085cfd455603367e79f520513c566ddc2bca2fa50ddd2ec051686b5aa579",
-            "as_of": "2026-06-24T14:35:24.164724+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "724d3b8693c8724c126cfa2123e0fcf4f8f490833c5d96e5a4c8deb77cfadae4",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:47:47.840657Z",
-      "summary": "fundstrat daytime watch started"
-    },
-    {
-      "routine_id": "investing-os-fundstrat-daytime-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:53:41.395436Z",
-      "summary": "Chrome checked Macro FlashInsights and Crypto FlashInsights; Gmail checked 0 because Chrome full-content available; rows landed 1 TLT rates/Treasuries compact row; suppressed 15 duplicate/stale/low-value visible feed cards plus alert quiet/stale rows; validation passed; dashboard refreshed; Pushover sent 7 candidates across capped alert passes then quiet; Social Watch dark/not_checked; blockers none"
-    },
-    {
       "routine_id": "investing-os-federal-funding-midday-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -5887,7 +5835,50 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T01:30:22.584783Z",
       "summary": "off-hours alt-data scout success: grounded on live cockpit/RQ/holdings/event risks; checked SEC EDGAR 80 target tickers since 2026-07-01T01:16Z, UW endpoint capture, Kalshi/Polymarket public reads, and Social Watch cache; routed 3 Signal Log packets MU/KTOS/ANET, Notion writes 3/3 fetch-verified, repo Signal Log 134 rows; suppressed bank structured notes and routine/no-posture-change Form 4/144/8-K noise; dark/not_checked Social Watch missing cache, direct Reddit not used, Polymarket search noisy, Kalshi price/orderbook fields unavailable/null, direct IMF PortWatch not pulled; UW proof supports=0 contradicts=0 inconclusive=10 missing=3; validations passed"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:17:39.258838Z",
+      "summary": "dossier keeper started"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:17:45.137113Z",
+      "summary": "loose-thread sweep started"
+    },
+    {
+      "routine_id": "investing-os-dossier-keeper",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:19:51.231852Z",
+      "summary": "dossier keeper success: selected_count=2 drafted_count=2 refreshed_count=0 skipped_count=38 coverage=26/26 current action/material fresh discipline=clean dark_not_checked=remaining missing non-held dossiers 38; KIE/ALL same-session flow/social and independent confirmation not_checked"
+    },
+    {
+      "routine_id": "investing-os-loose-thread-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:19:57.194511Z",
+      "summary": "loose-thread sweep nothing new",
+      "details": {
+        "loose_thread_sweep_version": 2,
+        "candidate_count": 4,
+        "captured_count": 0,
+        "skipped_duplicate_count": 1,
+        "skipped_stale_count": 3,
+        "target_verification": "nothing_written",
+        "target_routes": [
+          "research_queue",
+          "system_update_queue"
+        ],
+        "notion_dedupe": "workspace_search_available; query_data_sources_blocked_by_plan; no rows written",
+        "readback_verification": "not_applicable_no_writes"
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-02T01:30:22.584783Z"
+  "updated_at": "2026-07-02T02:19:57.194511Z"
 }
