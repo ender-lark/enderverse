@@ -2,45 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:06:53.108439Z",
-      "summary": "investing-os-parabolic-cache started"
-    },
-    {
-      "routine_id": "investing-os-parabolic-cache",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T14:07:02.753627Z",
-      "summary": "parabolic cache succeeded",
-      "details": {
-        "returncode": 0,
-        "command": [
-          "cmd",
-          "/c",
-          "cd src && python -m codex_uw.orchestrator --mode parabolic --entries-dir ../tmp/uw/parabolic_entries --emit-bundle ../tmp/uw/parabolic_bundle.json --emit-cache parabolic_setups.json --max-workers 5 --retry-failed 1 --force && python parabolic_setup_screener.py --self-test"
-        ],
-        "artifact_boundaries": [
-          {
-            "path": "src/parabolic_setups.json",
-            "as_of_field": "generated_at",
-            "freshness": "same_et_session_day",
-            "present": true,
-            "missing": false,
-            "content_hash": "4872f465acbd66875fcbcd6a10e9b1bc8cdc24c42e64ec959ca480d283b6e5cd",
-            "as_of": "2026-06-24T14:07:02.369691+00:00",
-            "fresh": true,
-            "committed": false,
-            "committed_sha": "",
-            "previous_content_hash": "34859651a48dee6414ce495ddde885552d9333c18dc71fc966514ec391eb8dcc",
-            "changed": true
-          }
-        ]
-      },
-      "boundary_outcome": "produced_fresh"
-    },
-    {
       "routine_id": "investing-os-full-cockpit-build",
       "status": "started",
       "run_source": "scheduled",
@@ -5922,7 +5883,35 @@
       "run_source": "scheduled",
       "recorded_at": "2026-07-02T00:59:31.146636Z",
       "summary": "fundstrat deep crawl success: checked FlashInsights, research details, stock lists, sector allocation, Top Ideas, crypto strategy; partial/not_checked Latest Videos transcripts, Upticks performance/historical, crypto historical; rows 0 diffs 0; overlaps QQQ/SMH/MAGS/RSP MSTR/BTC/ETH/SOL/HYPE AMD/ANET/PWR/PLTR STRL/FIX/IESC/UUUU; validations passed manifest + pytest 10; dashboard skipped no compact rows; blockers named in summary"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T01:16:01.739953Z",
+      "summary": "life-work-os-heartbeat-watch started"
+    },
+    {
+      "routine_id": "life-work-os-heartbeat-watch",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T01:16:03.665360Z",
+      "summary": "Life/Work OS heartbeat watch succeeded",
+      "details": {
+        "returncode": 0,
+        "command": [
+          "python",
+          "src/life_work_os_heartbeat.py",
+          "--push",
+          "--out",
+          "src/life_work_os_heartbeat.json",
+          "--format",
+          "text"
+        ],
+        "artifact_boundaries": []
+      },
+      "boundary_outcome": "fired_unknown"
     }
   ],
-  "updated_at": "2026-07-02T00:59:31.146636Z"
+  "updated_at": "2026-07-02T01:16:03.665360Z"
 }
