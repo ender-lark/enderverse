@@ -2,20 +2,6 @@
   "schema_version": 2,
   "receipts": [
     {
-      "routine_id": "investing-os-federal-funding-midday-watch",
-      "status": "started",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T15:24:10.640670Z",
-      "summary": "federal funding midday watch started"
-    },
-    {
-      "routine_id": "investing-os-federal-funding-midday-watch",
-      "status": "success",
-      "run_source": "scheduled",
-      "recorded_at": "2026-06-24T15:30:28.064453Z",
-      "summary": "sources checked War.gov/DOW Jun23 contracts/releases, service/DARPA/DIU/OSC, Commerce/CHIPS/NIST, DOE/EDF/LPO/OCED/EERE/NNSA, DHS/CBP, NASA, NSF TIP, Treasury/IRS/IRA, DOT, EXIM/DFC; verified new rows 3, direct public 3 BA/LMT/TXT, research rows 3, Signal Log rows +3, Notion Research Queue write/readback 3/3, Notion Signal Log not written; dark War.gov Jun24 contracts not yet released midday, SAM/USAspending not needed; blockers none"
-    },
-    {
       "routine_id": "investing-os-fundstrat-daytime-watch",
       "status": "started",
       "run_source": "scheduled",
@@ -5878,7 +5864,21 @@
         "readback_verification": "not_applicable_no_writes"
       },
       "boundary_outcome": "fired_unknown"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "started",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:47:32.664796Z",
+      "summary": "fundstrat late evening web/transcript sweep started"
+    },
+    {
+      "routine_id": "investing-os-fundstrat-late-evening-web-transcript-sweep",
+      "status": "success",
+      "run_source": "scheduled",
+      "recorded_at": "2026-07-02T02:54:44.906271Z",
+      "summary": "fundstrat late evening web/transcript sweep success: Chrome checked Macro FlashInsights, Crypto FlashInsights, Intraday Word, First Word, Daily Technical Strategy, Live Technical Stock Analysis, US Policy, Fed Watch, crypto research, Macro Minute, Latest Videos, and DTS video surfaces; detail pages checked Jul1 DTS 18:19, Jul1 Macro Minute 16:17, Jul1 First Word 07:50, Jun30 Crypto Comments 22:02; no new post-19:00 ET full-content evidence; transcript vault entries written 0; Gmail messages checked 0 because Chrome full-content lanes were available; rows landed 0; suppressed already-landed/duplicate or discovery-only items Jul1 EWY semis, Jul1 STRC, Jul1 DTS, Jul1 Macro Minute, Jul1 First Word, Jun30 crypto rebalance, stale Intraday/US Policy/Fed Watch/Live Technical listings, Latest Videos 404; validations passed public transcript index and email intake; dashboard refresh skipped no new rows; dark/stale lanes video transcript controls not visibly exposed in current detail pass and no after-7 PM ET new Fundstrat content"
     }
   ],
-  "updated_at": "2026-07-02T02:19:57.194511Z"
+  "updated_at": "2026-07-02T02:54:44.906271Z"
 }
