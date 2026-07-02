@@ -1475,6 +1475,60 @@ def _market_open_packet(block: dict) -> str:
 </div>"""
 
 
+def _today_recommendation_brief(block: dict) -> str:
+    if not block:
+        return ""
+    status = str(block.get("status") or "review")
+    status_cls = "t-conf" if status == "quiet" else "t-warn"
+    rows = block.get("do_today") or []
+    body = ""
+    for idx, row in enumerate(rows[:5], start=1):
+        body += f"""
+<div class="small-item">
+  <span class="tag {status_cls}">#{idx}</span>
+  {f'<span class="context-ticker">{_e(row.get("ticker") or "")}</span>' if row.get("ticker") else ""}
+  <span>{_e(row.get("title") or row.get("action") or row.get("kind") or "review")}</span>
+  {f'<span class="small-muted">Risk: {_e(row.get("risk") or "")}</span>' if row.get("risk") else ""}
+  {f'<span class="small-muted">Why: {_e(row.get("why") or "")}</span>' if row.get("why") else ""}
+  {f'<span class="small-muted">Next: {_e(row.get("next_step") or "")}</span>' if row.get("next_step") else ""}
+  {f'<span class="small-muted">Blocks: {_e(row.get("blocks") or "")}</span>' if row.get("blocks") else ""}
+</div>"""
+    if not body:
+        body = '<div class="feedback-line">No daily recommendation rows in this feed build.</div>'
+    options = block.get("options") or {}
+    opportunities = block.get("opportunities") or {}
+    social = block.get("social") or {}
+    push_candidates = block.get("push_candidates") or []
+    not_checked = block.get("not_checked") or []
+    return f"""
+<div class="card" id="today-recommendation-brief">
+  <div class="card-title"><span class="icon">!</span> What should I do today?
+    <span class="tag {status_cls}" style="margin-left:auto">{_e(status.replace("_", " "))}</span>
+  </div>
+  <div class="feedback-line">{_e(block.get("line") or "")}</div>
+  <div class="small-list">{body}</div>
+  <div class="small-item">
+    <span class="tag t-conf">opportunity</span>
+    <span>{_e(opportunities.get("count") or 0)} reallocation/opportunity review item{'s' if int(opportunities.get("count") or 0) != 1 else ''}</span>
+  </div>
+  <div class="small-item">
+    <span class="tag t-conf">options</span>
+    <span>{_e(options.get("line") or options.get("status") or "not checked")}</span>
+  </div>
+  <div class="small-item">
+    <span class="tag t-warn">social</span>
+    <span>{_e(social.get("line") or social.get("status") or "not checked")}</span>
+  </div>
+  <div class="small-item">
+    <span class="tag t-warn">push</span>
+    <span>{len(push_candidates)} review-only candidate{'s' if len(push_candidates) != 1 else ''}</span>
+  </div>
+  {f'<div class="feedback-line">Dark/stale: {_e(", ".join((row.get("label") or row.get("key") or "") for row in not_checked[:4]))}</div>' if not_checked else ""}
+  {f'<div class="feedback-line">{_e(block.get("honesty_rule") or "")}</div>' if block.get("honesty_rule") else ""}
+  <div class="cmd-row"><span class="cmd-name">print today brief</span><span class="cmd-desc"><code>python src/today_recommendation_brief.py --feed src/latest_cockpit_feed.json --format text</code></span></div>
+</div>"""
+
+
 def _alert_policy(block: dict) -> str:
     if not block:
         return ""
@@ -3053,6 +3107,7 @@ def generate_html(feed: dict) -> str:
     hero_html   = _hero(feed)
     actions_html = _actions(feed.get("actions") or [], feed.get("action_decision_groups") or {})
     source_conflicts_html = _source_conflicts(feed.get("source_conflicts") or {})
+    today_recommendation_html = _today_recommendation_brief(feed.get("today_recommendation_brief") or {})
     market_open_packet_html = _market_open_packet(feed.get("market_open_packet") or {})
     alert_policy_html = _alert_policy(feed.get("alert_policy") or {})
     asymmetric_html = _asymmetric_opportunities(feed.get("asymmetric_opportunities") or {})
@@ -3131,6 +3186,7 @@ def generate_html(feed: dict) -> str:
 
   <div id="tab-dashboard">
     {today_decide_html}
+    {today_recommendation_html}
     {summary_html}
     {quick_html}
     {feeder_drilldowns_html}

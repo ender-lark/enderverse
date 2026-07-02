@@ -27,11 +27,26 @@ Latest audit state:
 ## Active Slice
 
 - No active build slice is claimed after
-  `DECISION-DOSSIER-COVERAGE-V1` merged in PR#65.
+  `CHAT-FIRST-DAILY-MOVES-2026-07-01` completed.
 
 Future unrelated work should start from a fresh completion audit or a new
 explicit user request, then claim a focused row in `docs/WORKBOARD.md` before
 editing shared docs or routine code.
+
+## 2026-07-01 Chat-First Daily Moves
+
+- Notion plan/readback: `https://app.notion.com/p/390c50314bb681bd9946d4050a9a0951`.
+- Mission: make the daily operator answer direct enough for chat while keeping
+  the dashboard and push policy on the same canonical packet.
+- Shipped: `today_recommendation_brief` feed block and CLI, dashboard card,
+  canonical supplied-snapshot bridge `social_snapshot_intake.py`, options-chain
+  routine command alignment to held/watch/lean-in names and multi-expiry
+  targets, and a UW endpoint-role matrix for daily moves.
+- Verified: focused packet/social/manifest tests, live dashboard refresh,
+  `live_status.py`, `cloud_ops_status.py`, and `verify_standard.py`.
+- Deferred follow-up: actual scheduled/social producer or UW news/Truth Social
+  live acquisition and Pushover sending after review-only push candidates prove
+  quality.
 
 ## 2026-06-16 Decision Dossier Coverage
 

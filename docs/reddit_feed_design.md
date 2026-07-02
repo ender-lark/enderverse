@@ -46,6 +46,8 @@ Initial watch-only set:
 - `r/thetagang`
 - `r/ValueInvesting`
 - `r/StockMarket`
+- `r/TrumpsTrades` for Trump/social trade chatter snapshots, watch-only until
+  confirmed by non-social evidence.
 - Sector-specific or ticker-specific subreddits only after review, because they
   can be more promotional and less representative.
 
@@ -134,6 +136,10 @@ Current repo state:
   `feed.social_watch`.
 - `src/full_build_runner.py` loads `src/social_watch.json`, `src/reddit_watch.json`,
   or `src/reddit_signals.json`.
+- `src/social_snapshot_intake.py` is the canonical bridge for supplied Reddit,
+  UW news/Truth Social, or manual snapshot rows. It writes the normalized
+  `src/social_watch.json` convention cache and tags `r/TrumpsTrades` rows as
+  `trump_trade_watch`.
 - The dashboard renders Social Watch in the Action view and summary export.
 - If no cache exists, the lane is visible as `not_checked`; this is not a
   no-social-signal read.

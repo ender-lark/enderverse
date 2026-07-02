@@ -641,6 +641,9 @@ def test_full_build_runner_adds_decision_support_and_audit_blocks(tmp_path):
     assert "key_now" in feed["market_open_packet"]["counts"]
     assert "alert_policy" in feed
     assert feed["alert_policy"]["delivery"] == "review_only_no_send"
+    assert "today_recommendation_brief" in feed
+    assert feed["today_recommendation_brief"]["line"].startswith("Today:")
+    assert feed["today_recommendation_brief"]["do_today"]
     assert "decision_dossier_freshness_blocker" not in {
         row["kind"] for row in feed["alert_policy"]["rows"]
     }

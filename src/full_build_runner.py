@@ -55,6 +55,7 @@ from account_trade_placement import annotate_actions, annotate_reallocation_brie
 from social_watch import build_social_watch
 from market_open_packet import build_market_open_packet
 from alert_policy import build_alert_policy
+from today_recommendation_brief import build_today_recommendation_brief
 import cloud_routine_receipts
 import execution_plan as ep
 import today_decide
@@ -1267,6 +1268,7 @@ def build_full_feed_from_files(
         today=today,
     )
     feed["alert_policy"] = build_alert_policy(feed)
+    feed["today_recommendation_brief"] = build_today_recommendation_brief(feed)
     feed["source_audits"]["uw_routing"] = feed.get("uw_routing") or {}
     feed["source_audits"]["uw_action_runbook"] = feed.get("uw_action_runbook") or {}
     feed["source_audits"]["uw_endpoint_proof"] = feed.get("uw_endpoint_proof") or {}

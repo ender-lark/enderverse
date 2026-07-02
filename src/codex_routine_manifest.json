@@ -270,13 +270,14 @@
       "separation_group": "market_data_refresh",
       "input_boundaries": [
         "Unusual Whales get_stock_screener + get_options_chain responses, one per bounded conviction-universe name, at the standard monthly opex",
-        "theses.json for the conviction-universe selection (ACTIVE names; no-add sleeves excluded)"
+        "theses.json plus held positions, top prospects, and watch/lean-in names for the bounded doctrine universe (ACTIVE names first; no-add sleeves excluded)",
+        "Use near-monthly and LEAPS-style monthly expiries so both short-window and generational theses can be checked"
       ],
       "owns": ["src/options_chain_cache.json"],
       "commands": [
         {
           "id": "select_universe_and_expiry",
-          "command": "cd src && python -c \"import json,options_chain_refresh as o; t=json.load(open('theses.json')); print(' '.join(o.select_universe(t, cap=16))); print(o.target_expiry('<as_of>', dte=45))\""
+          "command": "cd src && python -c \"import json,pathlib,options_chain_refresh as o; load=lambda p,d=None: json.load(open(p,encoding='utf-8')) if pathlib.Path(p).is_file() else (d if d is not None else {}); t=load('theses.json',[]); extra=o.doctrine_extra(positions=load('positions.json',{}), top_prospects=load('top_prospects.json',{}), lean_in=load('watch_interest.json',{})); cov=o.universe_coverage(t, extra=extra, cap=24); print('UNIVERSE ' + ' '.join(cov['tickers'])); print('COVERAGE considered={considered} pulled={pulled} truncated={truncated} not_pulled={not_pulled}'.format(**cov)); print('EXPIRIES ' + ' '.join(o.target_expiries('<as_of>', dtes=(45,300))))\""
         },
         {
           "id": "options_chain_cache_from_responses",
